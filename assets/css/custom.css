@@ -1,0 +1,20 @@
+/* media breakpoint if from small screen to 992px screen */
+@media (min-width: 0) and (max-width: 992px){ 
+    .custom-width {
+        width: 75%;
+    }
+
+    #custom-margin {
+        margin-top: 15rem;
+        margin-bottom: 15rem;
+    }
+}
+
+body {
+    background-color: #ffe7d6;
+}
+
+.input-error-msg {
+    color: #f71111;
+    font-size: small;
+}

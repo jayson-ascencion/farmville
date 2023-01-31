@@ -1,0 +1,4 @@
+Redirect 301 /arlin-test-online.epizy.com https://arlin-test-online.epizy.com
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([^\.]+)$ $1.php [NC,L]

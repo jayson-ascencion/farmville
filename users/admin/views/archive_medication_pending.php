@@ -95,7 +95,7 @@
         <div class="col-sm-4">
             <div class="card bg-light shadow-lg mb-4 ">
                 <div class="card-header text-center fw-bold p-3" style="background-color: #f37e57;">
-                    <div>ARCHIVE MEDICATION SCHEDULE</div>
+                    <div>Are you sure you want to delete this record</div>
                 </div>
                         <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST">
                         <div class="card-body p-4">

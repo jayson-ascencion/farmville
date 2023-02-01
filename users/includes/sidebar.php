@@ -120,10 +120,10 @@
                         Medication
                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                     </a>
-                    <div class="collapse <?= $page == 'add_sched_medication.php' || $page == 'medication_pending.php' || $page == 'medication_pending_form.php' || $page == 'view_pending_med.php' || $page == 'medication_completed.php' || $page == 'medication_completed_form.php' || $page == 'view_completed_med.php'  ? 'show' : '' ?>" id="medication" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                    <div class="collapse <?= $page == 'archive_medication_pending.php' || $page == 'archive_medication_completed.php' || $page == 'add_sched_medication.php' || $page == 'medication_pending.php' || $page == 'medication_pending_form.php' || $page == 'view_pending_med.php' || $page == 'medication_completed.php' || $page == 'medication_completed_form.php' || $page == 'view_completed_med.php'  ? 'show' : '' ?>" id="medication" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link <?= $page == 'add_sched_medication.php' || $page == 'medication_pending.php' || $page == 'medication_pending_form.php' || $page == 'view_pending_med.php' ? 'active' : '' ?>" href="medication_pending.php">Pending Schedules</a>
-                            <a class="nav-link <?= $page == 'medication_completed.php' || $page == 'medication_completed_form.php' || $page == 'view_completed_med.php' ? 'active' : '' ?>" href="medication_completed.php">Completed Schedules</a>
+                            <a class="nav-link <?= $page == 'archive_medication_pending.php' || $page == 'add_sched_medication.php' || $page == 'medication_pending.php' || $page == 'medication_pending_form.php' || $page == 'view_pending_med.php' ? 'active' : '' ?>" href="medication_pending.php">Pending Schedules</a>
+                            <a class="nav-link <?= $page == 'archive_medication_completed.php' || $page == 'medication_completed.php' || $page == 'medication_completed_form.php' || $page == 'view_completed_med.php' ? 'active' : '' ?>" href="medication_completed.php">Completed Schedules</a>
                         </nav>
                     </div>
 
@@ -134,10 +134,10 @@
                         Vaccination
                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                     </a>
-                    <div class="collapse <?= $page == 'add_sched_vaccination.php' || $page == 'vaccination_pending.php' || $page == 'update_vaccination_pending.php' || $page == 'view_pending_med.php' || $page == 'view_pending_vac.php' || $page == 'view_completed_vac.php' || $page == 'vaccination_completed.php' || $page == 'update_vaccination_completed.php' || $page == 'view_completed_med.php'  ? 'show' : '' ?>" id="vaccination" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                    <div class="collapse <?= $page == 'archive_vaccination_completed.php' || $page == 'archive_vaccination_pending.php' || $page == 'add_sched_vaccination.php' || $page == 'vaccination_pending.php' || $page == 'update_vaccination_pending.php' || $page == 'view_pending_med.php' || $page == 'view_pending_vac.php' || $page == 'view_completed_vac.php' || $page == 'vaccination_completed.php' || $page == 'update_vaccination_completed.php' || $page == 'view_completed_med.php'  ? 'show' : '' ?>" id="vaccination" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link <?= $page == 'add_sched_vaccination.php' || $page == 'vaccination_pending.php' || $page == 'update_vaccination_pending.php' || $page == 'view_pending_vac.php' ? 'active' : '' ?>" href="vaccination_pending.php">Pending Schedules</a>
-                            <a class="nav-link <?= $page == 'vaccination_completed.php' || $page == 'update_vaccination_completed.php' || $page == 'view_completed_vac.php' ? 'active' : '' ?>" href="vaccination_completed.php">Completed Schedules</a>
+                            <a class="nav-link <?= $page == 'archive_vaccination_pending.php' || $page == 'add_sched_vaccination.php' || $page == 'vaccination_pending.php' || $page == 'update_vaccination_pending.php' || $page == 'view_pending_vac.php' ? 'active' : '' ?>" href="vaccination_pending.php">Pending Schedules</a>
+                            <a class="nav-link <?= $page == 'archive_vaccination_completed.php' || $page == 'vaccination_completed.php' || $page == 'update_vaccination_completed.php' || $page == 'view_completed_vac.php' ? 'active' : '' ?>" href="vaccination_completed.php">Completed Schedules</a>
                         </nav>
                     </div>
 

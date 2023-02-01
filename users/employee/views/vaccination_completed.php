@@ -1,6 +1,6 @@
 <?php
     //page title
-    $title ="Pending Schedules";
+    $title ="Completed Vaccination Schedules";
     
     //header
     include('../../includes/header.php');

@@ -100,7 +100,7 @@
                                 </a> 
                                 
                                 <button type="submit" name="updateStatus" class="btn btn-primary">
-                                    Save
+                                    Update
                                 </button>    
                             </div>
                         </div>

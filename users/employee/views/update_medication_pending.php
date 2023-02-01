@@ -17,7 +17,7 @@
         <li class="breadcrumb-item">
             <a class="text-decoration-none" href="./medication_pending.php">Pending Schedules</a>
         </li>
-        <li class="breadcrumb-item active">Update Medication</li>
+        <li class="breadcrumb-item active">Update Schedule</li>
     </ol>
 
     <div class="row justify-content-center mt-2">
@@ -161,7 +161,7 @@
                         </div>
                         <div class="m-1 w-100">
                             <button type="submit" name="updateMedication" class="btn btn-outline-success fw-bold w-100">
-                                Save
+                                Update
                             </button>                         
                         </div>
                     </div>

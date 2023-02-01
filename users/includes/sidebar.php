@@ -59,10 +59,10 @@
                         Medicines Inventory
                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                     </a>
-                    <div class="collapse <?= $page == 'viewMedReduction.php' || $page == 'viewMedicine.php' || $page == 'update_medreduction_form.php' || $page == 'reduction_medicine_form.php' || $page == 'medicines.php' || $page == 'medicine_reduction.php' || $page == 'update_med_form.php' || $page == 'add_medicine_form.php' ? 'show' : '' ?>" id="collapseMedicine" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                    <div class="collapse <?= $page == 'archive_medicine_reduction.php' || $page == 'archive_medicine.php' || $page == 'viewMedReduction.php' || $page == 'viewMedicine.php' || $page == 'update_medreduction_form.php' || $page == 'reduction_medicine_form.php' || $page == 'medicines.php' || $page == 'medicine_reduction.php' || $page == 'update_med_form.php' || $page == 'add_medicine_form.php' ? 'show' : '' ?>" id="collapseMedicine" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link <?= $page == 'viewMedicine.php' || $page == 'medicines.php' ||  $page == 'update_med_form.php' || $page == 'add_medicine_form.php' ? 'active' : '' ?>" href="medicines.php">Purchased</a>
-                            <a class="nav-link <?= $page == 'viewMedReduction.php' || $page == 'update_medreduction_form.php' || $page == 'reduction_medicine_form.php' || $page == 'medicine_reduction.php' ? 'active' : '' ?>" href="medicine_reduction.php">Reduction</a>
+                            <a class="nav-link <?= $page == 'archive_medicine.php' ||  $page == 'viewMedicine.php' || $page == 'medicines.php' ||  $page == 'update_med_form.php' || $page == 'add_medicine_form.php' ? 'active' : '' ?>" href="medicines.php">Purchased</a>
+                            <a class="nav-link <?=  $page == 'archive_medicine_reduction.php' || $page == 'viewMedReduction.php' || $page == 'update_medreduction_form.php' || $page == 'reduction_medicine_form.php' || $page == 'medicine_reduction.php' ? 'active' : '' ?>" href="medicine_reduction.php">Reduction</a>
                         </nav>
                     </div>
                     <!-- Feeds Inventory -->
@@ -73,10 +73,10 @@
                         Feeds Inventory
                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                     </a>
-                    <div class="collapse <?=  $page == 'update_feedreduction_form.php' || $page == 'reduction_feeds_form.php' || $page == 'add_feeds_form.php' || $page == 'update_feed_form.php' || $page == 'feed_reduction.php' || $page == 'viewFeedsReduction.php' || $page == 'viewFeeds.php' || $page == 'feeds.php' || $page == 'feeds_reduction.php' ? 'show' : '' ?>" id="collapseFeeds" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                    <div class="collapse <?= $page == 'archive_feeds_reduction.php' || $page == 'archive_feeds.php' || $page == 'update_feedreduction_form.php' || $page == 'reduction_feeds_form.php' || $page == 'add_feeds_form.php' || $page == 'update_feed_form.php' || $page == 'feed_reduction.php' || $page == 'viewFeedsReduction.php' || $page == 'viewFeeds.php' || $page == 'feeds.php' || $page == 'feeds_reduction.php' ? 'show' : '' ?>" id="collapseFeeds" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link <?= $page == 'add_feeds_form.php' || $page == 'update_feed_form.php' || $page == 'viewFeeds.php' || $page == 'feeds.php' ? 'active' : '' ?>" href="feeds.php">Purchased</a>
-                            <a class="nav-link <?= $page == 'update_feedreduction_form.php' || $page == 'reduction_feeds_form.php' || $page == 'viewFeedsReduction.php' || $page == 'feed_reduction.php' ? 'active' : '' ?>" href="feed_reduction.php">Reduction</a>
+                            <a class="nav-link <?= $page == 'archive_feeds.php' ||  $page == 'add_feeds_form.php' || $page == 'update_feed_form.php' || $page == 'viewFeeds.php' || $page == 'feeds.php' ? 'active' : '' ?>" href="feeds.php">Purchased</a>
+                            <a class="nav-link <?= $page == 'archive_feeds_reduction.php' || $page == 'update_feedreduction_form.php' || $page == 'reduction_feeds_form.php' || $page == 'viewFeedsReduction.php' || $page == 'feed_reduction.php' ? 'active' : '' ?>" href="feed_reduction.php">Reduction</a>
                         </nav>
                     </div>
 

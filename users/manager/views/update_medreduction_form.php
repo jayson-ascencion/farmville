@@ -143,7 +143,7 @@
                             </div>
                             <div class="m-1 w-100">
                                 <button type="submit" name="submit" class="btn btn-outline-success w-100 fw-bold">
-                                    Save
+                                Update
                                 </button>                                   
                             </div>
                         </div>

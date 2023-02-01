@@ -191,7 +191,7 @@
                             </div>
                             <div class="w-100 m-1">
                                 <button type="submit" name="submit" class="btn  btn-outline-success fw-bold w-100">
-                                    Save
+                                    Update
                                 </button>                                    
                             </div>
                         </div>

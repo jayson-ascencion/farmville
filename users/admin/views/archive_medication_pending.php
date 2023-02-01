@@ -182,7 +182,7 @@
                             </div>
                             <div class="w-100 m-1">
                                 <button type="submit" name="archiveRecord" class="btn btn-outline-success fw-bold w-100">
-                                    Save
+                                    Delete
                                 </button>                                    
                             </div>
                         </div>

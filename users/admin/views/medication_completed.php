@@ -14,7 +14,7 @@
         <li class="breadcrumb-item">
             <a class="text-decoration-none" href="./index.php">Dashboard</a>
         </li>
-        <li class="breadcrumb-item active"> Medication Schedules</li>
+        <li class="breadcrumb-item active">Completed Medication Schedules</li>
     </ol>
 
     <div class="wrapper">

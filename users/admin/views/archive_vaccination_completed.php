@@ -1,6 +1,6 @@
 <?php
     //page title
-    $title = "Update Status";
+    $title = "Delete Schedule";
     
     //header
     include('../../includes/header.php');
@@ -88,7 +88,7 @@
         <li class="breadcrumb-item">
             <a class="text-decoration-none" href="./vaccination_pending.php">Vaccination Schedules</a>
         </li>
-        <li class="breadcrumb-item active">View Details</li>
+        <li class="breadcrumb-item active">Delete Schedule</li>
     </ol>
 
 
@@ -183,7 +183,7 @@
                             </div>
                             <div class="w-100 m-1">
                                 <button type="submit" name="archiveRecord" class="btn btn-outline-success fw-bold w-100">
-                                    Save
+                                    Delete
                                 </button>                                    
                             </div>
                         </div>

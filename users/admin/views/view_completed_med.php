@@ -1,6 +1,6 @@
 <?php
     //page title
-    $title = "Completed Medication Details";
+    $title = " Medication Details";
     
     //header
     include('../../includes/header.php');

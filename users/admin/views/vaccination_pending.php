@@ -1,6 +1,6 @@
 <?php
     //page title
-    $title ="Pending Schedules";
+    $title ="Pending Vaccination Schedules";
     
     //header
     include('../../includes/header.php');
@@ -15,7 +15,7 @@
         <li class="breadcrumb-item">
             <a class="text-decoration-none" href="./index.php">Dashboard</a>
         </li>
-        <li class="breadcrumb-item active"> Vaccination Schedules</li>
+        <li class="breadcrumb-item active"> Pending Vaccination Schedules</li>
     </ol>
 
     <div class="wrapper">

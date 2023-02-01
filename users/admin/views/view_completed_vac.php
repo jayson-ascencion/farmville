@@ -1,6 +1,6 @@
 <?php
     //page title
-    $title = "Update Status";
+    $title = " Vaccination Details";
     
     //header
     include('../../includes/header.php');

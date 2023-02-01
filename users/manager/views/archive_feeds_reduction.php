@@ -89,7 +89,7 @@
         <div class="col-sm-4">
             <div class="card bg-light shadow-lg mb-4 ">
                 <div class="card-header text-center fw-bold p-3" style="background-color: #f37e57;">
-                    <div class="text-center">ARCHIVE THIS RECORD</div>
+                    <div class="text-center">Are you sure you want to delete this record?</div>
                 </div>
                 <div class="card-body p-4">
                     <!-- FEED ID -->

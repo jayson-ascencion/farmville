@@ -97,7 +97,7 @@
         <div class="col-sm-4">
             <div class="card bg-light shadow-lg mb-4 ">
                 <div class="card-header fw-bold p-3" style="background-color: #f37e57;">
-                <div class="text-center">ARCHIVE CHICKEN BATCH</div> <div>
+                <div class="text-center">Are you sure you want to delete this record?</div> <div>
                             <!-- <a class="small text-white" href="./chicken_production.php">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black" class="bi bi-x-lg" viewBox="0 0 16 16">
                             <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>

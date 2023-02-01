@@ -61,7 +61,7 @@
                         ?>
                     </div>
                     <div>
-                        <h5 class="card-subtitle text-muted fs-6"><strong> Pending <span class="text-dark">Medication </span></strong>  Schedules:</h5>
+                        <h5 class="card-subtitle text-muted fs-6"><strong> Pending <span class="text-dark"> &nbsp;Medication </span></strong>  Schedules:</h5>
                     </div>
                     <a href="./medication_pending.php" class="card-link text-decoration-none pt-5 opacity-75" style="font-size: 15px">View More
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">

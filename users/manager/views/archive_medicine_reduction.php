@@ -1,6 +1,6 @@
 <?php
     //title of the pge
-    $title = "Medicine Inventory - Reductions";
+    $title = "Delete Medicine Reduction";
 
     include("../../includes/header.php");
 
@@ -136,7 +136,7 @@
                             </div>
                             <div class="m-1 w-100">
                                 <button type="submit" name="archiveRecord" class="btn btn-outline-success w-100 fw-bold">
-                                    Yes
+                                    Delete
                                 </button>                                   
                             </div>
                         </div>

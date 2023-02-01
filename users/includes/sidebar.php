@@ -26,10 +26,10 @@
                         Chicken Production
                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                     </a>
-                    <div class="collapse <?= $page == 'viewChickReduction.php' || $page == 'viewChick.php' || $page == 'update_chickreduction_form.php' || $page == 'chicken_production.php' || $page == 'chicken_reduction.php' || $page == 'add_chicken_form.php' || $page == 'update_chick_form.php' || $page == 'reduction_chicken_form.php' || $page == 'update_chick_form.php' ? 'show' : '' ?>" id="collapseChicken" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion"> 
+                    <div class="collapse <?= $page == 'archive_chicken_reduction.php' || $page == 'archive_chicken.php' || $page == 'viewChickReduction.php' || $page == 'viewChick.php' || $page == 'update_chickreduction_form.php' || $page == 'chicken_production.php' || $page == 'chicken_reduction.php' || $page == 'add_chicken_form.php' || $page == 'update_chick_form.php' || $page == 'reduction_chicken_form.php' || $page == 'update_chick_form.php' ? 'show' : '' ?>" id="collapseChicken" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion"> 
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link <?= $page == 'viewChick.php' || $page == 'chicken_production.php' || $page == 'update_chicken_form.php' || $page == 'add_chicken_form.php' || $page == 'update_chick_form.php' ? 'active' : '' ?>" href="chicken_production.php">Production</a>
-                            <a class="nav-link <?= $page == 'viewChickReduction.php' || $page == 'update_chickreduction_form.php' || $page == 'chicken_reduction.php' || $page == 'reduction_chicken_form.php' ? 'active' : '' ?>" href="chicken_reduction.php">Reduction</a>
+                            <a class="nav-link <?= $page == 'archive_chicken.php' || $page == 'viewChick.php' || $page == 'chicken_production.php' || $page == 'update_chicken_form.php' || $page == 'add_chicken_form.php' || $page == 'update_chick_form.php' ? 'active' : '' ?>" href="chicken_production.php">Production</a>
+                            <a class="nav-link <?= $page == 'archive_chicken_reduction.php' || $page == 'viewChickReduction.php' || $page == 'update_chickreduction_form.php' || $page == 'chicken_reduction.php' || $page == 'reduction_chicken_form.php' ? 'active' : '' ?>" href="chicken_reduction.php">Reduction</a>
                         </nav>
                     </div>
 
@@ -41,10 +41,10 @@
                         Egg Production
                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                     </a>
-                    <div class="collapse <?= $page == 'viewEggReduction.php' || $page == 'viewEggProd.php' || $page == 'reduction_egg_form.php' || $page == 'update_eggreduction_form.php' || $page == 'egg_production.php' || $page == 'egg_reduction.php' || $page == 'add_egg_form.php' || $page == 'update_egg_form.php' ? 'show' : '' ?>" id="collapseEgg" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+                    <div class="collapse <?= $page == 'archive_egg_reduction.php' || $page == 'archive_egg.php' || $page == 'viewEggReduction.php' || $page == 'viewEggProd.php' || $page == 'reduction_egg_form.php' || $page == 'update_eggreduction_form.php' || $page == 'egg_production.php' || $page == 'egg_reduction.php' || $page == 'add_egg_form.php' || $page == 'update_egg_form.php' ? 'show' : '' ?>" id="collapseEgg" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link <?= $page == 'viewEggProd.php' || $page == 'egg_production.php' || $page == 'add_egg_form.php' || $page == 'update_egg_form.php' ? 'active' : '' ?>" href="egg_production.php">Production</a>
-                            <a class="nav-link <?= $page == 'viewEggReduction.php' || $page == 'reduction_egg_form.php' || $page == 'egg_reduction.php' || $page == 'update_eggreduction_form.php' ? 'active' : '' ?>" href="egg_reduction.php">Reduction</a>
+                            <a class="nav-link <?= $page == 'archive_egg.php' || $page == 'viewEggProd.php' || $page == 'egg_production.php' || $page == 'add_egg_form.php' || $page == 'update_egg_form.php' ? 'active' : '' ?>" href="egg_production.php">Production</a>
+                            <a class="nav-link <?= $page == 'archive_egg_reduction.php' || $page == 'viewEggReduction.php' || $page == 'reduction_egg_form.php' || $page == 'egg_reduction.php' || $page == 'update_eggreduction_form.php' ? 'active' : '' ?>" href="egg_reduction.php">Reduction</a>
                         </nav>
                     </div>
 

@@ -1,6 +1,6 @@
 <?php
     //title of the pge
-    $title = "Medicine Inventory - Reductions";
+    $title = "Feed Inventory - Reductions";
 
     //header
     include("../../includes/header.php");

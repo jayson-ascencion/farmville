@@ -1,6 +1,6 @@
 <?php
     //page title
-    $title = "Update Egg Reduction Details";
+    $title = "Update Feed Reduction Details";
     
     //header
     include('../../includes/header.php');

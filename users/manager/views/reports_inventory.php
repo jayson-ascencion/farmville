@@ -1,6 +1,6 @@
 <?php
     //title of the pge
-    $title = "Chicken Production";
+    $title = "Inventory Reports";
 
     //header
     include("../../includes/header.php");

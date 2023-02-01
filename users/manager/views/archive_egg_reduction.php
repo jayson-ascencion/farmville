@@ -1,6 +1,6 @@
 <?php
     //page title
-    $title = "Update Egg Reduction Details";
+    $title = "Delete Egg Reduction";
     
     //header
     include('../../includes/header.php');
@@ -30,7 +30,7 @@
     } else{
         echo "Oops! Something went wrong. Please try again later.";
     }
-    unset($pdo);
+    unset($stmt);
 
     try{
         
@@ -81,13 +81,13 @@
         <li class="breadcrumb-item">
             <a href="./egg_reduction.php" style="text-decoration: none">Egg Reduction</a>
         </li>
-        <li class="breadcrumb-item active">Update Egg Reduction</li>
+        <li class="breadcrumb-item active">Delete Egg Reduction</li>
     </ol>
 
     <div class="row justify-content-center mt-2">
         <div class="col-sm-4">
             <div class="card bg-light shadow-lg mb-4 ">
-                <div class="card-header text-center fw-bold p-3" style="background-color: #f37e57;">UPDATE EGG REDUCTION DETAILS</div>
+                <div class="card-header text-center fw-bold p-3" style="background-color: #f37e57;">DELETE RECORD?</div>
                     <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST">
                     <div class="card-body p-4">
 
@@ -122,7 +122,7 @@
                             </div>
                             <div class="w-100 m-1">
                                 <button type="submit" name="archiveRecord" class="btn btn-outline-success fw-bold w-100">
-                                    Save
+                                    Delete
                                 </button>                                    
                             </div>
                         </div>

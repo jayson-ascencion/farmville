@@ -1,6 +1,6 @@
 <?php
     //page title
-    $title = "Add Medicine";
+    $title = "Update Chicken Reduction";
     
     //header
     include('../../includes/header.php');

@@ -1,6 +1,6 @@
 <?php
     //title of the pge
-    $title = "Egg Production Details";
+    $title = "Feed Details";
 
     include("../../includes/header.php");
 

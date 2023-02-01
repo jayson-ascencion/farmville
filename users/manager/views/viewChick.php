@@ -1,6 +1,6 @@
 <?php
     //title of the pge
-    $title = "Egg Production Details";
+    $title = "Chicken Production Details";
 
     include("../../includes/header.php");
 
@@ -43,9 +43,9 @@
     <h1 class="mt-4"> Manager Dashboard</h1>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item">
-            <a href="./egg_production.php" style="text-decoration: none">Egg Production</a>
+            <a href="./egg_production.php" style="text-decoration: none">Chicken Production</a>
         </li>
-        <li class="breadcrumb-item active">Egg Details</li>
+        <li class="breadcrumb-item active">Chicken Details</li>
     </ol>
 
     <div class="row justify-content-center mt-2">

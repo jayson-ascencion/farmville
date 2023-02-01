@@ -1,6 +1,6 @@
 <?php
     //title of the pge
-    $title = "Egg Production Details";
+    $title = "Delete Reduction";
 
     include("../../includes/header.php");
 
@@ -81,9 +81,9 @@
     <h1 class="mt-4"> Manager Dashboard</h1>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item">
-            <a href="./egg_production.php" style="text-decoration: none">Egg Production</a>
+            <a href="./egg_production.php" style="text-decoration: none">Chicken Reduction</a>
         </li>
-        <li class="breadcrumb-item active">Egg Details</li>
+        <li class="breadcrumb-item active">Chicken Reduction Details</li>
     </ol>
 
     <div class="row justify-content-center mt-2">
@@ -129,7 +129,7 @@
                             </div>
                             <div class="w-100 m-1">
                                 <button type="submit" name="archiveRecord" class="btn  btn-outline-success fw-bold w-100">
-                                    Save
+                                    Delete
                                 </button>                                    
                             </div>
                         </div>

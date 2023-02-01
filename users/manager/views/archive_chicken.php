@@ -90,7 +90,7 @@
         <li class="breadcrumb-item">
             <a href="./chicken_production.php" class="text-decoration-none">Chicken Production</a>
         </li>
-        <li class="breadcrumb-item active">Update Chicken Production</li>
+        <li class="breadcrumb-item active">Delete Chicken Batch</li>
     </ol>
 
     <div class="row justify-content-center mt-2">
@@ -158,7 +158,7 @@
                             </div>
                             <div class="w-100 m-1">
                                 <button type="submit" name="archiveRecord" class="btn   btn-outline-success fw-bold w-100">
-                                    Save
+                                    Delete
                                 </button>                                    
                             </div>
                         </div>

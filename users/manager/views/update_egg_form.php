@@ -104,13 +104,13 @@
                                 <label for="collectionType" class="mb-2 text-dark">Collection Type</label>
                                 <select class="form-select" name="collectionType">
                                     <option value="<?php echo $collectionType;?>"><?php echo $collectionType;?></option>
-                                    <!-- <option value="collected">collected</option>
-                                    <option value="returned">returned</option> -->
-                                    <?php if($collectionType != "collected") { ?>
-                                        <option value="collected">collected</option>
+                                    <!-- <option value="Collected">Collected</option>
+                                    <option value="Returned">Returned</option> -->
+                                    <?php if($collectionType != "Collected") { ?>
+                                        <option value="Collected">Collected</option>
                                     <?php } ?>
-                                    <?php if($collectionType != "returned") { ?>
-                                        <option value="returned">returned</option>
+                                    <?php if($collectionType != "Returned") { ?>
+                                        <option value="Returned">Returned</option>
                                     <?php } ?>
                                 </select>
                                 <span class="text-danger" style="font-size: 13px;"> <?php echo $collectionType_err; ?> </span>

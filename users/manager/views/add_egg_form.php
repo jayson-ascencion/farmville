@@ -69,8 +69,8 @@
                                             <?php
                                         }
                                     ?>
-                                    <option value="collected">collected</option>
-                                    <option value="returned">returned</option>
+                                    <option value="Collected">Collected</option>
+                                    <option value="Returned">Returned</option>
                                 </select>
                                 <span class="text-danger" style="font-size: 13px;"> <?php echo $collectionType_err; ?> </span>
                             </div>

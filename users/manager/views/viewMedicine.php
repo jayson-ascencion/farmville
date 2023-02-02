@@ -24,8 +24,12 @@
                 $medicineFor = $row['medicineFor'];
                 $startingQuantity = $row['startingQuantity'];
                 $inStock = $row['inStock'];
-                $dateAdded = $row['dateAdded'];
-                $expirationDate = $row['expirationDate'];
+
+                $dateAddedString = strtotime($row['dateAdded']);
+                $dateAdded = date("F d, Y",$dateAddedString);
+
+                $expirationDateString = strtotime($row['expirationDate']);
+                $expirationDate = date("F d, Y",$expirationDateString);
             }
             // Free result set
             unset($result);

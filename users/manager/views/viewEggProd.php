@@ -22,7 +22,8 @@
                 $eggSize = $row['eggSize'];
                 $quantity = $row['quantity'];
                 $collectionType = $row['collectionType'];
-                $collectionDate = $row['collectionDate'];
+                $dateString = strtotime($row['collectionDate']);
+                $collectionDate = date("F d, Y",$dateString);
                 $note = $row['note']; 
             }
             // Free result set

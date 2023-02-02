@@ -23,7 +23,9 @@
                 $medicineName = $row['medicineName'];
                 $quantity = $row['quantity'];
                 $reductionType =  $row['reductionType'];
-                $dateReduced = $row['dateReduced'];
+
+                $dateString = strtotime($row['dateReduced']);
+                $dateReduced = date("F d, Y",$dateString);
             }
             // Free result set
             unset($result);

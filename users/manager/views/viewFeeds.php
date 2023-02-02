@@ -23,7 +23,8 @@
                 $brand = $row['brand'];
                 $startingQuantity = $row['startingQuantity'];
                 $inStock = $row['inStock'];
-                $datePurchased = $row['datePurchased']; 
+                $dateString = strtotime($row['datePurchased']);
+                $datePurchased = date("F d, Y",$dateString); 
             }
             // Free result set
             unset($result);

@@ -24,7 +24,8 @@
                 $batchName = $row['batchName'];
                 $quantity = $row['quantity'];
                 $reductionType = $row['reductionType'];
-                $dateReduced = $row['dateReduced'];
+                $dateString = strtotime($row['dateReduced']);
+                $dateReduced = date('F d, Y',$dateString); //$row['dateReduced'];
             }
             // Free result set
             unset($result);

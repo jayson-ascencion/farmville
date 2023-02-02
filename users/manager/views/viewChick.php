@@ -25,12 +25,14 @@
                 $batchPurpose = $row['batchPurpose'];
                 $startingQuantity = $row['startingQuantity'];
                 $inStock = $row['inStock'];
-                $dateAcquired = $row['dateAcquired'];
+
+                $dateString = strtotime($row['dateAcquired']);
+                $dateAcquired = date('F d, Y',$dateString);
                 $acquisitionType = $row['acquisitionType'];
                 $note = $row['note'];
             }
             // Free result set
-            unset($result);
+            unset($stmt);
         } else{
             echo '<div class="alert alert-danger"><em>No records were found.</em></div>';
         }

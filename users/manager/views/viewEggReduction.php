@@ -22,7 +22,9 @@
                 $eggBatch_ID = $row['eggBatch_ID'];
                 $eggSize = $row['eggSize'];
                 $reductionType = $row['reductionType'];
-                $dateReduced = $row['dateReduced'];
+
+                $dateString = strtotime($row['dateReduced']);
+                $dateReduced = date("F d, Y",$dateString);
             }
             // Free result set
             unset($result);

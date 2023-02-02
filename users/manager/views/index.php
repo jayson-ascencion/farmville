@@ -124,7 +124,7 @@ GROUP BY all_egg_sizes.eggSize";
         echo "Oops! Something went wrong. Please try again later.";
     }
 
-    $sql = "SELECT ep.collectionDate, ep.eggSize, SUM(COALESCE(ep.quantity,0)) as totalQuantity, SUM(COALESCE(er.quantity,0)) as totalReductions 
+    $sql = "SELECT DATE_FORMAT(ep.collectionDate, '%M %d') AS collectionDate, ep.eggSize, SUM(COALESCE(ep.quantity,0)) as totalQuantity, SUM(COALESCE(er.quantity,0)) as totalReductions 
 		FROM eggproduction ep 
 		LEFT JOIN eggreduction er ON ep.eggBatch_ID = er.eggBatch_ID 
         WHERE collectionDate BETWEEN CURDATE() - INTERVAL 6 DAY AND CURDATE() AND ep.archive = 'not archived' AND er.archive = 'not archived'

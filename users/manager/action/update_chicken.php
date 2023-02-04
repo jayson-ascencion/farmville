@@ -34,19 +34,43 @@ try{
              $coopNumber_err = "Please enter coop number.";
          }
          else if (!empty($coopNumber)) {
-             // Prepare a select statement to check if coopNumber already exists
-             $sql = "SELECT coopNumber FROM chickenproduction WHERE coopNumber = :coopNumber";
-             $stmt = $conn->prepare($sql);
-             $stmt->bindParam(":coopNumber", $coopNumber, PDO::PARAM_STR);
-           
-             // Attempt to execute the prepared statement
-             if ($stmt->execute()) {
-               if ($stmt->rowCount() > 0) {
-                 $coopNumber_err = "This coopNumber already exists.";
-               }
-             } else {
-               echo "Oops! Something went wrong. Please try again later.";
-             }
+
+            $oldCoopNumber = "";
+
+            // Prepare a select statement to get the old coop number
+            $sql = "SELECT coopNumber FROM chickenproduction WHERE chickenBatch_ID = :id";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+
+            // Attempt to execute the prepared statement
+            if ($stmt->execute()) {
+                if ($stmt->rowCount() > 0) {
+                    $row = $stmt->fetch();
+                    $oldCoopNumber = $row['coopNumber'];
+                }
+            } else {
+                echo "Oops! Something went wrong. Please try again later.";
+            }
+
+            // Check if the coop number has changed
+            if ($coopNumber == $oldCoopNumber) {
+                // Do nothing, coop number remains unchanged
+            } else {
+                // Check if the new coop number already exists in the database
+                // Prepare a select statement to check if coopNumber already exists
+                $sql = "SELECT coopNumber FROM chickenproduction WHERE coopNumber = :coopNumber";
+                $stmt = $conn->prepare($sql);
+                $stmt->bindParam(":coopNumber", $coopNumber, PDO::PARAM_STR);
+
+                // Attempt to execute the prepared statement
+                if ($stmt->execute()) {
+                    if ($stmt->rowCount() > 0) {
+                        $coopNumber_err = "This coopNumber already exists.";
+                    }
+                } else {
+                    echo "Oops! Something went wrong. Please try again later.";
+                }
+            }
            }
         
         //validate medicine name if empty and allows only alphabets and white spaces

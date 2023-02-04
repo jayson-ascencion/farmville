@@ -54,12 +54,12 @@ try{
     
     
         //validate coop number and only accept numeric input
-        if (!preg_match ("/^[0-9]*$/", trim($coopNumber)) ) {  
-           $coopNumber_err = "Only alphabets and whitespace are allowed.";
-        }
-        else if (empty(trim($coopNumber))) {  
-            $coopNumber_err = "Please enter coop number.";
-        }
+        // if (!preg_match ("/^[0-9]*$/", trim($coopNumber)) ) {  
+        //    $coopNumber_err = "Only alphabets and whitespace are allowed.";
+        // }
+        // else if (empty(trim($coopNumber))) {  
+        //     $coopNumber_err = "Please enter coop number.";
+        // }
 
         //statement to get the in stock
         $sql = "SELECT inStock FROM chickenproduction WHERE chickenBatch_ID = '$chickenBatch_ID'";
@@ -122,18 +122,18 @@ try{
         if(empty($coopNumber_err) && empty($updateQuantity_err) && empty($dateReduced_err) && empty($reductionType_err)){
 
            // Prepare an insert statement
-           $sql = "UPDATE chickenreduction SET coopNumber=:coopNumber, quantity=:updateQuantity, reductionType=:reductionType, dateReduced=:dateReduced WHERE reduction_ID = '$id'";
+           $sql = "UPDATE chickenreduction SET quantity=:updateQuantity, reductionType=:reductionType, dateReduced=:dateReduced WHERE reduction_ID = '$id'";
          
            if($stmt = $conn->prepare($sql))
            {
                // Bind variables to the prepared statement as parameters
-               $stmt->bindParam(":coopNumber", $param_coopNumber, PDO::PARAM_STR);
+            //    $stmt->bindParam(":coopNumber", $param_coopNumber, PDO::PARAM_STR);
                $stmt->bindParam(":updateQuantity", $param_updateQuantity, PDO::PARAM_STR);
                $stmt->bindParam(":reductionType", $param_reductionType, PDO::PARAM_STR);
                $stmt->bindParam(":dateReduced", $param_dateReduced, PDO::PARAM_STR);
 
                // Set parameters
-               $param_coopNumber = $coopNumber;
+            //    $param_coopNumber = $coopNumber;
                 $param_updateQuantity = $updateQuantity;
                $param_reductionType = $reductionType;
                $param_dateReduced = $dateReduced;

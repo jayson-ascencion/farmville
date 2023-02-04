@@ -297,7 +297,27 @@
                 production_chart = new Chart(group_chart3, {
                     type:'bar',
                     data:chart_data,
-                    plugins: [bgColor]
+                    plugins: [
+                        {   bgColor,
+                            afterDatasetsDraw: ((chart, args, plugins) => {
+                                const {ctx, data, chartArea: {top, bottom, left, right, width, height}} = chart;
+                                    console.log(data)
+                                ctx.save();
+                                
+                                if (startingQuantity.length === 0 && instock.length === 0 && reductions.length === 0) {
+                                    console.log('ahah')
+                                    ctx.fillStyle = 'rgba(255, 255, 255, 1)';
+                                    ctx.fillRect(left, top, width, height);
+
+                                    ctx.font = '20px sans-serif';
+                                    ctx.fillStyle = 'black';
+                                    ctx.textAlign = 'center';
+                                    ctx.fillText('No Data Available', left + width / 2, top + height / 2);
+                                }
+
+                            })
+                        }
+                    ]
                 });
             }
         });
@@ -446,7 +466,26 @@
                 feed_chart = new Chart(group_chart3, {
                     type:'bar',
                     data:chart_data,
-                    plugins: [bgColor]
+                    plugins: [{
+                        bgColor,
+                        afterDatasetsDraw: ((chart, args, plugins) => {
+                            const {ctx, data, chartArea: {top, bottom, left, right, width, height}} = chart;
+                                console.log(data)
+                            ctx.save();
+                            
+                            if (startingQuantity.length === 0 && instock.length === 0 && reductions.length === 0) {
+                                console.log('ahah')
+                                ctx.fillStyle = 'rgba(255, 255, 255, 1)';
+                                ctx.fillRect(left, top, width, height);
+
+                                ctx.font = '20px sans-serif';
+                                ctx.fillStyle = 'black';
+                                ctx.textAlign = 'center';
+                                ctx.fillText('No Data Available', left + width / 2, top + height / 2);
+                            }
+
+                        })
+                    }]
                 });
             }
         });

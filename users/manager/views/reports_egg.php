@@ -166,7 +166,7 @@
             //store the date in the start_date and end_date
             start_date = start;
             end_date = end;
-            console.log(start)
+            // console.log(start)
             document.getElementById("start_date_input").value = start_date;
             document.getElementById("end_date_input").value = end_date;
             //creates the table
@@ -209,7 +209,7 @@
                         totalQuantity.push(parseFloat(settings.aoData[count]._aData[2]));
                         reductions.push(parseFloat(settings.aoData[count]._aData[3]));
                     }
-                    console.log(collectionDate)
+                    // console.log(collectionDate)
                     var chart_data = {
                         labels:collectionDate,
                         datasets:[
@@ -225,7 +225,7 @@
                                 color : '#fff',
                                 data:reductions
                             }
-                        ]   
+                        ],
                     };
 
                     var group_chart3 = $('#bar_chart');
@@ -238,6 +238,28 @@
                     production_chart = new Chart(group_chart3, {
                         type:'bar',
                         data:chart_data,
+                        plugins: [{
+                            afterDatasetsDraw: ((chart, args, plugins) => {
+                            const {ctx, data, chartArea: {top, bottom, left, right, width, height}} = chart;
+
+                            ctx.save();
+                            
+                            if (data.datasets.length > 0) {
+                                console.log(data.datasets.length)
+                                console.log(data.datasets[0].data)
+                            if (data.datasets[0].data.every(item => Number(item) === 0) && data.datasets[1].data.every(item => Number(item) === 0)) {
+                                ctx.fillStyle = 'rgba(255, 255, 255, 1)';
+                                ctx.fillRect(left, top, width, height);
+
+                                ctx.font = '20px sans-serif';
+                                ctx.fillStyle = 'black';
+                                ctx.textAlign = 'center';
+                                ctx.fillText('No Data Available', left + width / 2, top + height / 2);
+                            }
+                            }
+
+                        })
+                        }] 
                     });
                 }
             });
@@ -267,7 +289,7 @@
                         reductionType.push(settings.aoData[count]._aData[0]);
                         reductions.push(parseFloat(settings.aoData[count]._aData[1]));
                     }
-
+                    // console.log(reductions)
                     var chart_data = {
                         labels: reductionType,
                         datasets: [
@@ -278,7 +300,6 @@
                                 data: reductions
                             }
                         ],
-
                     };
                     
                     var group_chart3 = $('#second_chart');
@@ -287,10 +308,29 @@
                     {
                         second_chart.destroy();
                     }
-
+                    
                     second_chart = new Chart(group_chart3, {
                         type:'bar',
-                        data:chart_data
+                        data:chart_data,
+                        plugins: [{
+                            afterDatasetsDraw: ((chart, args, plugins) => {
+                                const {ctx, data, chartArea: {top, bottom, left, right, width, height}} = chart;
+                                    console.log(data)
+                                ctx.save();
+                                
+                                if (reductions.length === 0) {
+                                    console.log('ahah')
+                                    ctx.fillStyle = 'rgba(255, 255, 255, 1)';
+                                    ctx.fillRect(left, top, width, height);
+
+                                    ctx.font = '20px sans-serif';
+                                    ctx.fillStyle = 'black';
+                                    ctx.textAlign = 'center';
+                                    ctx.fillText('No Data Available', left + width / 2, top + height / 2);
+                                }
+
+                            })
+                        }] 
                     });
                 }
             });
@@ -349,7 +389,26 @@
 
                     third_chart = new Chart(group_chart3, {
                         type:'bar',
-                        data:chart_data
+                        data:chart_data,
+                        plugins: [{
+                            afterDatasetsDraw: ((chart, args, plugins) => {
+                                const {ctx, data, chartArea: {top, bottom, left, right, width, height}} = chart;
+                                    console.log(data)
+                                ctx.save();
+                                
+                                if (instock.length === 0) {
+                                    console.log('ahah')
+                                    ctx.fillStyle = 'rgba(255, 255, 255, 1)';
+                                    ctx.fillRect(left, top, width, height);
+
+                                    ctx.font = '20px sans-serif';
+                                    ctx.fillStyle = 'black';
+                                    ctx.textAlign = 'center';
+                                    ctx.fillText('No Data Available', left + width / 2, top + height / 2);
+                                }
+
+                            })
+                        }] 
                     });
                 }
             });

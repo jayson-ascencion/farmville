@@ -597,6 +597,7 @@ GROUP BY all_egg_sizes.eggSize";
     var eggSizes = Object.keys(size);
     var eggInstock = Object.values(size);
 
+    console.log(eggInstock)
     const {collectionDate, totalQuantity, totalReductions} = {
         collectionDate: <?php echo json_encode($collectionDate);?>,
         totalQuantity: <?php echo json_encode($totalQuantity);?>,
@@ -633,8 +634,30 @@ GROUP BY all_egg_sizes.eggSize";
             }
         },
         responsive: true,
-    maintainAspectRatio: false
-        }
+        maintainAspectRatio: false
+        },
+        plugins: [{
+            afterDatasetsDraw: ((chart, args, plugins) => {
+            const {ctx, data, chartArea: {top, bottom, left, right, width, height}} = chart;
+
+            ctx.save();
+            
+            if (data.datasets.length > 0) {
+                console.log(data.datasets.length)
+                console.log(data.datasets[0].data)
+              if (data.datasets[0].data.every(item => Number(item) === 0) && data.datasets[1].data.every(item => Number(item) === 0)) {
+                ctx.fillStyle = 'rgba(255, 255, 255, 1)';
+                ctx.fillRect(left, top, width, height);
+
+                ctx.font = '20px sans-serif';
+                ctx.fillStyle = 'black';
+                ctx.textAlign = 'center';
+                ctx.fillText('No Data Available', left + width / 2, top + height / 2);
+              }
+            }
+
+            })
+        }]
     });
 
     const ctx2 = document.getElementById('eggSize_chart');
@@ -666,7 +689,29 @@ GROUP BY all_egg_sizes.eggSize";
         maintainAspectRatio: false,
         responsive: true,
     // maintainAspectRatio: true
-        }
+        },
+        plugins: [{
+            afterDatasetsDraw: ((chart, args, plugins) => {
+            const {ctx, data, chartArea: {top, bottom, left, right, width, height}} = chart;
+
+            ctx.save();
+            
+            if (data.datasets.length > 0) {
+                console.log(data.datasets.length)
+                console.log(data.datasets[0].data)
+              if (data.datasets[0].data.every(item => Number(item) === 0)) {
+                ctx.fillStyle = 'rgba(255, 255, 255, 1)';
+                ctx.fillRect(left, top, width, height);
+
+                ctx.font = '20px sans-serif';
+                ctx.fillStyle = 'black';
+                ctx.textAlign = 'center';
+                ctx.fillText('No Data Available', left + width / 2, top + height / 2);
+              }
+            }
+
+        })
+        }]
     });
 
     const ctx3 = document.getElementById('egg_chart');
@@ -698,6 +743,28 @@ GROUP BY all_egg_sizes.eggSize";
             }
         },
         maintainAspectRatio: false,
-        }
+        },
+        plugins: [{
+            afterDatasetsDraw: ((chart, args, plugins) => {
+            const {ctx, data, chartArea: {top, bottom, left, right, width, height}} = chart;
+
+            ctx.save();
+            
+            if (data.datasets.length > 0) {
+                console.log(data.datasets.length)
+                console.log(data.datasets[0].data)
+              if (data.datasets[0].data.every(item => Number(item) === 0) && data.datasets[1].data.every(item => Number(item) === 0)) {
+                ctx.fillStyle = 'rgba(255, 255, 255, 1)';
+                ctx.fillRect(left, top, width, height);
+
+                ctx.font = '20px sans-serif';
+                ctx.fillStyle = 'black';
+                ctx.textAlign = 'center';
+                ctx.fillText('No Data Available', left + width / 2, top + height / 2);
+              }
+            }
+
+        })
+        }]
     });
 </script>

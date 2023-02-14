@@ -113,7 +113,7 @@
                     <input type="hidden" name="id" value="<?php echo $id; ?>"/>
                     <div class="card-footer w-100 border d-flex justify-content-end">
                     <div>
-                    <a class="small text-white btn btn-outline-danger" onclick="history.back()">
+                    <a class="small text-white btn btn-outline-secondary" onclick="history.back()">
                         
                             Cancel
                         

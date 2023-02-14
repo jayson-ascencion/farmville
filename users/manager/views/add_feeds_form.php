@@ -70,7 +70,7 @@
  
                             </div>
                             <div class="m-1 w-100">
-                                <a class="small btn btn-outline-danger w-100 fw-bold" href="./feeds.php">
+                                <a class="small btn btn-outline-secondary w-100 fw-bold" href="./feeds.php">
                                     Cancel
                                 </a> 
                             </div>

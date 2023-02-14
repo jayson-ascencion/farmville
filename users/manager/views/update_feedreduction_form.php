@@ -131,7 +131,7 @@
                         <input type="hidden" name="id" value="<?php echo $id; ?>"/>
                         <div class="card-footer w-100 border d-flex justify-content-end">
                             <div class="m-1 w-100">
-                                <a class="small btn btn-outline-danger w-100 fw-bold" href="./feed_reduction.php">
+                                <a class="small btn btn-outline-secondary w-100 fw-bold" href="./feed_reduction.php">
                                     Cancel
                                 </a>                                 
                             </div>

@@ -103,7 +103,7 @@
                         </div>
                         <div class="card-footer w-100 border d-flex justify-content-between">
                             <div class="w-100 m-1">
-                                <a class="btn  btn-outline-danger fw-bold w-100" href="./chicken_reduction.php">
+                                <a class="btn  btn-outline-secondary fw-bold w-100" href="./chicken_reduction.php">
                                     Cancel
                                 </a> 
                             </div>

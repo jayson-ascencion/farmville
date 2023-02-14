@@ -189,7 +189,7 @@
                         <input type="hidden" name="id" value="<?php echo $id; ?>"/>
                         <div class="card-footer w-100 border d-flex justify-content-between">
                             <div class="m-1 w-100">
-                                <a class="small btn btn-outline-danger w-100 fw-bold" href="./medicines.php">
+                                <a class="small btn btn-outline-secondary w-100 fw-bold" href="./medicines.php">
                                     Cancel
                                 </a> 
                             </div>

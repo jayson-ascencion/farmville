@@ -217,7 +217,7 @@
                     
                     <div class="card-footer w-100 d-flex justify-content-between">
                         <div class="m-1 w-100">
-                            <a href="medication_pending.php" class="btn fw-bold btn-outline-danger w-100"> Cancel</a>
+                            <a href="medication_pending.php" class="btn fw-bold btn-outline-secondary w-100"> Cancel</a>
                         </div>
                         <div class="m-1 w-100">
                             <button class="btn btn-outline-success fw-bold ml-1 w-100" type="submit" name="submit">Save</button>

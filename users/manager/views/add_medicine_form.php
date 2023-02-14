@@ -120,7 +120,7 @@
                         </div>
                         <div class="card-footer w-100 border d-flex justify-content-between">
                             <div class="m-1 w-100">
-                                <a class="small fw-bold w-100 btn btn-outline-danger" href="./medicines.php">
+                                <a class="small fw-bold w-100 btn btn-outline-secondary" href="./medicines.php">
                                     Cancel
                                 </a> 
                             </div>

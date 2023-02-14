@@ -162,7 +162,7 @@
 
                     <div class="card-footer w-100 border d-flex justify-content-end">
                         <div class="m-1 w-100">
-                            <a class="fw-bold btn btn-outline-danger w-100" href="./medication_completed.php"> Cancel </a> 
+                            <a class="fw-bold btn btn-outline-secondary w-100" href="./medication_completed.php"> Cancel </a> 
                         </div>
                         <div class="m-1 w-100">
                             <button type="submit" name="updateMedication" class="fw-bold btn btn-outline-success w-100">

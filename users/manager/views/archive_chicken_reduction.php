@@ -126,12 +126,12 @@
                         <input type="hidden" name="id" value="<?php echo $id; ?>"/>
                         <div class="card-footer w-100 border d-flex justify-content-between">
                             <div class="w-100 m-1">
-                                <a class="btn  btn-outline-danger fw-bold w-100" href="./chicken_reduction.php">
+                                <a class="btn  btn-outline-secondary fw-bold w-100" href="./chicken_reduction.php">
                                     Cancel
                                 </a> 
                             </div>
                             <div class="w-100 m-1">
-                                <button type="submit" name="archiveRecord" class="btn  btn-outline-success fw-bold w-100">
+                                <button type="submit" name="archiveRecord" class="btn  btn-outline-delete fw-bold w-100">
                                     Delete
                                 </button>                                    
                             </div>

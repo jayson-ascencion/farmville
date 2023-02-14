@@ -294,7 +294,7 @@
 
                     <div class="card-footer w-100 border d-flex justify-content-end">
                         <div class="m-1 w-100">                            
-                            <a class="btn btn-outline-danger fw-bold w-100" href="./medication_pending.php"> Cancel </a> 
+                            <a class="btn btn-outline-secondary fw-bold w-100" href="./medication_pending.php"> Cancel </a> 
                         </div>
                         <div class="m-1 w-100">
                             <button type="submit" name="updateMedication" class="btn btn-outline-success fw-bold w-100">

@@ -23,7 +23,7 @@
         <div class="col-xl-6 col-md-6">
             <div class="card bg-light shadow-lg mb-4">
                 <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST">
-                    <div class="card-header text-center fw-bold p-3" style="background-color: #f37e57;"> ADD VACCINATION SCHEDULE </div>
+                    <div class="card-header text-center fw-bold p-3"  style="background-color: #FFAF1A; color: #91452c"> ADD VACCINATION SCHEDULE </div>
                     <div class="card-body">
                         <!-- CHICKEN BATCH ID -->
                         <div class="form-group mb-3">
@@ -197,11 +197,11 @@
                         </div>
 
                         <!-- STATUS -->
-                        <div class="form-group mb-3">
+                        <!-- <div class="form-group mb-3">
                             <label for="status" class="mb-2 text-dark">Status</label>
                             <select class="form-select" name="status">
-                                <option value="<?php echo $status; ?>">
-                                    <?php
+                                <option value=" echo $status; ?>">
+                                    
                                     if(!empty($status)){
                                         echo $status;
                                     }else{
@@ -211,17 +211,18 @@
                                 <option value="completed">completed</option>
                                 <option value="pending">pending</option>
                             </select>
-                            <span class="text-danger" style="font-size: small;"> <?php echo $status_err; ?> </span>
-                        </div>
-
+                            <span class="text-danger" style="font-size: small;">  echo $status_err; ?> </span>
+                        </div> -->
+                        <input type="hidden" value="pending" name="status">
+                        
                     </div>   
                     
                     <div class="card-footer w-100 d-flex justify-content-between">
                         <div class="m-1 w-100">
-                            <a href="vaccination_pending.php" class="btn btn-outline-danger w-100"> Cancel</a>
+                            <a href="vaccination_pending.php" class="btn fw-bold btn-outline-danger w-100"> Cancel</a>
                         </div>
                         <div class="m-1 w-100">
-                            <button class="btn btn-outline-success ml-1 w-100" type="submit" name="submit">Save</button>
+                            <button class="btn btn-outline-success ml-1 fw-bold w-100" type="submit" name="submit">Save</button>
                         </div>
                     </div>
                 </form> 

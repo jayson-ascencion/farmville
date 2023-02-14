@@ -54,7 +54,7 @@
     <div class="row justify-content-center mt-2">
         <div class="col-sm-4">
             <div class="card bg-light shadow-lg mb-4 ">
-                <div class="card-header text-center fw-bold d-flex justify-content-between p-3" style="background-color: #f37e57;">
+                <div class="card-header text-center fw-bold d-flex justify-content-between p-3" style="background-color: #FFAF1A; color: #91452c">
                     <div>VACCINATION SCHEDULE</div>
                     <div>
                         <a class="small text-white" href="./vaccination_pending.php">

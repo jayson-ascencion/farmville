@@ -24,7 +24,7 @@
     <div class="row justify-content-center mt-2">
         <div class="col-xl-6 col-md-6">
             <div class="card bg-light shadow-lg mb-4">
-                <div class="card-header text-center fw-bold p-3" style="background-color: #f37e57;"> UPDATE MEDICATION SCHEDULE</div>
+                <div class="card-header text-center fw-bold p-3"  style="background-color: #FFAF1A; color: #91452c"> UPDATE MEDICATION SCHEDULE</div>
                 <div class="card-body">
                     <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST">
 
@@ -290,6 +290,7 @@
                     </div> 
 
                     <input type="hidden" name="id" value="<?php echo $id; ?>"/>
+                    <input type="hidden" name="update_type" value="pending"/>
 
                     <div class="card-footer w-100 border d-flex justify-content-end">
                         <div class="m-1 w-100">                            

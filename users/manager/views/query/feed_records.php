@@ -8,8 +8,12 @@
     $stmt = $conn->query($sql);
     if($stmt){
         if($stmt->rowCount() > 0){
-            echo '<table id="feedRecords" class="table table-sm responsive border table-hover text-center rounded rounded-3 overflow-hidden" style="width: 100%">';
-                echo "<thead class='text-white' style='background-color: #2d4154'>";
+            echo '
+            <div id="filtertable" class="col-md-10 col-sm-12">
+                <button id="reset-btn" class="border-secondary border-1 mx-1 p-1 rounded rounded-3 col-md-2 col-sm-4 m-1">Reset Filter</button>
+            </div>
+            <table id="feedRecords" class="table table-sm responsive border table-hover text-center rounded rounded-3 overflow-hidden" style="width: 100%">';
+                echo "<thead class='text-white' style='background-color: #DC143C'>";
                     echo "<tr>";
                         echo "<th>Feed ID</th>";
                         echo "<th>Feed Name</th>";
@@ -35,7 +39,7 @@
                         echo "<td>" . $row['feedName'] . "</td>";
                         echo "<td>" . $row['brand'] . "</td>";
                         echo "<td>" . $row['startingQuantity'] . "</td>";
-                        if($row['inStock'] < 10){
+                        if($row['inStock'] < $row['startingQuantity']*.25){
                             echo "<td>" . $row['inStock'] . '<span data-bs-toggle="tooltip" data-bs-placement="left" data-bs-custom-class="tooltip-expired" data-bs-title="Low In Stock"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-arrow-down-short" viewBox="0 0 16 16">
                             <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4z"/>
                           </svg></span>' . "</td>";
@@ -73,8 +77,14 @@
             // Free stmt set
             unset($stmt);
         } else{
-            echo '<table id="feedRecords" class="table table-sm responsive border table-hover text-center rounded rounded-3 overflow-hidden" style="width: 100%">';
-            echo "<thead class='text-white' style='background-color: #2d4154'>";
+            echo '
+                
+            <div id="filtertable" class="col-md-10 col-sm-12">
+                <button id="reset-btn" class="border-secondary border-1 mx-1 p-1 rounded rounded-3 col-md-2 col-sm-4 m-1">Reset Filter</button>
+            </div>
+
+            <table id="feedRecords" class="table table-sm responsive border table-hover text-center rounded rounded-3 overflow-hidden" style="width: 100%">';
+            echo "<thead class='text-white' style='background-color: #DC143C'>";
                 echo "<tr>";
                     echo "<th>Feed ID</th>";
                     echo "<th>Feed Name</th>";

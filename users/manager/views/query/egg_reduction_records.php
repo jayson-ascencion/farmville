@@ -8,8 +8,12 @@
     $stmt = $conn->query($sql);
     if($stmt){
         if($stmt->rowCount() > 0){
-            echo '<table id="eggReduction" class="table table-sm responsive border table-hover text-center rounded rounded-3 overflow-hidden" style="width: 100%">';
-                echo "<thead class='text-white' style='background-color: #2d4154'>";
+            echo '
+            <div id="filtertable" class="col-md-10 col-sm-12">
+                <button id="reset-btn" class="border-secondary border-1 mx-1 p-1 rounded rounded-3 col-md-2 col-sm-4 m-1">Reset Filter</button>
+            </div>
+            <table id="eggReduction" class="table table-sm responsive border table-hover text-center rounded rounded-3 overflow-hidden" style="width: 100%">';
+                echo "<thead class='text-white' style='background-color: #DC143C'>";
                     echo "<tr>";
                         echo "<th>Reduction ID</th>";
                         echo "<th>Egg Batch ID</th>";
@@ -24,7 +28,6 @@
                 while($row = $stmt->fetch()){
                     //get dates from the row
                     $date = $row['dateReduced'];
-
                     //store the expiration date inside another variable and user strotime
                     $dataSortExpD = strtotime($row['dateReduced']);
                     //format the date
@@ -64,8 +67,14 @@
             // Free stmt set
             unset($stmt);
         } else{
-            echo '<table id="eggReduction" class="table table-sm responsive border table-hover text-center rounded rounded-3 overflow-hidden" style="width: 100%">';
-            echo "<thead class='text-white' style='background-color: #2d4154'>";
+            echo '
+                
+            <div id="filtertable" class="col-md-10 col-sm-12">
+                <button id="reset-btn" class="border-secondary border-1 mx-1 p-1 rounded rounded-3 col-md-2 col-sm-4 m-1">Reset Filter</button>
+            </div>
+
+            <table id="eggReduction" class="table table-sm responsive border table-hover text-center rounded rounded-3 overflow-hidden" style="width: 100%">';
+            echo "<thead class='text-white' style='background-color: #DC143C'>";
                 echo "<tr>";
                     echo "<th>Reduction ID</th>";
                     echo "<th>Egg Batch ID</th>";

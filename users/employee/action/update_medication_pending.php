@@ -41,7 +41,7 @@
                     // Attempt to execute the prepared statement
                     if($stmt->execute())
                     {
-                        //$success = "Medicine successfully saved."; //this will be use to flash a message to the user that the medicine issave
+                        $_SESSION['status'] = "Schedule Updated Successfully."; 
                         header('Location: medication_pending.php');
                     } 
                     else

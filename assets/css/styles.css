@@ -7872,7 +7872,8 @@ textarea.form-control-lg {
 }
 
 .bg-orange{
-  background-color: rgb(239, 81, 46);
+  background-color: #FFAF1A;
+  /* rgb(239, 81, 46); */
 }
 
 .bg-black {
@@ -11498,7 +11499,7 @@ body {
 }
 
 .sb-sidenav-dark {
-  background-color: rgb(239, 81, 46); /*242, 115, 73rgb();*/
+  background-color: #FFAF1A; /*rgb(239, 81, 46); 242, 115, 73rgb();*/
   color: white; /*rgba(255, 255, 255, 0.5);a(239, 81, 46)*/
 }
 .sb-sidenav-dark .sb-sidenav-menu .sb-sidenav-menu-heading {

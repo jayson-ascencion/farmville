@@ -17,6 +17,7 @@ try{
         $id = $_REQUEST['id'];
 
         //collect data from the form and store them in the defined variables
+        $updateType = $_POST['update_type'];
         $chickenBatch_ID = $_POST['chickenBatch_ID'];
         $medicine_ID = $_POST['medicine_ID'];
         $methodType = $_POST['methodType'];
@@ -154,8 +155,14 @@ try{
                // Attempt to execute the prepared statement
                if($stmt->execute())
                {
-                //$success = "Medicine successfully saved."; //this will be use to flash a message to the user that the medicine issave
-                header('Location: medication_pending.php');
+                    $_SESSION['status'] = "Schedule Updated Successfully."; 
+                    if($updateType === 'pending'){
+
+                        header('Location: medication_pending.php');
+                    }else{
+
+                        header('Location: medication_completed.php');
+                    }
                } 
                else
                {

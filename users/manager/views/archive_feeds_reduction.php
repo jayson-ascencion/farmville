@@ -54,7 +54,7 @@
                 // Attempt to execute the prepared statement
                 if($stmt->execute())
                 {
-                    $_SESSION['status'] = "Feeds Reduction Data is Successfully Archived.";
+                    $_SESSION['status'] = "Feeds Reduction Data is Successfully Deleted.";
                     header("Location: feed_reduction.php");
                 } 
                 else
@@ -88,7 +88,7 @@
     <div class="row justify-content-center mt-2">
         <div class="col-sm-4">
             <div class="card bg-light shadow-lg mb-4 ">
-                <div class="card-header text-center fw-bold p-3" style="background-color: #f37e57;">
+                <div class="card-header text-center fw-bold p-3" style="background-color: #FFAF1A; color: #91452c">
                     <div class="text-center">Are you sure you want to delete this record?</div>
                 </div>
                 <div class="card-body p-4">

@@ -34,7 +34,7 @@
             <div class="row mb-5">
                 <div class="p-0">
                     <div class="card shadow-sm mb-4">
-                        <div class="card-header fw-bold pb-2 fs-5" style="background-color: #f37e57;">
+                        <div class="card-header fw-bold pb-2 fs-5" style="background-color: #FFAF1A; color: #91452c">
                         <div class="p-2">
                             Total Eggs In Stock <span class="fs-6 fw-normal">(trays)</span>: 
                         </div>
@@ -163,7 +163,7 @@
                     </div>
                     </div>
                     <div class="card shadow-sm"> 
-                        <div class="card-header" style="background-color: #f37e57;">
+                        <div class="card-header" style="background-color: #FFAF1A;">
 
                             <!-- <div class="w-100 d-flex justify-content-between p-2">
                                 <div>
@@ -176,7 +176,7 @@
                             </div> -->
                             <div class="row justify-content-between">
                                 <div class="col-xl-3 col-md-6">
-                                    <h4 class="pt-2 fs-5 fw-bold">Egg Production</h4>
+                                    <h4 class="pt-2 fs-5 fw-bold" style="background-color: #FFAF1A; color: #91452c">Egg Production</h4>
                                 </div>
 
                                 <div class="col-xl-2 col-md-2 align-content-end">

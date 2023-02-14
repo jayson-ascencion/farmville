@@ -22,7 +22,7 @@
     <div class="row justify-content-center mt-2">
         <div class="col-xl-6 col-md-6">
             <div class="card bg-light  shadow-lg mb-4">
-                <div class="card-header text-center p-3 fw-bold" style="background-color: #f37e57;">ADD CHICKEN REDUCTION</div>
+                <div class="card-header text-center p-3 fw-bold" style="background-color: #FFAF1A; color: #91452c">ADD CHICKEN REDUCTION</div>
                     <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST">
                         <div class="card-body p-4">
                             <!-- Coop Number -->

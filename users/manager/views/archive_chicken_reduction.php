@@ -40,23 +40,26 @@
         //processing the data from the form submitted
         if(isset($_POST['archiveRecord'])){
             $id = $_POST['id'];
-            $archived = 'archived';
+            // $archived = 'archived';
 
             // Prepare an insert statement
-            $sql = "UPDATE chickenreduction SET archive=:archived WHERE reduction_ID = '$id'";
+            $sql = "BEGIN;
+            UPDATE chickenproduction SET inStock = inStock + $quantity WHERE chickenBatch_ID = '$chickenBatch_ID';
+            DELETE FROM chickenreduction WHERE reduction_ID = '$id';
+            COMMIT;";
             
             if($stmt = $conn->prepare($sql))
             {
                 // Bind variables to the prepared statement as parameters
-                $stmt->bindParam(":archived", $param_archived, PDO::PARAM_STR);
+                // $stmt->bindParam(":archived", $param_archived, PDO::PARAM_STR);
                 
                 // Set parameters
-                $param_archived = $archived;
+                // $param_archived = $archived;
 
                 // Attempt to execute the prepared statement
                 if($stmt->execute())
                 {
-                    $_SESSION['status'] = "Chicken Reduction Data is Successfully Archived.";
+                    $_SESSION['status'] = "Chicken Reduction Data is Successfully Deleted.";
                     header("Location: chicken_reduction.php");
                 } 
                 else
@@ -89,7 +92,7 @@
     <div class="row justify-content-center mt-2">
         <div class="col-sm-4">
             <div class="card bg-light shadow-lg mb-4 ">
-                <div class="card-header text-center fw-bold p-3" style="background-color: #f37e57"><div class=" text-center ">Are you sure you want to delete this record?</div> </div>
+                <div class="card-header text-center fw-bold p-3" style="background-color: #FFAF1A; color: #91452c"><div class=" text-center ">Are you sure you want to delete this record?</div> </div>
                         <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST">
                         <div class="card-body p-4">
                             <!-- egg batch id -->

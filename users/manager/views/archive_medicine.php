@@ -42,7 +42,10 @@
                 $archived = 'archived';
 
             // Prepare an insert statement
-            $sql = "UPDATE medicines SET archive=:archived WHERE medicine_ID = '$id'";
+            $sql = "UPDATE medicines m
+                    LEFT JOIN medicinereduction mr ON m.medicine_ID = mr.medicine_ID
+                    SET m.archive=:archived, mr.archive=:archived 
+                    WHERE m.medicine_ID = '$id'";
             
             if($stmt = $conn->prepare($sql))
             {
@@ -55,7 +58,7 @@
                 // Attempt to execute the prepared statement
                 if($stmt->execute())
                 {
-                    $_SESSION['status'] = "Medicine Stock Data is Successfully Archived.";
+                    $_SESSION['status'] = "Medicine Stock Data is Successfully Deleted.";
                     header("Location: medicines.php");
                 } 
                 else
@@ -89,7 +92,7 @@
     <div class="row justify-content-center mt-2">
         <div class="col-sm-4">
             <div class="card bg-light shadow-lg mb-4 ">
-                <div class="card-header text-center fw-bold p-3" style="background-color: #f37e57">
+                <div class="card-header text-center fw-bold p-3" style="background-color: #FFAF1A; color: #91452c">
                     <div class="text-center">Are you sure you want to delete this record?</div>
                 </div>
 

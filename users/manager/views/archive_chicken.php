@@ -48,7 +48,8 @@
             // $sql = "UPDATE chickenproduction c, schedules s SET c.archive = :archived, s.archive = :archived WHERE c.chickenBatch_ID = s.chickenBatch_ID AND c.chickenBatch_ID = '$id'";
             $sql = "UPDATE chickenproduction c
             LEFT JOIN schedules s ON c.chickenBatch_ID = s.chickenBatch_ID
-            SET c.archive = :archived, s.archive = :archived
+            LEFT JOIN chickenreduction cr ON c.chickenBatch_ID = cr.chickenBatch_ID
+            SET c.archive = :archived, s.archive = :archived, cr.archive = :archived
             WHERE c.chickenBatch_ID = '$id'";
 
             if($stmt = $conn->prepare($sql))
@@ -62,7 +63,7 @@
                 // Attempt to execute the prepared statement
                 if($stmt->execute())
                 {
-                    $_SESSION['status'] = "Chicken Production Data is Successfully Archived.";
+                    $_SESSION['status'] = "Chicken Production Data is Successfully Deleted.";
                     header("Location: chicken_production.php");
                 } 
                 else
@@ -96,8 +97,8 @@
     <div class="row justify-content-center mt-2">
         <div class="col-sm-4">
             <div class="card bg-light shadow-lg mb-4 ">
-                <div class="card-header fw-bold p-3" style="background-color: #f37e57;">
-                <div class="text-center">Are you sure you want to delete this record?</div> <div>
+                <div class="card-header fw-bold p-3" style="background-color: #FFAF1A;">
+                <div class="text-center" style="background-color: #FFAF1A; color: #91452c">Are you sure you want to delete this record?</div> <div>
                             <!-- <a class="small text-white" href="./chicken_production.php">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black" class="bi bi-x-lg" viewBox="0 0 16 16">
                             <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>

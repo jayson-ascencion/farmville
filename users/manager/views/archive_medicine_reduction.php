@@ -56,7 +56,7 @@
                 // Attempt to execute the prepared statement
                 if($stmt->execute())
                 {
-                    $_SESSION['status'] = "Medicine Reduction Data is Successfully Archived.";
+                    $_SESSION['status'] = "Medicine Reduction Data is Successfully Deleted.";
                     header("Location: medicine_reduction.php");
                 } 
                 else
@@ -89,7 +89,7 @@
     <div class="row justify-content-center mt-2">
         <div class="col-sm-4">
             <div class="card bg-light shadow-lg mb-4 ">
-                <div class="card-header text-center fw-bold p-3" style="background-color: #f37e57">
+                <div class="card-header text-center fw-bold p-3" style="background-color: #FFAF1A; color: #91452c">
                     <div class="text-center">Are you sure you want to delete this record?</div>
                 </div>
                         <div class="card-body p-4">
@@ -160,7 +160,7 @@
     <div class="row justify-content-center mt-2">
         <div class="col-xl-6 col-md-6">
             <div class="card bg-light shadow-lg mb-4 ">
-                <div class="card-header text-center fw-bold p-3" style="background-color: #f37e57">Archive Record</div>
+                <div class="card-header text-center fw-bold p-3" style="background-color: #FFAF1A">Archive Record</div>
                     <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST">
 
                         <input type="hidden" name="id" value="<?php echo $id; ?>"/>

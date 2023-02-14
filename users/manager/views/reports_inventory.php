@@ -22,7 +22,7 @@
             <div class="row">
                 <div class="p-0">
                     <div class="card shadow-lg">
-                        <div class="card-header rounded rounded-3"  style="background-color: #f37e57;">
+                        <div class="card-header rounded rounded-3" style="background-color: #FFAF1A; color: #91452c">
 
                             <div class="row justify-content-between">
                                 <div class="col-xl-6 col-md-6">
@@ -50,7 +50,7 @@
                     </div>
                     <!-- MEDICINES -->
                     <div class="card mt-3 shadow-lg">
-                        <div class="card-header fw-bold fs-5">
+                        <div class="card-header fw-bold fs-5" style="background-color: #FFAF1A; color: #91452c">
                             Medicine Inventory
                         </div>
                         <div class="card-body">
@@ -60,7 +60,7 @@
                                     <canvas id="bar_chart" height="100"> </canvas>
                                 </div>
                                 <table class="table table-sm responsive border table-hover text-center rounde rounded-3 overflow-hidden" style="width: 100%" id="medicine_table">
-                                    <thead class="bg-dark text-white">
+                                    <thead class="text-white" style="background-color: #DC143C">
                                         <tr>
                                             <th>Date Added</th>
                                             <th>Medicine Name</th>
@@ -83,7 +83,7 @@
                             <div class="card-body">
                                 <h5 class="text-center" style="color: rgb(100, 100, 100)">List of Medicines About To Expire</h5>
                                 <table class="table table-sm responsive border table-hover text-center rounde rounded-3 overflow-hidden" style="width: 100%" id="list_medicines">
-                                    <thead class="bg-dark text-white">
+                                    <thead class="text-white" style="background-color: #DC143C">
                                         <tr>
                                             <th>Date Added</th>
                                             <th>Medicine Name</th>
@@ -104,7 +104,7 @@
                             <div class="card-body">
                                 <h5 class="text-center" style="color: rgb(100, 100, 100)">List of Medicines Low In Stock</h5>
                                 <table class="table table-sm responsive border table-hover text-center rounde rounded-3 overflow-hidden" style="width: 100%" id="low_stock">
-                                    <thead class="bg-dark text-white">
+                                    <thead class="text-white" style="background-color: #DC143C">
                                         <tr>
                                             <th>Date Added</th>
                                             <th>Medicine Name</th>
@@ -121,11 +121,11 @@
                         </div>
                     </div>
 
-                    <hr class="border mt-3 mb-3 border-dark border-3 opacity-75"> 
+                    <!-- <hr class="border mt-3 mb-3 border-dark border-3 opacity-75">  -->
 
                     <!-- FEEDS -->
                     <div class="card mt-3 shadow-lg">
-                        <div class="card-header fw-bold fs-5">
+                        <div class="card-header fw-bold fs-5" style="background-color: #FFAF1A; color: #91452c">
                             Feed Inventory
                         </div>
                         <div class="card-body">
@@ -135,7 +135,7 @@
                                     <canvas id="feed_chart" height="100"> </canvas>
                                 </div>
                                 <table class="table table-sm responsive border table-hover text-center rounde rounded-3 overflow-hidden" style="width: 100%" id="feed_table">
-                                    <thead class="bg-dark text-white">
+                                    <thead class="text-white" style="background-color: #DC143C">
                                         <tr>
                                             <th>Date Purchased</th>
                                             <th>Feed Name</th>
@@ -170,7 +170,11 @@
 <script src="../../../assets/js/vfs_fonts.js"></script>
 <script src="../../../assets/js/chart.js"></script>
 <script src="../../../assets/js/chartjs-adapter-date-fns.bundle.min.js"></script>
+<script src="../../../assets/js/chartjs-plugin-datalabels.min.js"></script> 
 <script>
+    //To register it globally to all charts
+    Chart.register(ChartDataLabels);
+
     $.extend( $.fn.dataTable.defaults, {
         // "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
         // "lengthMenu": [[-1, 10, 25, 50, 100], ["All", 10, 25, 50, 100]],
@@ -200,7 +204,7 @@
         //store the date in the start_date and end_date
         start_date = start;
         end_date = end;
-        console.log(start)
+        // console.log(start)
         document.getElementById("start_date_input").value = start_date;
         document.getElementById("end_date_input").value = end_date;
         //creates the table
@@ -252,7 +256,7 @@
                     instock.push(parseFloat(settings.aoData[count]._aData[4]));
                     reductions.push(parseFloat(settings.aoData[count]._aData[5]));
                 }
-                console.log(dateAdded)
+                // console.log(dateAdded)
                 var chart_data = {
                     labels:dateAdded,
                     datasets:[
@@ -297,15 +301,36 @@
                 production_chart = new Chart(group_chart3, {
                     type:'bar',
                     data:chart_data,
+                    options: {
+                        maintainAspectRatio: true,
+                        responsive: true,
+                        plugins: {
+                            datalabels: { // This code is used to display data values
+                                color: 'black',
+                                anchor: 'auto',
+                                align: 'top',
+                                formatter: Math.round,
+                                //                                     formatter: function(value, context) {
+                                //   return context.dataset.label + ': ' + value + '%';
+                                // },
+                                font: {
+                                    weight: 'normal',
+                                    size: 12
+                                },
+                                minRotation: 0,
+                                maxRotation: 90,
+                            }
+                        }
+                    },
                     plugins: [
                         {   bgColor,
                             afterDatasetsDraw: ((chart, args, plugins) => {
                                 const {ctx, data, chartArea: {top, bottom, left, right, width, height}} = chart;
-                                    console.log(data)
+                                    // console.log(data)
                                 ctx.save();
                                 
                                 if (startingQuantity.length === 0 && instock.length === 0 && reductions.length === 0) {
-                                    console.log('ahah')
+                                    // console.log('ahah')
                                     ctx.fillStyle = 'rgba(255, 255, 255, 1)';
                                     ctx.fillRect(left, top, width, height);
 
@@ -422,7 +447,7 @@
                     instock.push(parseFloat(settings.aoData[count]._aData[3]));
                     reductions.push(parseFloat(settings.aoData[count]._aData[4]));
                 }
-                console.log(datePurchased)
+                // console.log(datePurchased)
                 var chart_data = {
                     labels:datePurchased,
                     datasets:[
@@ -466,15 +491,36 @@
                 feed_chart = new Chart(group_chart3, {
                     type:'bar',
                     data:chart_data,
+                        options: {
+                            maintainAspectRatio: true,
+                            responsive: true,
+                            plugins: {
+                                datalabels: { // This code is used to display data values
+                                    color: 'black',
+                                    anchor: 'auto',
+                                    align: 'top',
+                                    formatter: Math.round,
+                                    //                                     formatter: function(value, context) {
+                                    //   return context.dataset.label + ': ' + value + '%';
+                                    // },
+                                    font: {
+                                        weight: 'normal',
+                                        size: 12
+                                    },
+                                    minRotation: 0,
+                                    maxRotation: 90,
+                                }
+                            }
+                        },
                     plugins: [{
                         bgColor,
                         afterDatasetsDraw: ((chart, args, plugins) => {
                             const {ctx, data, chartArea: {top, bottom, left, right, width, height}} = chart;
-                                console.log(data)
+                                // console.log(data)
                             ctx.save();
                             
                             if (startingQuantity.length === 0 && instock.length === 0 && reductions.length === 0) {
-                                console.log('ahah')
+                                // console.log('ahah')
                                 ctx.fillStyle = 'rgba(255, 255, 255, 1)';
                                 ctx.fillRect(left, top, width, height);
 

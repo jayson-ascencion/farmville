@@ -23,7 +23,7 @@
             <div class="row mb-5">
                 <div class="p-0">
                     <div class="card bg-light shadow-sm">
-                        <div class="card-header" style="background-color: #f37e57">
+                        <div class="card-header" style="background-color: #FFAF1A">
                         <div class="row justify-content-between">
                                 <div class="col-xl-8 col-md-6">
                                     <h4 class="pt-2 fs-5 fw-bold">Chicken Production and Reduction Reports</h4>

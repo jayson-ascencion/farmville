@@ -6,10 +6,14 @@
     //database connection
     include('../../../config/database_connection.php');
 
-    $sql = "SELECT cp.chickenBatch_ID, cp.coopNumber as cpCoop, cp.batchName, cp.breedType, cp.startingQuantity, SUM(COALESCE(cp.inStock, 0)) as instock, DATE_FORMAT(cp.dateAcquired, '%M %d') AS acquiredDate, DATE_FORMAT(COALESCE((cr.dateReduced),'0000-00-00'), '%M %d') as dateReduced, cr.coopNumber as crCoop, COALESCE(SUM(cr.quantity),0) as totalReductions
-    FROM chickenproduction cp LEFT JOIN chickenreduction cr ON cp.chickenBatch_ID = cr.chickenBatch_ID
-    WHERE dateAcquired BETWEEN CURDATE() - INTERVAL 6 DAY AND CURDATE() AND cp.archive = 'not archived' AND cr.archive = 'not archived'
-    GROUP BY acquiredDate";
+    $sql = "SELECT cp.chickenBatch_ID, cp.coopNumber, cp.batchName, cp.breedType, cp.startingQuantity, SUM(COALESCE(cp.instock,0)) as instock, DATE_FORMAT(cp.dateAcquired, '%M %d') as acquiredDate, SUM(COALESCE(cr.quantity,0)) as totalReductions FROM chickenproduction cp LEFT JOIN chickenreduction cr ON cp.chickenBatch_ID = cr.chickenBatch_ID WHERE dateAcquired BETWEEN CURDATE() - INTERVAL 6 DAY AND CURDATE() AND cp.archive = 'not archived' GROUP BY acquiredDate";
+    // SELECT chickenBatch_ID, coopNumber, batchName, breedType, startingQuantity, SUM(COALESCE(instock,0)) as instock, DATE_FORMAT(dateAcquired, '%M %d') as acquiredDate 
+    // FROM chickenproduction WHERE dateAcquired BETWEEN CURDATE() - INTERVAL 6 DAY AND CURDATE() GROUP BY acquiredDate
+    // SELECT cp.chickenBatch_ID, cp.coopNumber as cpCoop, cp.batchName, cp.breedType, cp.startingQuantity, SUM(COALESCE(cp.inStock, 0)) as instock, DATE_FORMAT(cp.dateAcquired, '%M %d') AS acquiredDate, DATE_FORMAT(COALESCE((cr.dateReduced),'0000-00-00'), '%M %d') as dateReduced, cr.coopNumber as crCoop, COALESCE(SUM(cr.quantity),0) as totalReductions
+    // FROM chickenproduction cp LEFT JOIN chickenreduction cr ON cp.chickenBatch_ID = cr.chickenBatch_ID
+    // WHERE dateAcquired BETWEEN CURDATE() - INTERVAL 6 DAY AND CURDATE()  AND cp.archive = 'not archived' AND cr.archive = 'not archived'
+    // GROUP BY acquiredDate
+    //- INTERVAL 6 DAY AND CURDATE() AND cp.archive = 'not archived' AND cr.archive = 'not archived' AND CURDATE()
     //"SELECT SUM(COALESCE(inStock, 0)) as instock, batchName, DATE_FORMAT(dateAcquired, '%M-%d-%Y') AS acquiredDate FROM chickenproduction WHERE dateAcquired BETWEEN CURDATE() - INTERVAL 7 DAY AND CURDATE() GROUP BY acquiredDate";
     $stmt = $conn->query($sql);
      if($stmt){
@@ -43,6 +47,7 @@
             SELECT all_breedTypes.breedType, SUM(COALESCE(chickenproduction.inStock, 0)) as instock 
             FROM all_breedTypes LEFT JOIN chickenproduction ON all_breedTypes.breedType = chickenproduction.breedType 
             AND dateAcquired BETWEEN CURDATE() - INTERVAL 6 DAY AND CURDATE() AND chickenproduction.archive = 'not archived' GROUP BY all_breedTypes.breedType";
+            //- INTERVAL 6 DAY AND CURDATE() AND chickenproduction.archive = 'not archived' AND CURDATE()
         // SELECT breedType, SUM(COALESCE(inStock, 0)) as instock
 		// FROM chickenproduction 
         // WHERE dateAcquired BETWEEN CURDATE() - INTERVAL 6 DAY AND CURDATE()
@@ -92,6 +97,7 @@ SELECT all_egg_sizes.eggSize, SUM(COALESCE(eggproduction.quantity, 0)) as instoc
 LEFT JOIN eggproduction ON all_egg_sizes.eggSize = eggproduction.eggSize
 AND collectionDate BETWEEN CURDATE() - INTERVAL 6 DAY AND CURDATE() AND eggproduction.archive = 'not archived'
 GROUP BY all_egg_sizes.eggSize";
+//- INTERVAL 6 DAY AND CURDATE() AND eggproduction.archive = 'not archived' AND CURDATE()
     //"SELECT SUM(COALESCE(inStock, 0)) as instock, batchName, DATE_FORMAT(dateAcquired, '%M-%d-%Y') AS acquiredDate FROM chickenproduction WHERE dateAcquired BETWEEN CURDATE() - INTERVAL 7 DAY AND CURDATE() GROUP BY acquiredDate";
     $stmt = $conn->query($sql);
     if($stmt){
@@ -127,8 +133,9 @@ GROUP BY all_egg_sizes.eggSize";
     $sql = "SELECT DATE_FORMAT(ep.collectionDate, '%M %d') AS collectionDate, ep.eggSize, SUM(COALESCE(ep.quantity,0)) as totalQuantity, SUM(COALESCE(er.quantity,0)) as totalReductions 
 		FROM eggproduction ep 
 		LEFT JOIN eggreduction er ON ep.eggBatch_ID = er.eggBatch_ID 
-        WHERE collectionDate BETWEEN CURDATE() - INTERVAL 6 DAY AND CURDATE() AND ep.archive = 'not archived' AND er.archive = 'not archived'
+        WHERE collectionDate BETWEEN CURDATE() - INTERVAL 6 DAY AND CURDATE() AND ep.archive = 'not archived'
         GROUP BY ep.eggBatch_ID, ep.collectionDate";
+        //- INTERVAL 6 DAY AND CURDATE() AND ep.archive = 'not archived' AND er.archive = 'not archived' AND CURDATE()
     //"SELECT SUM(COALESCE(inStock, 0)) as instock, batchName, DATE_FORMAT(dateAcquired, '%M-%d-%Y') AS acquiredDate FROM chickenproduction WHERE dateAcquired BETWEEN CURDATE() - INTERVAL 7 DAY AND CURDATE() GROUP BY acquiredDate";
     $stmt = $conn->query($sql);
     if($stmt){
@@ -580,7 +587,11 @@ GROUP BY all_egg_sizes.eggSize";
     //scripts
     include('../../includes/scripts.php');
 ?>
+<script src="../../../assets/js/chartjs-plugin-datalabels.min.js"></script> 
 <script>
+    //To register it globally to all charts
+    Chart.register(ChartDataLabels);
+    
     //const last 7 days
     const { oneweek, lastdaysBatch, oneweekDataset, oneweekDatasetReduction  } = {
         oneweek: <?php echo json_encode($oneweek);?>,
@@ -597,14 +608,14 @@ GROUP BY all_egg_sizes.eggSize";
     var eggSizes = Object.keys(size);
     var eggInstock = Object.values(size);
 
-    console.log(eggInstock)
+    // console.log(eggInstock)
     const {collectionDate, totalQuantity, totalReductions} = {
         collectionDate: <?php echo json_encode($collectionDate);?>,
         totalQuantity: <?php echo json_encode($totalQuantity);?>,
         totalReductions: <?php echo json_encode($totalReductions);?>
     };
-    console.log(collectionDate)
-    console.log(oneweeklabel)
+    // console.log(collectionDate)
+    // console.log(oneweeklabel)
     const ctx = document.getElementById('chicken_chart');
     new Chart(ctx, {
         type: 'bar',
@@ -628,13 +639,30 @@ GROUP BY all_egg_sizes.eggSize";
                 }]
         },
         options: {
-        scales: {
-            y: {
-            beginAtZero: true
+            scales: {
+                y: {
+                beginAtZero: true
+                }
+            },
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                datalabels: { // This code is used to display data values
+                    color: 'black',
+                    anchor: 'auto',
+                    align: 'top',
+                    formatter: Math.round,
+                    //                                     formatter: function(value, context) {
+                    //   return context.dataset.label + ': ' + value + '%';
+                    // },
+                    font: {
+                        weight: 'normal',
+                        size: 12
+                    },
+                    minRotation: 0,
+                    maxRotation: 90,
+                }
             }
-        },
-        responsive: true,
-        maintainAspectRatio: false
         },
         plugins: [{
             afterDatasetsDraw: ((chart, args, plugins) => {
@@ -643,8 +671,8 @@ GROUP BY all_egg_sizes.eggSize";
             ctx.save();
             
             if (data.datasets.length > 0) {
-                console.log(data.datasets.length)
-                console.log(data.datasets[0].data)
+                // console.log(data.datasets.length)
+                // console.log(data.datasets[0].data)
               if (data.datasets[0].data.every(item => Number(item) === 0) && data.datasets[1].data.every(item => Number(item) === 0)) {
                 ctx.fillStyle = 'rgba(255, 255, 255, 1)';
                 ctx.fillRect(left, top, width, height);
@@ -664,7 +692,7 @@ GROUP BY all_egg_sizes.eggSize";
     // ctx2.canvas.width = 200;
     // ctx2.canvas.height = 200;.getContext("2d"
     new Chart(ctx2, {
-        type: 'doughnut',
+        type: 'bar',
         data: {
         labels: eggSizes,
         datasets: [{
@@ -681,14 +709,25 @@ GROUP BY all_egg_sizes.eggSize";
                 }]
         },
         options: {
-        // scales: {
-        //     y: {
-        //     beginAtZero: true
-        //     }
-        // },  
-        maintainAspectRatio: false,
-        responsive: true,
-    // maintainAspectRatio: true
+            maintainAspectRatio: false,
+            responsive: true,
+            plugins: {
+                datalabels: { // This code is used to display data values
+                    color: 'black',
+                    anchor: 'auto',
+                    align: 'top',
+                    formatter: Math.round,
+                    //                                     formatter: function(value, context) {
+                    //   return context.dataset.label + ': ' + value + '%';
+                    // },
+                    font: {
+                        weight: 'normal',
+                        size: 12
+                    },
+                    minRotation: 0,
+                    maxRotation: 90,
+                }
+            }
         },
         plugins: [{
             afterDatasetsDraw: ((chart, args, plugins) => {
@@ -697,8 +736,8 @@ GROUP BY all_egg_sizes.eggSize";
             ctx.save();
             
             if (data.datasets.length > 0) {
-                console.log(data.datasets.length)
-                console.log(data.datasets[0].data)
+                // console.log(data.datasets.length)
+                // console.log(data.datasets[0].data)
               if (data.datasets[0].data.every(item => Number(item) === 0)) {
                 ctx.fillStyle = 'rgba(255, 255, 255, 1)';
                 ctx.fillRect(left, top, width, height);
@@ -737,12 +776,29 @@ GROUP BY all_egg_sizes.eggSize";
                 }]
         },
         options: {
-        scales: {
-            y: {
-            beginAtZero: true
+            scales: {
+                y: {
+                beginAtZero: true
+                }
+            },
+            maintainAspectRatio: false,
+            plugins: {
+                datalabels: { // This code is used to display data values
+                    color: 'black',
+                    anchor: 'auto',
+                    align: 'top',
+                    formatter: Math.round,
+                    //                                     formatter: function(value, context) {
+                    //   return context.dataset.label + ': ' + value + '%';
+                    // },
+                    font: {
+                        weight: 'normal',
+                        size: 12
+                    },
+                    minRotation: 0,
+                    maxRotation: 90,
+                }
             }
-        },
-        maintainAspectRatio: false,
         },
         plugins: [{
             afterDatasetsDraw: ((chart, args, plugins) => {
@@ -751,8 +807,8 @@ GROUP BY all_egg_sizes.eggSize";
             ctx.save();
             
             if (data.datasets.length > 0) {
-                console.log(data.datasets.length)
-                console.log(data.datasets[0].data)
+                // console.log(data.datasets.length)
+                // console.log(data.datasets[0].data)
               if (data.datasets[0].data.every(item => Number(item) === 0) && data.datasets[1].data.every(item => Number(item) === 0)) {
                 ctx.fillStyle = 'rgba(255, 255, 255, 1)';
                 ctx.fillRect(left, top, width, height);

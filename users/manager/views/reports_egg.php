@@ -21,7 +21,7 @@
             <div class="row">
                 <div class="p-0">
                     <div class="card shadow-lg">
-                        <div class="card-header rounded rounded-3"  style="background-color: #f37e57;">
+                        <div class="card-header rounded rounded-3" style="background-color: #FFAF1A; color: #91452c">
                             <div class="row justify-content-between">
                                 <div class="col-xl-6 col-md-6">
                                     <h4 class="pt-2 fs-5 fw-bold">Reports</h4>
@@ -55,7 +55,7 @@
                                     <canvas id="bar_chart" height="100"> </canvas>
                                 </div>
                                 <table class="table table-sm responsive border table-hover text-center rounde rounded-3 overflow-hidden" style="width: 100%" id="production_table">
-                                    <thead class="bg-dark text-white">
+                                    <thead class="text-white" style="background-color: #DC143C">
                                         <tr>
                                             <th>Collection Date</th>
                                             <th>Egg Size</th>
@@ -80,7 +80,7 @@
                                     <canvas id="second_chart" height="100"> </canvas>
                                 </div>
                                 <table class="table table-sm responsive border table-hover text-center rounde rounded-3 overflow-hidden" style="width: 100%" id="second_table">
-                                    <thead class="bg-dark text-white">
+                                    <thead class="text-white" style="background-color: #DC143C">
                                         <tr>
                                             <th>Reduction Type</th>
                                             <th>Reductions</th>
@@ -104,7 +104,7 @@
                                     <canvas id="third_chart" height="100"> </canvas>
                                 </div>
                                 <table class="table table-sm responsive border table-hover text-center rounde rounded-3 overflow-hidden" style="width: 100%" id="third_table">
-                                    <thead class="bg-dark text-white">
+                                    <thead class="text-white" style="background-color: #DC143C">
                                         <tr>
                                             <th>Egg Size</th>
                                             <th>In Stock</th>
@@ -135,10 +135,15 @@
 <script src="../../../assets/js/vfs_fonts.js"></script>
 <script src="../../../assets/js/chart.js"></script>
 <script src="../../../assets/js/chartjs-adapter-date-fns.bundle.min.js"></script>
+<script src="../../../assets/js/chartjs-plugin-datalabels.min.js"></script>
 <script>
+    
+    //To register it globally to all charts
+    Chart.register(ChartDataLabels);
+
     $.extend( $.fn.dataTable.defaults, {
         // "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
-        // "lengthMenu": [[-1, 10, 25, 50, 100], ["All", 10, 25, 50, 100]],
+        "lengthMenu": [[-1, 10, 25, 50, 100], ["All", 10, 25, 50, 100]],
         "pageLength": -1,
         responsive: true,
         stateSave: true,
@@ -238,6 +243,27 @@
                     production_chart = new Chart(group_chart3, {
                         type:'bar',
                         data:chart_data,
+                        options: {
+                            maintainAspectRatio: true,
+                            responsive: true,
+                            plugins: {
+                                datalabels: { // This code is used to display data values
+                                    color: 'black',
+                                    anchor: 'auto',
+                                    align: 'top',
+                                    formatter: Math.round,
+                                    //                                     formatter: function(value, context) {
+                                    //   return context.dataset.label + ': ' + value + '%';
+                                    // },
+                                    font: {
+                                        weight: 'normal',
+                                        size: 12
+                                    },
+                                    minRotation: 0,
+                                    maxRotation: 90,
+                                }
+                            }
+                        },
                         plugins: [{
                             afterDatasetsDraw: ((chart, args, plugins) => {
                             const {ctx, data, chartArea: {top, bottom, left, right, width, height}} = chart;
@@ -245,8 +271,8 @@
                             ctx.save();
                             
                             if (data.datasets.length > 0) {
-                                console.log(data.datasets.length)
-                                console.log(data.datasets[0].data)
+                                // console.log(data.datasets.length)
+                                // console.log(data.datasets[0].data)
                             if (data.datasets[0].data.every(item => Number(item) === 0) && data.datasets[1].data.every(item => Number(item) === 0)) {
                                 ctx.fillStyle = 'rgba(255, 255, 255, 1)';
                                 ctx.fillRect(left, top, width, height);
@@ -312,14 +338,35 @@
                     second_chart = new Chart(group_chart3, {
                         type:'bar',
                         data:chart_data,
+                        options: {
+                            maintainAspectRatio: true,
+                            responsive: true,
+                            plugins: {
+                                datalabels: { // This code is used to display data values
+                                    color: 'black',
+                                    anchor: 'auto',
+                                    align: 'top',
+                                    formatter: Math.round,
+                                    //                                     formatter: function(value, context) {
+                                    //   return context.dataset.label + ': ' + value + '%';
+                                    // },
+                                    font: {
+                                        weight: 'normal',
+                                        size: 12
+                                    },
+                                    minRotation: 0,
+                                    maxRotation: 90,
+                                }
+                            }
+                        },
                         plugins: [{
                             afterDatasetsDraw: ((chart, args, plugins) => {
                                 const {ctx, data, chartArea: {top, bottom, left, right, width, height}} = chart;
-                                    console.log(data)
+                                    // console.log(data)
                                 ctx.save();
                                 
                                 if (reductions.length === 0) {
-                                    console.log('ahah')
+                                    // console.log('ahah')
                                     ctx.fillStyle = 'rgba(255, 255, 255, 1)';
                                     ctx.fillRect(left, top, width, height);
 
@@ -390,14 +437,35 @@
                     third_chart = new Chart(group_chart3, {
                         type:'bar',
                         data:chart_data,
+                        options: {
+                            maintainAspectRatio: true,
+                            responsive: true,
+                            plugins: {
+                                datalabels: { // This code is used to display data values
+                                    color: 'black',
+                                    anchor: 'auto',
+                                    align: 'top',
+                                    formatter: Math.round,
+                                    //                                     formatter: function(value, context) {
+                                    //   return context.dataset.label + ': ' + value + '%';
+                                    // },
+                                    font: {
+                                        weight: 'normal',
+                                        size: 12
+                                    },
+                                    minRotation: 0,
+                                    maxRotation: 90,
+                                }
+                            }
+                        },
                         plugins: [{
                             afterDatasetsDraw: ((chart, args, plugins) => {
                                 const {ctx, data, chartArea: {top, bottom, left, right, width, height}} = chart;
-                                    console.log(data)
+                                    // console.log(data)
                                 ctx.save();
                                 
                                 if (instock.length === 0) {
-                                    console.log('ahah')
+                                    // console.log('ahah')
                                     ctx.fillStyle = 'rgba(255, 255, 255, 1)';
                                     ctx.fillRect(left, top, width, height);
 

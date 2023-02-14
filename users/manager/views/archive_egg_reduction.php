@@ -53,7 +53,7 @@
                 // Attempt to execute the prepared statement
                 if($stmt->execute())
                 {
-                    $_SESSION['status'] = "Egg Reduction Data is Successfully Archived.";
+                    $_SESSION['status'] = "Egg Reduction Data is Successfully Deleted.";
                     header("Location: egg_reduction.php");
                 } 
                 else
@@ -87,7 +87,7 @@
     <div class="row justify-content-center mt-2">
         <div class="col-sm-4">
             <div class="card bg-light shadow-lg mb-4 ">
-                <div class="card-header text-center fw-bold p-3" style="background-color: #f37e57;">Are you sure you want to delete this record?</div>
+                <div class="card-header text-center fw-bold p-3" style="background-color: #FFAF1A; color: #91452c">Are you sure you want to delete this record?</div>
                     <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST">
                     <div class="card-body p-4">
 

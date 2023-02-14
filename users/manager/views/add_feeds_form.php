@@ -24,7 +24,7 @@
     <div class="row justify-content-center mt-2">
         <div class="col-xl-6 col-md-6">
             <div class="card  bg-light shadow mb-4">
-                <div class="card-header text-center fw-bold p-3" style="background-color: #f37e57">ADD NEW FEED INVENTORY </div>
+                <div class="card-header text-center fw-bold p-3" style="background-color: #FFAF1A; color: #91452c">ADD NEW FEED INVENTORY </div>
                     <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST">
                         <div class="card-body p-4">
                             <!-- Feed Name -->

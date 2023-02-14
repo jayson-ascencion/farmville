@@ -38,18 +38,21 @@
         //processing the data from the form submitted
         if(isset($_POST['archiveRecord'])){
             $id = $_POST['id'];
-            $archived = 'archived';
+            // $archived = 'archived';
 
-            // Prepare an insert statement
-            $sql = "UPDATE feedreduction SET archive=:archived WHERE feedReduction_ID = '$id'";
+            // Prepare an insert statementUPDATE feedreduction SET archive=:archived WHERE feedReduction_ID = '$id'
+            $sql = "BEGIN;
+            UPDATE feeds SET inStock = inStock + $quantity WHERE feed_ID = '$feed_ID';
+            DELETE FROM feedreduction WHERE feedReduction_ID = '$id';
+            COMMIT;";
             
             if($stmt = $conn->prepare($sql))
             {
                 // Bind variables to the prepared statement as parameters
-                $stmt->bindParam(":archived", $param_archived, PDO::PARAM_STR);
+                // $stmt->bindParam(":archived", $param_archived, PDO::PARAM_STR);
                 
                 // Set parameters
-                $param_archived = $archived;
+                // $param_archived = $archived;
 
                 // Attempt to execute the prepared statement
                 if($stmt->execute())

@@ -50,7 +50,7 @@
                                 </div>
 
                                 <div class="form-group mb-3">
-                                    <button type="submit" name="submit" class="btn btn-outline-primary float-end px-4">Login</button>
+                                    <button type="submit" name="submit" class="btn btn-outline-warning float-end fw-bold w-100 px-4">Login</button>
                                 </div>
                                 
                             </form>

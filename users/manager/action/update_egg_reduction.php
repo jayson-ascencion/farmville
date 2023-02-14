@@ -74,9 +74,6 @@ try{
         //validate updateQuantity
         if (!preg_match ("/^[0-9]*$/", $updateQuantity)) {  
             $updateQuantity_err = "Please enter a valid quantity."; 
-        }
-        else if (empty($updateQuantity)) {  
-            $updateQuantity_err = "Please enter quantity.";
         }else if(!empty($updateQuantity)){
 
             if($updateQuantity == $oldQuantity){

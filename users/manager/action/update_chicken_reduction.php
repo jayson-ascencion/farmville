@@ -82,9 +82,7 @@ try{
         //validate update quantity
         if (!preg_match ("/^[0-9]*$/", $updateQuantity) ){  
             $updateQuantity_err = "Please enter a valid quantity."; 
-        }else if(empty($updateQuantity)){
-            $updateQuantity_err = "Please enter a valid quantity";
-        }else if(!empty($updateQuantity) && $updateQuantity > 0){
+        }else if(!empty($updateQuantity) && $updateQuantity >= 0){
 
             
             if($updateQuantity == $oldQuantity){
@@ -104,7 +102,7 @@ try{
 
                 $newQuantity = $inStock + $diff;
             }
-        }else if($updateQuantity < 1){
+        }else if($updateQuantity < 0){
             $updateQuantity_err = "Please enter a valid quantitys";
         }
 

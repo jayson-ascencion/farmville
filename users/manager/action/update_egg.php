@@ -30,9 +30,7 @@ try{
         if (!preg_match ("/^[0-9]*$/", $quantity)) {  
             $quantity_err = "Please enter a valid quantity."; 
         }
-        else if (empty(trim($quantity))) {  
-            $quantity_err = "Please enter quantity.";
-        }else if($quantity<0){
+        else if($quantity<0){
             $quantity_err = "Please enter a valid quantity";
         }
 

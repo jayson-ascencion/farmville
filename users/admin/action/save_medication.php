@@ -154,6 +154,8 @@ try{
                // Attempt to execute the prepared statement
                if($stmt->execute())
                {
+                
+                $_SESSION['status'] = "Medication Schedule Added Successfully."; 
                //$success = "Medicine successfully saved."; //this will be use to flash a message to the user that the medicine issave //maybe we could use $_SESSION['success'] = messae here
                 header('Location: medication_pending.php'); // if the data is valid and successful save, this will redirect user to the pending schedules
                } 

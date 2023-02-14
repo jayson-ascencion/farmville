@@ -154,6 +154,8 @@ try{
                // Attempt to execute the prepared statement
                if($stmt->execute())
                {
+                
+                $_SESSION['status'] = "Vaccination Schedule Added Successfully."; 
                 header('Location: vaccination_pending.php');
                } 
                else

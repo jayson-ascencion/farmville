@@ -131,7 +131,7 @@
                                 </a> 
                             </div>
                             <div class="w-100 m-1">
-                                <button type="submit" name="archiveRecord" class="btn  btn-outline-delete fw-bold w-100">
+                                <button type="submit" name="archiveRecord" class="btn  btn-outline-danger fw-bold w-100">
                                     Delete
                                 </button>                                    
                             </div>

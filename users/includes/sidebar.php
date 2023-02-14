@@ -141,6 +141,26 @@
                         </nav>
                     </div>
 
+                    <!-- Deleted Records -->
+                    <div class="sb-sidenav-menu-heading"> Records</div>
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#deletedRecords" aria-expanded="false" aria-controls="collapseLayouts">
+                    <div class="sb-nav-link-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-text-fill" viewBox="0 0 16 16">
+  <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM5 4h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zm-.5 2.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zM5 8h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zm0 2h3a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1z"/>
+</svg>
+                    </div>
+                    Deleted Records
+                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse <?= $page == 'delete_schedules.php' || $page == 'delete_feeds.php' || $page == 'delete_medicine.php' || $page == 'delete_egg.php' || $page == 'delete_chicken.php' || $page == 'restore_schedules.php' || $page == 'schedules.php' || $page == 'restore_medicine.php' || $page == 'restore_feeds.php' || $page == 'restore_egg.php' || $page == 'restore_chicken.php' || $page == 'chicken_production.php' || $page == 'egg_production.php' || $page == 'medicines.php' || $page == 'feeds.php'  ? 'show' : '' ?>" id="deletedRecords" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link <?= $page == 'delete_chicken.php' || $page == 'restore_chicken.php' || $page == 'chicken_production.php' ? 'active' : '' ?>" href="./chicken_production.php">Chicken Production</a>
+                            <a class="nav-link <?= $page == 'delete_egg.php' || $page == 'restore_egg.php' || $page == 'egg_production.php' ? 'active' : '' ?>" href="./egg_production.php">Egg Production</a>
+                            <a class="nav-link <?= $page == 'delete_medicine.php' || $page == 'restore_medicine.php' || $page == 'medicines.php' ? 'active' : '' ?>" href="./medicines.php">Medicine Inventory</a>
+                            <a class="nav-link <?= $page == 'delete_feeds.php' || $page == 'restore_feeds.php' || $page == 'feeds.php' ? 'active' : '' ?>" href="./feeds.php">Feeds Inventory</a>
+                            <a class="nav-link <?= $page == 'delete_schedules.php' || $page == 'schedules.php' || $page == 'restore_schedules.php' ? 'active' : '' ?>" href="./schedules.php">Schedules</a>
+                        </nav>
+                    </div>
+
                 <!-- buttons for employee, will not show when the role is not equals to 3-->
                 <?php
                     }else if($_SESSION['role']==3){

@@ -11536,7 +11536,7 @@ body {
 .sb-sidenav-dark .sb-sidenav-menu .nav-link.active {
   color:  #91452c; /*#000;*/
   font-weight: 600;
-  background-color: #ffe7d6;
+  background-color: #FFEDCC; /*#ffe7d6;*/
   border-top-left-radius: 25px;
   border-bottom-left-radius: 25px;
   /*margin-left: 5px; ;f9b9a4

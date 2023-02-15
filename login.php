@@ -29,8 +29,8 @@
                     <img src="assets/images/favicon.png" alt="" class="rounded mx-auto d-block">
                         
                     <div class="card shadow col mt-2" style="border-color: rgb(239, 81, 46)">
-                        <div class="card-header shadow-sm" style="border-color: rgb(239, 81, 46)">
-                            <h4 class="text-center p-2 pb-0 fw-bold">Farmville Login</h4>
+                        <div class="card-header shadow-sm" style="border-color: rgb(239, 81, 46); background-color: #FFAF1A; color: #91452c">
+                            <h4 class="text-center p-1 pb-0 fw-bold">Farmville Login</h4>
                         </div>
                         <div class="card-body mx-2">
                             <!-- LOGIN FORM -->

@@ -103,7 +103,7 @@ if ($user_role == 3) {
         </style>
     </head>
 
-    <body class="sb-nav-fixed" style="background-color: #ffe7d6">
+    <body class="sb-nav-fixed" style="background-color: #FFEDCC">
         
         <!-- navbar-top -->
         <?php 

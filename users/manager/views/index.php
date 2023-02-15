@@ -172,7 +172,7 @@ GROUP BY all_egg_sizes.eggSize";
     <!-- CHICKEN DASHBOARD -->
     <div class="row mb-2">
         <div class="col-xl-3 col-md-6 col-sm-6 mb-2">
-            <div class="card bg-white rounded border-danger h-100 rounded-3 shadow">
+            <div class="card bg-white rounded h-100 rounded-3 border-2 shadow" style="border-color: #DC143C">
                 <div class="card-body m-2">
                     <div class="fs-3 fw-bold float-end">
                         <?php echo $sussex?>
@@ -189,7 +189,7 @@ GROUP BY all_egg_sizes.eggSize";
             </div>
         </div>
         <div class="col-xl-3 col-md-6 col-sm-6 mb-2">
-            <div class="card bg-white border-danger h-100  rounded rounded-3 shadow">
+            <div class="card bg-white h-100  rounded rounded-3  border-2 shadow" style="border-color: #DC143C">
                 <div class="card-body m-2 ">
                     <div class="fs-3 fw-bold float-end">
                         <?php echo $rhode?>
@@ -206,7 +206,7 @@ GROUP BY all_egg_sizes.eggSize";
             </div>
         </div>
         <div class="col-xl-3 col-md-6 col-sm-6 mb-2">
-            <div class="card bg-white border-danger h-100  rounded rounded-3 shadow ">
+            <div class="card bg-white h-100  rounded rounded-3 border-2 shadow " style="border-color: #DC143C">
                 <div class="card-body m-2">
                     <div class="fs-3 fw-bold float-end">
                         <?php echo $leghorns?>
@@ -223,7 +223,7 @@ GROUP BY all_egg_sizes.eggSize";
             </div>
         </div>
         <div class="col-xl-3 col-md-6 col-sm-6 mb-2">
-            <div class="card bg-white border-danger  h-100 rounded rounded-3 shadow ">
+            <div class="card bg-white  h-100 rounded rounded-3 border-2 shadow " style="border-color: #DC143C">
                 <div class="card-body m-2">
                     <div class="fs-3 fw-bold float-end">
                         <?php echo $plymouth?>
@@ -243,7 +243,7 @@ GROUP BY all_egg_sizes.eggSize";
     </div>
     <div class="row mb-2">
         <div class="col">
-            <div class="card border-danger bg-white shadow rounded rounded-3">
+            <div class="card bg-white shadow border-2 rounded rounded-3"  style="border-color: #DC143C">
                 <div class="card-body text-center">
                     <h5 class="card-title">Chicken Production and Reduction</h5>
                     <h6 class="card-subtitle mb-2 text-muted">Last 7 Days</h6>
@@ -264,7 +264,7 @@ GROUP BY all_egg_sizes.eggSize";
     <!-- EGG EGG EGG EGG -->
     <div class="row mb-2 mt-3">
         <div class="col-xl-4 col-md-6 mb-2">
-            <div class="card border-warning bg-white shadow rounded rounded-3">
+            <div class="card border-warning bg-white shadow rounded border-2 rounded-3">
                 <div class="card-body text-center">
                     <h5 class="card-title">Eggs In Stock By Size</h5>
                     <h6 class="card-subtitle mb-2 text-muted">Last 7 Days</h6>
@@ -272,7 +272,7 @@ GROUP BY all_egg_sizes.eggSize";
                         <canvas id="eggSize_chart" height="200"></canvas>
                     </div>
                     <div class="float-center p-0 mt-1">
-                        <a href="./reports_chicken.php" class="card-link text-decoration-none p-0 opacity-75" style="font-size: 15px">View More In Report
+                        <a href="./reports_egg.php" class="card-link text-decoration-none p-0 opacity-75" style="font-size: 15px">View More In Report
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
                             </svg>
@@ -283,7 +283,7 @@ GROUP BY all_egg_sizes.eggSize";
         </div>
         
         <div class="col-xl-8 col-md-6 mb-2">
-            <div class="card border-warning bg-white shadow rounded rounded-3">
+            <div class="card border-warning bg-white shadow rounded border-2 rounded-3">
                 <div class="card-body text-center">
                     <h5 class="card-title">Egg Production and Reduction</h5>
                     <h6 class="card-subtitle mb-2 text-muted">Last 7 Days</h6>
@@ -291,7 +291,7 @@ GROUP BY all_egg_sizes.eggSize";
                         <canvas id="egg_chart" height="200"></canvas>
                     </div>
                     <div class="float-center p-0 mt-1">
-                        <a href="./reports_chicken.php" class="card-link text-decoration-none p-0 opacity-75" style="font-size: 15px">View More In Report
+                        <a href="./reports_egg.php" class="card-link text-decoration-none p-0 opacity-75" style="font-size: 15px">View More In Report
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
                             </svg>
@@ -304,7 +304,7 @@ GROUP BY all_egg_sizes.eggSize";
 
     <div class="row mt-2 mb-2">
         <div class="col-xl-4 col-md-6 mb-2">
-            <div class="card border-primary shadow">
+            <div class="card border-success border-2 shadow">
                 <div class="card-body">
                     <h5 class="card-title fw-semibold mb-0">
                         Medicines Low In Stock
@@ -316,7 +316,7 @@ GROUP BY all_egg_sizes.eggSize";
                         if($stmt){
                             if($stmt->rowCount() > 0){
                                 echo '<table id="medicineDashboard" class="table table-sm responsive mt-0 border table-hover text-center rounded rounded-3 overflow-hidden" style="width: 100%">';
-                                    echo "<thead class='text-white' style='background-color: #2d4154'>";
+                                    echo "<thead class='text-white' style='background-color: #DC143C'>";
                                         echo "<tr>";
                                             echo "<th>Medicine ID</th>";
                                             echo "<th>Name</th>";
@@ -345,7 +345,7 @@ GROUP BY all_egg_sizes.eggSize";
                                 unset($stmt);
                             } else{
                                 echo '<table id="medicineDashboard" class="table table-sm responsive border table-hover text-center rounded rounded-3 overflow-hidden" style="width: 100%">';
-                                    echo "<thead class='text-white' style='background-color: #2d4154'>";
+                                    echo "<thead class='text-white' style='background-color: #DC143C'>";
                                         echo "<tr>";
                                             echo "<th>Medicine ID</th>";
                                             echo "<th>Name</th>";
@@ -376,7 +376,7 @@ GROUP BY all_egg_sizes.eggSize";
             </div>
         </div>
         <div class="col-xl-4 col-md-6 mb-2">
-            <div class="card border-primary shadow">
+            <div class="card border-success border-2 shadow">
                 <div class="card-body">
                     <h5 class="card-title fw-semibold mb-0">
                         Medicines About To Expire
@@ -388,7 +388,7 @@ GROUP BY all_egg_sizes.eggSize";
                         if($stmt){
                             if($stmt->rowCount() > 0){
                                 echo '<table id="medicineExpireDashboard" class="table table-sm responsive mt-0 border table-hover text-center rounded rounded-3 overflow-hidden" style="width: 100%">';
-                                    echo "<thead class='text-white' style='background-color: #2d4154'>";
+                                    echo "<thead class='text-white' style='background-color: #DC143C'>";
                                         echo "<tr>";
                                             // echo "<th>Date Added</th>";
                                             echo "<th>Name</th>";
@@ -466,7 +466,7 @@ GROUP BY all_egg_sizes.eggSize";
                                 unset($stmt);
                             } else{
                                 echo '<table id="medicineExpireDashboard" class="table table-sm responsive border table-hover text-center rounded rounded-3 overflow-hidden" style="width: 100%">';
-                                    echo "<thead class='text-white' style='background-color: #2d4154'>";
+                                    echo "<thead class='text-white' style='background-color: #DC143C'>";
                                         echo "<tr>";
                                             // echo "<th>Date Added</th>";
                                             echo "<th>Name</th>";
@@ -498,7 +498,7 @@ GROUP BY all_egg_sizes.eggSize";
             </div>
         </div>
         <div class="col-xl-4 col-md-6 mb-2">
-            <div class="card border-primary shadow">
+            <div class="card border-2 shadow" style="border-color: #CC7722">
                 <div class="card-body">
                     <h5 class="card-title fw-semibold mb-0">
                         Feeds Low In Stock
@@ -509,7 +509,7 @@ GROUP BY all_egg_sizes.eggSize";
                         if($stmt){
                             if($stmt->rowCount() > 0){
                                 echo '<table id="feedDashboard" class="table table-sm responsive border table-hover text-center rounded rounded-3 overflow-hidden" style="width: 100%">';
-                                    echo "<thead class='text-white' style='background-color: #2d4154'>";
+                                    echo "<thead class='text-white' style='background-color: #DC143C'>";
                                         echo "<tr>";
                                             echo "<th>Feed ID</th>";
                                             echo "<th>Feed Name</th>";
@@ -546,7 +546,7 @@ GROUP BY all_egg_sizes.eggSize";
                                 unset($stmt);
                             } else{
                                 echo '<table id="feedDashboard" class="table table-sm responsive border table-hover text-center rounded rounded-3 overflow-hidden" style="width: 100%">';
-                                echo "<thead class='text-white' style='background-color: #2d4154'>";
+                                echo "<thead class='text-white' style='background-color: #DC143C'>";
                                     echo "<tr>";
                                         echo "<th>Feed ID</th>";
                                         echo "<th>Feed Name</th>";

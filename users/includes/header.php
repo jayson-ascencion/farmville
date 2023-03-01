@@ -17,11 +17,16 @@ if($_SESSION["loggedin"]===true){
 // Get the current user's role
 $user_role = $_SESSION['role'];
 // Set a variable based on the role
-if ($user_role == 3) {
-    $show_export_buttons = false;
- } else {
-    $show_export_buttons = true;
- }
+// if ($user_role === 3) {
+//     $show_export_buttons = false;
+//  } else {
+//     $show_export_buttons = true;
+//  }
+if ($user_role === 1 || $user_role === 2) {
+  $show_buttons = 'true';
+} else {
+  $show_buttons = 'false';
+}
 ?>
 
 <!DOCTYPE html>

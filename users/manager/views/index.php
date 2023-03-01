@@ -6,7 +6,8 @@
     //database connection
     include('../../../config/database_connection.php');
 
-    $sql = "SELECT cp.chickenBatch_ID, cp.coopNumber, cp.batchName, cp.breedType, cp.startingQuantity, SUM(COALESCE(cp.instock,0)) as instock, DATE_FORMAT(cp.dateAcquired, '%M %d') as acquiredDate, SUM(COALESCE(cr.quantity,0)) as totalReductions FROM chickenproduction cp LEFT JOIN chickenreduction cr ON cp.chickenBatch_ID = cr.chickenBatch_ID WHERE dateAcquired BETWEEN CURDATE() - INTERVAL 6 DAY AND CURDATE() AND cp.archive = 'not archived' GROUP BY acquiredDate";
+    // $sql = "SELECT cp.chickenBatch_ID, cp.coopNumber, cp.batchName, cp.breedType, cp.startingQuantity, SUM(COALESCE(cp.instock,0)) as instock, DATE_FORMAT(cp.dateAcquired, '%M %d') as acquiredDate, SUM(COALESCE(cr.quantity,0)) as totalReductions FROM chickenproduction cp LEFT JOIN chickenreduction cr ON cp.chickenBatch_ID = cr.chickenBatch_ID WHERE dateAcquired BETWEEN CURDATE() - INTERVAL 6 DAY AND CURDATE() AND cp.archive = 'not archived' GROUP BY acquiredDate";
+    $sql = "SELECT cp.chickenBatch_ID, cp.coopNumber, cp.batchName, cp.breedType, cp.startingQuantity, SUM(COALESCE(cp.instock,0)) as instock, DATE_FORMAT(cp.dateAcquired, '%M %d') as acquiredDate, SUM(COALESCE(cr.quantity,0)) as totalReductions FROM chickenproduction cp LEFT JOIN chickenreduction cr ON cp.chickenBatch_ID = cr.chickenBatch_ID WHERE dateAcquired = CURDATE() AND cp.archive = 'not archived' GROUP BY acquiredDate";
     // SELECT chickenBatch_ID, coopNumber, batchName, breedType, startingQuantity, SUM(COALESCE(instock,0)) as instock, DATE_FORMAT(dateAcquired, '%M %d') as acquiredDate 
     // FROM chickenproduction WHERE dateAcquired BETWEEN CURDATE() - INTERVAL 6 DAY AND CURDATE() GROUP BY acquiredDate
     // SELECT cp.chickenBatch_ID, cp.coopNumber as cpCoop, cp.batchName, cp.breedType, cp.startingQuantity, SUM(COALESCE(cp.inStock, 0)) as instock, DATE_FORMAT(cp.dateAcquired, '%M %d') AS acquiredDate, DATE_FORMAT(COALESCE((cr.dateReduced),'0000-00-00'), '%M %d') as dateReduced, cr.coopNumber as crCoop, COALESCE(SUM(cr.quantity),0) as totalReductions
@@ -30,12 +31,12 @@
                 // $startingQ[] = $row['startingQuantity'];
             }
         }
-        else{
-                $oneweek[] = date('M d');
-                $oneweekDataset[] = 0;
-                $oneweekDatasetReduction[] = 0;
-                $lastdaysBatch[] = 'no data';
-        }
+        // else{
+        //         $oneweek[] = date('M d');
+        //         $oneweekDataset[] = 0;
+        //         $oneweekDatasetReduction[] = 0;
+        //         $lastdaysBatch[] = 'no data';
+        // }
             // Free result set
             unset($stmt);
     }
@@ -46,7 +47,11 @@
     $sql = "WITH all_breedTypes AS ( SELECT 'Sussex' as breedType UNION SELECT 'Rhode Island Reds' UNION SELECT 'Leghorns' UNION SELECT 'Plymouth') 
             SELECT all_breedTypes.breedType, SUM(COALESCE(chickenproduction.inStock, 0)) as instock 
             FROM all_breedTypes LEFT JOIN chickenproduction ON all_breedTypes.breedType = chickenproduction.breedType 
-            AND dateAcquired BETWEEN CURDATE() - INTERVAL 6 DAY AND CURDATE() AND chickenproduction.archive = 'not archived' GROUP BY all_breedTypes.breedType";
+            AND dateAcquired = CURDATE() AND chickenproduction.archive = 'not archived' GROUP BY all_breedTypes.breedType";
+    // $sql = "WITH all_breedTypes AS ( SELECT 'Sussex' as breedType UNION SELECT 'Rhode Island Reds' UNION SELECT 'Leghorns' UNION SELECT 'Plymouth') 
+    //         SELECT all_breedTypes.breedType, SUM(COALESCE(chickenproduction.inStock, 0)) as instock 
+    //         FROM all_breedTypes LEFT JOIN chickenproduction ON all_breedTypes.breedType = chickenproduction.breedType 
+    //         AND dateAcquired BETWEEN CURDATE() - INTERVAL 6 DAY AND CURDATE() AND chickenproduction.archive = 'not archived' GROUP BY all_breedTypes.breedType";
             //- INTERVAL 6 DAY AND CURDATE() AND chickenproduction.archive = 'not archived' AND CURDATE()
         // SELECT breedType, SUM(COALESCE(inStock, 0)) as instock
 		// FROM chickenproduction 
@@ -58,10 +63,10 @@
          if($stmt->rowCount() > 0){
             $breed = array();
             // $instock = array();
-            // $sussex = 0;
-            // $rhode = 0;
-            // $plymouth = 0;
-            // $leghorns = 0;
+            $sussex = 0;
+            $rhode = 0;
+            $plymouth = 0;
+            $leghorns = 0;
             while($row = $stmt->fetch()){
                 if($row['breedType'] == 'Sussex'){
                     $sussex = $row['instock'];
@@ -81,6 +86,12 @@
                 }
             }
         }
+        // else{
+        //     $sussex = 0;
+        //     $rhode = 0;
+        //     $leghorns = 0;
+        //     $plymouth = 0;
+        // }
             // Free result set
             unset($stmt);
             // print_r($breed);
@@ -95,36 +106,62 @@
     $sql = "WITH all_egg_sizes AS ( SELECT 'XS' as eggSize UNION SELECT 'S' UNION SELECT 'M' UNION SELECT 'L' UNION SELECT 'XL' )
 SELECT all_egg_sizes.eggSize, SUM(COALESCE(eggproduction.quantity, 0)) as instock FROM all_egg_sizes
 LEFT JOIN eggproduction ON all_egg_sizes.eggSize = eggproduction.eggSize
-AND collectionDate BETWEEN CURDATE() - INTERVAL 6 DAY AND CURDATE() AND eggproduction.archive = 'not archived'
+AND collectionDate = CURDATE() AND eggproduction.archive = 'not archived'
 GROUP BY all_egg_sizes.eggSize";
+//     $sql = "WITH all_egg_sizes AS ( SELECT 'XS' as eggSize UNION SELECT 'S' UNION SELECT 'M' UNION SELECT 'L' UNION SELECT 'XL' )
+// SELECT all_egg_sizes.eggSize, SUM(COALESCE(eggproduction.quantity, 0)) as instock FROM all_egg_sizes
+// LEFT JOIN eggproduction ON all_egg_sizes.eggSize = eggproduction.eggSize
+// AND collectionDate BETWEEN CURDATE() - INTERVAL 6 DAY AND CURDATE() AND eggproduction.archive = 'not archived'
+// GROUP BY all_egg_sizes.eggSize";
 //- INTERVAL 6 DAY AND CURDATE() AND eggproduction.archive = 'not archived' AND CURDATE()
     //"SELECT SUM(COALESCE(inStock, 0)) as instock, batchName, DATE_FORMAT(dateAcquired, '%M-%d-%Y') AS acquiredDate FROM chickenproduction WHERE dateAcquired BETWEEN CURDATE() - INTERVAL 7 DAY AND CURDATE() GROUP BY acquiredDate";
     $stmt = $conn->query($sql);
-    if($stmt){
-        if($stmt->rowCount() > 0){
-            $size = array();
-            // $quantity = array();
-            while($row = $stmt->fetch()){
-                if($row['eggSize'] == 'XS'){
-                    $xsmall = $row['instock'];
-                    $size['XS'] = $xsmall;
-                }else if($row['eggSize'] == 'S'){
-                    $small = $row['instock'];
-                    $size['S'] = $small;
-                }else if($row['eggSize'] == 'M'){
-                    $medium = $row['instock'];
-                    $size['M'] = $medium;
-                }else if($row['eggSize'] == 'L'){
-                    $large = $row['instock'];
-                    $size['L'] = $large;
-                }else if($row['eggSize'] == 'XL'){
-                    $xlarge = $row['instock'];
-                    $size['XL'] = $xlarge;
-                }
+    // if($stmt){
+    //     if($stmt->rowCount() > 0){
+    //         $size = array();
+    //         // $quantity = array();
+    //         while($row = $stmt->fetch()){
+    //             if($row['eggSize'] == 'XS'){
+    //                 $xsmall = $row['instock'];
+    //                 $size['XS'] = $xsmall;
+    //             }else if($row['eggSize'] == 'S'){
+    //                 $small = $row['instock'];
+    //                 $size['S'] = $small;
+    //             }else if($row['eggSize'] == 'M'){
+    //                 $medium = $row['instock'];
+    //                 $size['M'] = $medium;
+    //             }else if($row['eggSize'] == 'L'){
+    //                 $large = $row['instock'];
+    //                 $size['L'] = $large;
+    //             }else if($row['eggSize'] == 'XL'){
+    //                 $xlarge = $row['instock'];
+    //                 $size['XL'] = $xlarge;
+    //             }
+    //         }
+    //     }
+    //         // Free result set
+    //         unset($stmt);
+    // }
+    $size = array();
+    if($stmt && $stmt->rowCount() > 0){
+        while($row = $stmt->fetch()){
+            if($row['eggSize'] == 'XS'){
+                $xsmall = $row['instock'];
+                $size['XS'] = $xsmall;
+            }else if($row['eggSize'] == 'S'){
+                $small = $row['instock'];
+                $size['S'] = $small;
+            }else if($row['eggSize'] == 'M'){
+                $medium = $row['instock'];
+                $size['M'] = $medium;
+            }else if($row['eggSize'] == 'L'){
+                $large = $row['instock'];
+                $size['L'] = $large;
+            }else if($row['eggSize'] == 'XL'){
+                $xlarge = $row['instock'];
+                $size['XL'] = $xlarge;
             }
         }
-            // Free result set
-            unset($stmt);
     }
     else{
         echo "Oops! Something went wrong. Please try again later.";
@@ -133,8 +170,13 @@ GROUP BY all_egg_sizes.eggSize";
     $sql = "SELECT DATE_FORMAT(ep.collectionDate, '%M %d') AS collectionDate, ep.eggSize, SUM(COALESCE(ep.quantity,0)) as totalQuantity, SUM(COALESCE(er.quantity,0)) as totalReductions 
 		FROM eggproduction ep 
 		LEFT JOIN eggreduction er ON ep.eggBatch_ID = er.eggBatch_ID 
-        WHERE collectionDate BETWEEN CURDATE() - INTERVAL 6 DAY AND CURDATE() AND ep.archive = 'not archived'
+        WHERE collectionDate = CURDATE() AND ep.archive = 'not archived'
         GROUP BY ep.eggBatch_ID, ep.collectionDate";
+    // $sql = "SELECT DATE_FORMAT(ep.collectionDate, '%M %d') AS collectionDate, ep.eggSize, SUM(COALESCE(ep.quantity,0)) as totalQuantity, SUM(COALESCE(er.quantity,0)) as totalReductions 
+	// 	FROM eggproduction ep 
+	// 	LEFT JOIN eggreduction er ON ep.eggBatch_ID = er.eggBatch_ID 
+    //     WHERE collectionDate BETWEEN CURDATE() - INTERVAL 6 DAY AND CURDATE() AND ep.archive = 'not archived'
+    //     GROUP BY ep.eggBatch_ID, ep.collectionDate";
         //- INTERVAL 6 DAY AND CURDATE() AND ep.archive = 'not archived' AND er.archive = 'not archived' AND CURDATE()
     //"SELECT SUM(COALESCE(inStock, 0)) as instock, batchName, DATE_FORMAT(dateAcquired, '%M-%d-%Y') AS acquiredDate FROM chickenproduction WHERE dateAcquired BETWEEN CURDATE() - INTERVAL 7 DAY AND CURDATE() GROUP BY acquiredDate";
     $stmt = $conn->query($sql);
@@ -246,9 +288,12 @@ GROUP BY all_egg_sizes.eggSize";
             <div class="card bg-white shadow border-2 rounded rounded-3"  style="border-color: #DC143C">
                 <div class="card-body text-center">
                     <h5 class="card-title">Chicken Production and Reduction</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Last 7 Days</h6>
+                    <h6 class="card-subtitle mb-2 text-muted"> Current Day: <?php echo date("F d") ?> </h6>
                     <div class="chart-container bar-chart mb-0">
                         <canvas id="chicken_chart" height="200"></canvas>
+                    </div>
+                    <div class="chart-container bar-chart mb-0">
+                        <canvas id="chicken_reduction_chart" height="200"></canvas>
                     </div>
                     <div class="float-center p-0 mt-1">
                         <a href="./reports_chicken.php" class="card-link text-decoration-none p-0 opacity-75" style="font-size: 15px">View More In Report
@@ -267,7 +312,7 @@ GROUP BY all_egg_sizes.eggSize";
             <div class="card border-warning bg-white shadow rounded border-2 rounded-3">
                 <div class="card-body text-center">
                     <h5 class="card-title">Eggs In Stock By Size</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Last 7 Days</h6>
+                    <h6 class="card-subtitle mb-2 text-muted"> Current Day: <?php echo date("F d") ?> </h6>
                     <div class="mb-2">
                         <canvas id="eggSize_chart" height="200"></canvas>
                     </div>
@@ -286,7 +331,7 @@ GROUP BY all_egg_sizes.eggSize";
             <div class="card border-warning bg-white shadow rounded border-2 rounded-3">
                 <div class="card-body text-center">
                     <h5 class="card-title">Egg Production and Reduction</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Last 7 Days</h6>
+                    <h6 class="card-subtitle mb-2 text-muted"> Current Day: <?php echo date("F d") ?> </h6>
                     <div class="mb-2">
                         <canvas id="egg_chart" height="200"></canvas>
                     </div>
@@ -626,15 +671,8 @@ GROUP BY all_egg_sizes.eggSize";
                     data: oneweekDataset,
                     borderWidth: 1,
                     backgroundColor: [
-                    'rgb(34, 139, 134)',
-                    ]
-                },
-                {
-                    label: 'Reductions',
-                    data: oneweekDatasetReduction,
-                    borderWidth: 1,
-                    backgroundColor: [
-                    'rgb(255, 99, 132)',
+                        '#DC143C',
+                    // 'rgb(34, 139, 134)',
                     ]
                 }]
         },
@@ -673,7 +711,72 @@ GROUP BY all_egg_sizes.eggSize";
             if (data.datasets.length > 0) {
                 // console.log(data.datasets.length)
                 // console.log(data.datasets[0].data)
-              if (data.datasets[0].data.every(item => Number(item) === 0) && data.datasets[1].data.every(item => Number(item) === 0)) {
+              if (data.datasets[0].data.every(item => Number(item) === 0)) {
+                ctx.fillStyle = 'rgba(255, 255, 255, 1)';
+                ctx.fillRect(left, top, width, height);
+
+                ctx.font = '20px sans-serif';
+                ctx.fillStyle = 'black';
+                ctx.textAlign = 'center';
+                ctx.fillText('No Data Available', left + width / 2, top + height / 2);
+              }
+            }
+
+            })
+        }]
+    });
+
+    const ctx4 = document.getElementById('chicken_reduction_chart');
+    new Chart(ctx4, {
+        type: 'bar',
+        data: {
+        labels: oneweek,
+        datasets: [{
+                    label: 'Reductions',
+                    data: oneweekDatasetReduction,
+                    borderWidth: 1,
+                    backgroundColor: [
+                        '#d68192'
+                    // 'rgb(255, 99, 132)',
+                    ]
+                }]
+        },
+        options: {
+            scales: {
+                y: {
+                beginAtZero: true
+                }
+            },
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                datalabels: { // This code is used to display data values
+                    color: 'black',
+                    anchor: 'auto',
+                    align: 'top',
+                    formatter: Math.round,
+                    //                                     formatter: function(value, context) {
+                    //   return context.dataset.label + ': ' + value + '%';
+                    // },
+                    font: {
+                        weight: 'normal',
+                        size: 12
+                    },
+                    minRotation: 0,
+                    maxRotation: 90,
+                }
+            }
+        },
+        plugins: [{
+            afterDatasetsDraw: ((chart, args, plugins) => {
+            const {ctx, data, chartArea: {top, bottom, left, right, width, height}} = chart;
+
+            ctx.save();
+            
+            if (data.datasets.length > 0) {
+                // console.log(data.datasets.length)
+                // console.log(data.datasets[0].data)
+              if (data.datasets[0].data.every(item => Number(item) === 0)                                  ) {
                 ctx.fillStyle = 'rgba(255, 255, 255, 1)';
                 ctx.fillRect(left, top, width, height);
 
@@ -700,11 +803,12 @@ GROUP BY all_egg_sizes.eggSize";
                     data: eggInstock,
                     borderWidth: 1,
                     backgroundColor: [
-                        'rgb(255, 99, 132)',
-                        'rgb(54, 162, 235)',
-                        'rgb(255, 205, 86)',
-                        'rgb(153, 51, 255)',
-                        'rgb(153, 255, 255)',
+                        '#ffc107'
+                        // 'rgb(255, 99, 132)',
+                        // 'rgb(54, 162, 235)',
+                        // 'rgb(255, 205, 86)',
+                        // 'rgb(153, 51, 255)',
+                        // 'rgb(153, 255, 255)',
                     ]
                 }]
         },
@@ -763,7 +867,8 @@ GROUP BY all_egg_sizes.eggSize";
                     data: totalQuantity,
                     borderWidth: 1,
                     backgroundColor: [
-                    'rgb(34, 139, 134)',
+                        '#ffc107'
+                    // 'rgb(34, 139, 134)',
                     ]
                 },
                 {
@@ -771,7 +876,8 @@ GROUP BY all_egg_sizes.eggSize";
                     data: totalReductions,
                     borderWidth: 1,
                     backgroundColor: [
-                    'rgb(255, 99, 132)',
+                        '#f0d481'
+                    // 'rgb(255, 99, 132)',
                     ]
                 }]
         },

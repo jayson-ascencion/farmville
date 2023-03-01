@@ -164,6 +164,14 @@
                 }
                 });
 
+                //this will reset the filter
+                $('#reset-btn').click(function() {
+                if (!pageReloading) {
+                    $('#filtertable select').val('');
+                    $('#chickenProduction_Delete').DataTable().columns().search('').draw();
+                }
+                });
+
                 //table initialization
                 $('#chickenProduction').DataTable({
                     columns: [ //this will define what columns are orderable
@@ -183,6 +191,52 @@
                         this.api().columns([3,4,7,8]).every( function (d) {
                             var column = this;
                             var theadname = $('#chickenProduction th').eq([d]).text();
+                            var select = $('<select class="mx-1 p-1 rounded rounded-3 col-md-2 col-sm-4 m-1"><option value="">'+theadname+': All</option></select>')
+                                .appendTo( '#filtertable' )
+                                .on( 'change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex(
+                                        $(this).val()
+                                    );
+
+                                    if (val === '') {
+                                        column.search('').draw();
+                                    } else {
+                                        column
+                                            .search( '^'+val+'$', true, false )
+                                            .draw();
+                                    }
+                                } );
+                            select.find('option[value=""]').attr("selected", true);
+                            column.data().unique().sort().each( function ( d, j ) {
+                                var val = $('<div/>').html(d).text();
+                                select.append( '<option value="'+val+'">'+val+'</option>' )
+                            } );
+                        } );
+                    }
+                });
+
+                //table initialization for DELET TABLE
+                $('#chickenProduction_Delete').DataTable({
+                    columns: [ //this will define what columns are orderable
+                        { orderable: ['asc'] }, //1
+                        null, //2
+                        null,//3
+                        null,//4
+                        null,//5
+                        null,//6
+                        null,//7
+                        null,//8
+                        null,//9
+                        { orderable: false, width: 100}, //action buttons are not orderable 10
+                    ],
+                    dom: "<'row align-items-center'<'col-sm-12 col-md-6 mt-1 mb-1 mb-md-0'l><'col-sm-12 col-md-6 mt-1 mb-1 mb-md-0 p-0'f>>" +
+                        "<'row'<'col-sm-12'tr>>" +
+                        "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                    //this code if for the filter buttons
+                    initComplete: function () {
+                        this.api().columns([3,4,7,8]).every( function (d) {
+                            var column = this;
+                            var theadname = $('#chickenProduction_Delete th').eq([d]).text();
                             var select = $('<select class="mx-1 p-1 rounded rounded-3 col-md-2 col-sm-4 m-1"><option value="">'+theadname+': All</option></select>')
                                 .appendTo( '#filtertable' )
                                 .on( 'change', function () {
@@ -266,6 +320,47 @@
                         } );
                     }
                 });
+
+                //table initialization for DELETE TABLE
+                $('#chickenReduction').DataTable({
+                    columns: [ //this will define what columns are orderable
+                        { orderable: ['asc'] },
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        { orderable: false }, //action buttons are not orderable
+                    ],
+                    //this code is for the filter buttons
+                    initComplete: function () {
+                        this.api().columns([5,6]).every( function (d) {
+                            var column = this;
+                            var theadname = $('#chickenReduction th').eq([d]).text();
+                            var select = $('<select class="mx-1 p-1 rounded rounded-3 col-md-2 col-sm-4 m-1"><option value="">'+theadname+': All</option></select>')
+                                .appendTo( '#filtertable' )
+                                .on( 'change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex(
+                                        $(this).val()
+                                    );
+
+                                    if (val === '') {
+                                        column.search('').draw();
+                                    } else {
+                                        column
+                                            .search( '^'+val+'$', true, false )
+                                            .draw();
+                                    }
+                                } );
+                            select.find('option[value=""]').attr("selected", true);
+                            column.data().unique().sort().each( function ( d, j ) {
+                                var val = $('<div/>').html(d).text();
+                                select.append( '<option value="'+val+'">'+val+'</option>' )
+                            } );
+                        } );
+                    }
+                });
             } );
 
             //configuration for the EGG PRODUCTION table
@@ -285,6 +380,14 @@
                 }
                 });
 
+                //this will reset the filter
+                $('#reset-btn').click(function() {
+                if (!pageReloading) {
+                    $('#filtertable select').val('');
+                    $('#eggProduction_Delete').DataTable().columns().search('').draw();
+                }
+                });
+
                 //table initialization
                 $('#eggProduction').DataTable({
                     columns: [ //this will define what columns are orderable
@@ -301,6 +404,49 @@
                         this.api().columns([1,3,4]).every( function (d) {
                             var column = this;
                             var theadname = $('#eggProduction th').eq([d]).text();
+                            var select = $('<select class="mx-1 p-1 rounded rounded-3 col-md-2 col-sm-4 m-1"><option value="">'+theadname+': All</option></select>')
+                                .appendTo( '#filtertable' )
+                                .on( 'change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex(
+                                        $(this).val()
+                                    );
+
+                                    if (val === '') {
+                                        column.search('').draw();
+                                    } else {
+                                        column
+                                            .search( '^'+val+'$', true, false )
+                                            .draw();
+                                    }
+                                } );
+                            select.find('option[value=""]').attr("selected", true);
+                            column.data().unique().sort().each( function ( d, j ) {
+                                var val = $('<div/>').html(d).text();
+                                select.append( '<option value="'+val+'">'+val+'</option>' )
+                            } );
+                        } );
+                    }
+                });
+
+                //table initialization for DELETE TABLE
+                $('#eggProduction_Delete').DataTable({
+                    columns: [ //this will define what columns are orderable
+                        { orderable: ['asc'] },
+                        null,
+                        null,
+                        null,
+                        null,
+                        //{ orderable: false, width: 200 }, //notes is not orderable
+                        { orderable: false }, //action is not orderable
+                    ],
+                    dom: "<'row align-items-center'<'col-sm-12 col-md-6 mt-1 mb-1 mb-md-0'l><'col-sm-12 col-md-6 mt-1 mb-1 mb-md-0 p-0'f>>" +
+                    "<'row'<'col-sm-12'tr>>" +
+                    "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                    //for filter buttons
+                    initComplete: function () {
+                        this.api().columns([1,3,4]).every( function (d) {
+                            var column = this;
+                            var theadname = $('#eggProduction_Delete th').eq([d]).text();
                             var select = $('<select class="mx-1 p-1 rounded rounded-3 col-md-2 col-sm-4 m-1"><option value="">'+theadname+': All</option></select>')
                                 .appendTo( '#filtertable' )
                                 .on( 'change', function () {
@@ -400,6 +546,14 @@
                 }
                 });
 
+                //this will reset the filter
+                $('#reset-btn').click(function() {
+                if (!pageReloading) {
+                    $('#filtertable select').val('');
+                    $('#medicineRecords_Delete').DataTable().columns().search('').draw();
+                }
+                });
+
                 //table initialization
                 $('#medicineRecords').DataTable({
                     columns: [ //this will define what columns are orderable
@@ -419,6 +573,52 @@
                         this.api().columns([1,3,4]).every( function (d) {
                             var column = this;
                             var theadname = $('#medicineRecords th').eq([d]).text();
+                            var select = $('<select class="mx-1 p-1 rounded rounded-3 col-md-2 col-sm-4 m-1"><option value="">'+theadname+': All</option></select>')
+                                .appendTo( '#filtertable' )
+                                .on( 'change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex(
+                                        $(this).val()
+                                    );
+
+                                    if (val === '') {
+                                        column.search('').draw();
+                                    } else {
+                                        column
+                                            .search( '^'+val+'$', true, false )
+                                            .draw();
+                                    }
+                                } );
+                            select.find('option[value=""]').attr("selected", true);
+                            column.data().unique().sort().each( function ( d, j ) {
+                                var val = $('<div/>').html(d).text();
+                                select.append( '<option value="'+val+'">'+val+'</option>' )
+                            } );
+                        } );
+                    }
+                });
+
+                //table initialization for DELETE TABLE
+                $('#medicineRecords_Delete').DataTable({
+                    columns: [ //this will define what columns are orderable
+                        { orderable: ['asc'] },
+                        null,
+                        null,
+                        null,
+                        null,
+                        { orderable: null, width: 100},
+                        null,
+                        null,
+                        { orderable: ['asc','desc'] },
+                        { orderable: false, width: 100}, //action buttons are not orderable
+                    ],
+                    dom: "<'row align-items-center'<'col-sm-12 col-md-6 mt-1 mb-1 mb-md-0'l><'col-sm-12 col-md-6 mt-1 mb-1 mb-md-0 p-0'f>>" +
+                    "<'row'<'col-sm-12'tr>>" +
+                    "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                    //for filter buttons
+                    initComplete: function () {
+                        this.api().columns([1,3,4]).every( function (d) {
+                            var column = this;
+                            var theadname = $('#medicineRecords_Delete th').eq([d]).text();
                             var select = $('<select class="mx-1 p-1 rounded rounded-3 col-md-2 col-sm-4 m-1"><option value="">'+theadname+': All</option></select>')
                                 .appendTo( '#filtertable' )
                                 .on( 'change', function () {
@@ -517,6 +717,14 @@
                 }
                 });
 
+                //this will reset the filter
+                $('#reset-btn').click(function() {
+                if (!pageReloading) {
+                    $('#filtertable select').val('');
+                    $('#feedRecords_Delete').DataTable().columns().search('').draw();
+                }
+                });
+
                 //table initialization
                 $('#feedRecords').DataTable({
                     columns: [ //this will define what columns are orderable
@@ -533,6 +741,49 @@
                         this.api().columns([2,5]).every( function (d) {
                             var column = this;
                             var theadname = $('#feedRecords th').eq([d]).text();
+                            var select = $('<select class="mx-1 p-1 rounded rounded-3 col-md-2 col-sm-4 m-1"><option value="">'+theadname+': All</option></select>')
+                                .appendTo( '#filtertable' )
+                                .on( 'change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex(
+                                        $(this).val()
+                                    );
+
+                                    if (val === '') {
+                                        column.search('').draw();
+                                    } else {
+                                        column
+                                            .search( '^'+val+'$', true, false )
+                                            .draw();
+                                    }
+                                } );
+                            select.find('option[value=""]').attr("selected", true);
+                            column.data().unique().sort().each( function ( d, j ) {
+                                var val = $('<div/>').html(d).text();
+                                select.append( '<option value="'+val+'">'+val+'</option>' )
+                            } );
+                        } );
+                    }
+                });
+
+                //table initialization for DELETE TABLE
+                $('#feedRecords_Delete').DataTable({
+                    columns: [ //this will define what columns are orderable
+                        { orderable: ['asc'] },
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        { orderable: false },
+                    ],
+                    dom: "<'row align-items-center'<'col-sm-12 col-md-6 mt-1 mb-1 mb-md-0'l><'col-sm-12 col-md-6 mt-1 mb-1 mb-md-0 p-0'f>>" +
+                    "<'row'<'col-sm-12'tr>>" +
+                    "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                    //table initialization
+                    initComplete: function () {
+                        this.api().columns([2,5]).every( function (d) {
+                            var column = this;
+                            var theadname = $('#feedRecords_Delete th').eq([d]).text();
                             var select = $('<select class="mx-1 p-1 rounded rounded-3 col-md-2 col-sm-4 m-1"><option value="">'+theadname+': All</option></select>')
                                 .appendTo( '#filtertable' )
                                 .on( 'change', function () {
@@ -642,6 +893,14 @@
                 }
                 });
 
+                //this will reset the filter
+                $('#reset-btn').click(function() {
+                if (!pageReloading) {
+                    $('#filtertable select').val('');
+                    $('#schedules_Delete').DataTable().columns().search('').draw();
+                }
+                });
+
                 $('#medicationSchedules').DataTable({
                     columns: [ //this will define what columns are orderable
                         { orderable: ['asc'] },
@@ -660,6 +919,51 @@
                         this.api().columns([3,4,7]).every( function (d) {
                             var column = this;
                             var theadname = $('#medicationSchedules th').eq([d]).text();
+                            var select = $('<select class="mx-1 p-1 rounded rounded-3 col-md-2 col-sm-4 m-1"><option value="">'+theadname+': All</option></select>')
+                                .appendTo( '#filtertable' )
+                                .on( 'change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex(
+                                        $(this).val()
+                                    );
+
+                                    if (val === '') {
+                                        column.search('').draw();
+                                    } else {
+                                        column
+                                            .search( '^'+val+'$', true, false )
+                                            .draw();
+                                    }
+                                } );
+                            select.find('option[value=""]').attr("selected", true);
+                            column.data().unique().sort().each( function ( d, j ) {
+                                var val = $('<div/>').html(d).text();
+                                select.append( '<option value="'+val+'">'+val+'</option>' )
+                            } );
+                        } );
+                    }
+                });
+
+                $('#medicationSchedules_Employee').DataTable({
+                    columns: [ //this will define what columns are orderable
+                        { orderable: ['asc'] },
+                        null,
+                        null,
+                        {orderable: null, width: 150},
+                        null,
+                        null,
+                        null,
+                        null,
+                        { orderable: false },
+                        { orderable: false, width: 100 },
+                    ],
+                    dom: "<'row align-items-center'<'col-sm-12 col-md-6 mt-1 mb-1 mb-md-0'l><'col-sm-12 col-md-6 mt-1 mb-1 mb-md-0 p-0'f>>" +
+                    "<'row'<'col-sm-12'tr>>" +
+                    "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                    //for filter buttons
+                    initComplete: function () {
+                        this.api().columns([3,4,7]).every( function (d) {
+                            var column = this;
+                            var theadname = $('#medicationSchedules_Employee th').eq([d]).text();
                             var select = $('<select class="mx-1 p-1 rounded rounded-3 col-md-2 col-sm-4 m-1"><option value="">'+theadname+': All</option></select>')
                                 .appendTo( '#filtertable' )
                                 .on( 'change', function () {
@@ -727,6 +1031,53 @@
                         } );
                     }
                 });
+
+                // scchedules for DELETE TABLE
+                $('#schedules_Delete').DataTable({
+                    columns: [ //this will define what columns are orderable
+                        null,
+                        { orderable: ['asc'] },
+                        null,
+                        null,
+                        {orderable: null, width: 150},
+                        null,
+                        null,
+                        null,
+                        null,
+                        { orderable: false },
+                        { orderable: false, width: 100 },
+                    ],
+                    dom: "<'row align-items-center'<'col-sm-12 col-md-6 mt-1 mb-1 mb-md-0'l><'col-sm-12 col-md-6 mt-1 mb-1 mb-md-0 p-0'f>>" +
+                    "<'row'<'col-sm-12'tr>>" +
+                    "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                    //for filter buttons
+                    initComplete: function () {
+                        this.api().columns([0,2,4,5,8]).every( function (d) {
+                            var column = this;
+                            var theadname = $('#schedules_Delete th').eq([d]).text();
+                            var select = $('<select class="mx-1 p-1 rounded rounded-3 col-md-2 col-sm-4 m-1"><option value="">'+theadname+': All</option></select>')
+                                .appendTo( '#filtertable' )
+                                .on( 'change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex(
+                                        $(this).val()
+                                    );
+
+                                    if (val === '') {
+                                        column.search('').draw();
+                                    } else {
+                                        column
+                                            .search( '^'+val+'$', true, false )
+                                            .draw();
+                                    }
+                                } );
+                            select.find('option[value=""]').attr("selected", true);
+                            column.data().unique().sort().each( function ( d, j ) {
+                                var val = $('<div/>').html(d).text();
+                                select.append( '<option value="'+val+'">'+val+'</option>' )
+                            } );
+                        } );
+                    }
+                });
             } );
 
             //configuration for the SCHEDULES TABLE
@@ -764,6 +1115,51 @@
                         this.api().columns([3,4,7]).every( function (d) {
                             var column = this;
                             var theadname = $('#vaccinationSchedules th').eq([d]).text();
+                            var select = $('<select class="mx-1 p-1 rounded rounded-3 col-md-2 col-sm-4 m-1"><option value="">'+theadname+': All</option></select>')
+                                .appendTo( '#filtertable' )
+                                .on( 'change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex(
+                                        $(this).val()
+                                    );
+
+                                    if (val === '') {
+                                        column.search('').draw();
+                                    } else {
+                                        column
+                                            .search( '^'+val+'$', true, false )
+                                            .draw();
+                                    }
+                                } );
+                            select.find('option[value=""]').attr("selected", true);
+                            column.data().unique().sort().each( function ( d, j ) {
+                                var val = $('<div/>').html(d).text();
+                                select.append( '<option value="'+val+'">'+val+'</option>' )
+                            } );
+                        } );
+                    }
+                });
+                
+                $('#vaccinationSchedules_Employee').DataTable({
+                    columns: [ //this will define what columns are orderable
+                        { orderable: ['asc'] },
+                        null,
+                        null,
+                        {orderable: null, width: 150},
+                        null,
+                        null,
+                        null,
+                        null,
+                        { orderable: false },
+                        { orderable: false, width: 100 },
+                    ],
+                    dom: "<'row align-items-center'<'col-sm-12 col-md-6 mt-1 mb-1 mb-md-0'l><'col-sm-12 col-md-6 mt-1 mb-1 mb-md-0 p-0'f>>" +
+                    "<'row'<'col-sm-12'tr>>" +
+                    "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                    //for filter buttons
+                    initComplete: function () {
+                        this.api().columns([3,4,7]).every( function (d) {
+                            var column = this;
+                            var theadname = $('#vaccinationSchedules_Employee th').eq([d]).text();
                             var select = $('<select class="mx-1 p-1 rounded rounded-3 col-md-2 col-sm-4 m-1"><option value="">'+theadname+': All</option></select>')
                                 .appendTo( '#filtertable' )
                                 .on( 'change', function () {

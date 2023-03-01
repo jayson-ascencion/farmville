@@ -44,7 +44,7 @@
                                     include('../../../config/database_connection.php');
 
                                     //statement to select the all the medicine names
-                                    $sql = "SELECT chickenBatch_ID FROM chickenproduction";
+                                    $sql = "SELECT chickenBatch_ID FROM chickenproduction WHERE archive='not archived'";
                                     $stmt = $conn->query($sql);
                                     if($stmt){
                                         if($stmt->rowCount() > 0){
@@ -85,7 +85,7 @@
                                     include('../../../config/database_connection.php');
 
                                     //statement to select the all the medicine names
-                                    $sql = "SELECT medicineName, medicine_ID FROM medicines";
+                                    $sql = "SELECT medicineName, medicine_ID FROM medicines WHERE archive='not archived'";
                                     $stmt = $conn->query($sql);
                                     if($stmt){
                                         if($stmt->rowCount() > 0){

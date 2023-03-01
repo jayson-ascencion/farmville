@@ -16,7 +16,7 @@
                 <button id="reset-btn" class="border-secondary border-1 mx-1 p-1 rounded rounded-3 col-md-2 col-sm-4 m-1">Reset Filter</button>
             </div>
 
-            <table id="chickenProduction" class="table table-sm responsive border table-hover text-center rounded rounded-3 overflow-hidden" style="width: 100%">';
+            <table id="chickenProduction_Delete" class="table table-sm responsive border table-hover text-center rounded rounded-3 overflow-hidden" style="width: 100%">';
                 echo "<thead class='text-white' style='background-color: #DC143C'>"; 
                     echo "<tr>";
                         echo "<th>Batch ID</th>";
@@ -121,7 +121,7 @@
                 <button id="reset-btn" class="border-secondary border-1 mx-1 p-1 rounded rounded-3 col-md-2 col-sm-4 m-1">Reset Filter</button>
             </div>
 
-            <table id="chickenProduction" class="table table-sm responsive border table-hover text-center rounded rounded-3 overflow-hidden" style="width: 100%">';
+            <table id="chickenProduction_Delete" class="table table-sm responsive border table-hover text-center rounded rounded-3 overflow-hidden" style="width: 100%">';
                 echo "<thead class='text-white' style='background-color: #DC143C'>"; 
                     echo "<tr>";
                         echo "<th>Batch ID</th>";

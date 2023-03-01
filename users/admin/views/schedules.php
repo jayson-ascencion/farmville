@@ -38,7 +38,7 @@
                         <div class="card-header"  style="background-color: #FFAF1A; color: #91452c">
                             <div class="row justify-content-between">
                                 <div class="col">
-                                    <h4 class="pt-2 fs-5 fw-bold">Completed Medication Schedules</h4>
+                                    <h4 class="pt-2 fs-5 fw-bold">Deleted Schedules</h4>
                                 </div>
                             </div>
                         </div>

@@ -128,6 +128,7 @@
                             </div>
                                
                         </div>
+                        <input type="hidden" name="feed_ID" value="<?php echo $feed_ID; ?>"/>
                         <input type="hidden" name="id" value="<?php echo $id; ?>"/>
                         <div class="card-footer w-100 border d-flex justify-content-end">
                             <div class="m-1 w-100">

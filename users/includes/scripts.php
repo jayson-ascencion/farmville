@@ -24,7 +24,7 @@
                 stateSave: true, //if the user is on the second page and opens the update form or any buttons on the action, this will allow the user to go back to previous page of the datatable 
                 search: {
                     return: false, //if false, the search field will not wait for the user to hit the enter key.
-                    caseInsensitive: false,
+                    // "caseInsensitive": true,
                 },
                 columnDefs: [
                     {"className": "dt-center", "targets": "_all"} //center all text in the table
@@ -322,45 +322,45 @@
                 });
 
                 //table initialization for DELETE TABLE
-                $('#chickenReduction').DataTable({
-                    columns: [ //this will define what columns are orderable
-                        { orderable: ['asc'] },
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        { orderable: false }, //action buttons are not orderable
-                    ],
-                    //this code is for the filter buttons
-                    initComplete: function () {
-                        this.api().columns([5,6]).every( function (d) {
-                            var column = this;
-                            var theadname = $('#chickenReduction th').eq([d]).text();
-                            var select = $('<select class="mx-1 p-1 rounded rounded-3 col-md-2 col-sm-4 m-1"><option value="">'+theadname+': All</option></select>')
-                                .appendTo( '#filtertable' )
-                                .on( 'change', function () {
-                                    var val = $.fn.dataTable.util.escapeRegex(
-                                        $(this).val()
-                                    );
+                // $('#chickenReduction_DELETE').DataTable({
+                //     columns: [ //this will define what columns are orderable
+                //         { orderable: ['asc'] },
+                //         null,
+                //         null,
+                //         null,
+                //         null,
+                //         null,
+                //         null,
+                //         { orderable: false }, //action buttons are not orderable
+                //     ],
+                //     //this code is for the filter buttons
+                //     initComplete: function () {
+                //         this.api().columns([5,6]).every( function (d) {
+                //             var column = this;
+                //             var theadname = $('#chickenReduction_DELETE th').eq([d]).text();
+                //             var select = $('<select class="mx-1 p-1 rounded rounded-3 col-md-2 col-sm-4 m-1"><option value="">'+theadname+': All</option></select>')
+                //                 .appendTo( '#filtertable' )
+                //                 .on( 'change', function () {
+                //                     var val = $.fn.dataTable.util.escapeRegex(
+                //                         $(this).val()
+                //                     );
 
-                                    if (val === '') {
-                                        column.search('').draw();
-                                    } else {
-                                        column
-                                            .search( '^'+val+'$', true, false )
-                                            .draw();
-                                    }
-                                } );
-                            select.find('option[value=""]').attr("selected", true);
-                            column.data().unique().sort().each( function ( d, j ) {
-                                var val = $('<div/>').html(d).text();
-                                select.append( '<option value="'+val+'">'+val+'</option>' )
-                            } );
-                        } );
-                    }
-                });
+                //                     if (val === '') {
+                //                         column.search('').draw();
+                //                     } else {
+                //                         column
+                //                             .search( '^'+val+'$', true, false )
+                //                             .draw();
+                //                     }
+                //                 } );
+                //             select.find('option[value=""]').attr("selected", true);
+                //             column.data().unique().sort().each( function ( d, j ) {
+                //                 var val = $('<div/>').html(d).text();
+                //                 select.append( '<option value="'+val+'">'+val+'</option>' )
+                //             } );
+                //         } );
+                //     }
+                // });
             } );
 
             //configuration for the EGG PRODUCTION table

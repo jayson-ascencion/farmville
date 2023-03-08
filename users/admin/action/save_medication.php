@@ -104,7 +104,7 @@ try{
 
         //validate administered by if empty, display error
         if(empty($administeredBy)){
-            $administeredBy_err = "Please select an mployee";
+            $administeredBy_err = "Please select an employee";
         }
 
         //validate notes

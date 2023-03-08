@@ -130,7 +130,8 @@
                                 <span class="text-danger" style="font-size: 13px;"> <?php echo $dateReduced_err; ?> </span>
                             </div>
 
-                        </div>
+                        </div> 
+                        <input type="hidden" name="coopNumber" value="<?php echo $coopNumber; ?>"/>
                         <input type="hidden" name="chickenBatch_ID" value="<?php echo $chickenBatch_ID; ?>"/>
                         <input type="hidden" name="id" value="<?php echo $id; ?>"/>
                         <div class="card-footer w-100 border d-flex justify-content-between">

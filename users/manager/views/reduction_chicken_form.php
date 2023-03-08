@@ -28,7 +28,7 @@
                             <!-- Coop Number -->
                             <div class="form-group mb-3">
                                 <label for="coopNumber" class="mb-2 text-dark">Coop Number</label>
-                                <select class="form-select" name="coopNumber">
+                                <select class="form-select" name="coopNumber" required>
                                     <?php
                                         if(empty($coopNumber)){
                                             echo '<option value="" selected>- select a coop number -</option>';

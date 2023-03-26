@@ -25,19 +25,19 @@
         <div class="col-xl-6 col-md-6">
             <div class="card bg-light shadow-lg mb-4 ">
                 <div class="card-header text-center fw-bold p-3" style="background-color: #FFAF1A; color: #91452c">ADD CHICKEN BATCH</div>
-                    <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST">
+                    <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST" novalidate>
                         <div class="card-body p-4">
                              <!-- Age -->
                              <div class="form-group mb-3">
                                 <label for="age" class="mb-2 text-dark">Age</label>
-                                <input type="number" name="age" class="form-control" value="<?php echo $age; ?>" required>
+                                <input type="number" name="age" class="form-control" value="<?php echo $age; ?>">
                                 <span class="text-danger" style="font-size: 13px;">  <?php echo $age_err; ?> </span>
                             </div>
 
                             <!-- Coop Number -->
                             <div class="form-group mb-3">
                                 <label for="coopNumber" class="mb-2 text-dark">Coop Number</label>
-                                <input type="number" name="coopNumber" class="form-control"value="<?php echo $coopNumber; ?>" required>
+                                <input type="number" name="coopNumber" class="form-control" value="<?php echo $coopNumber; ?>" required>
                                 <span class="text-danger" style="font-size: 13px;">  <?php echo $coopNumber_err; ?> </span>
                             </div>
 
@@ -88,7 +88,7 @@
                                 </select>
                                 <span class="text-danger" style="font-size: 13px;"> <?php echo $batchPurpose_err; ?> </span>
                             </div>
-
+ 
                             <!-- Starting Quantity -->
                             <div class="form-group mb-3">
                                 <label for="startingQuantity" class="mb-2 text-dark">Quantity</label>

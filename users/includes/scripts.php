@@ -1,12 +1,12 @@
         
-        <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous" async defer></script>
+        <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"  ></script>
         <script src="../../../assets/js/jquery-3.6.1.min.js"></script>
         <script src="../../../assets/js/bootstrap5.bundle.min.js" crossorigin="anonymous"></script>
         <script src="../../../assets/js/scripts.js"></script>
-        <script src="../../../assets/js/popper.min.js" async defer></script>
+        <script src="../../../assets/js/popper.min.js"  ></script>
         <script src="../../../assets/js/datatables.min.js"></script>
         <script src="../../../assets/js/pdfmake.min.js"></script>
-        <script src="../../../assets/js/vfs_fonts.js" async defer></script>
+        <script src="../../../assets/js/vfs_fonts.js"  ></script>
         <script src="../../../assets/js/chart.js"></script>
         <script src="../../../assets/js/chartjs-adapter-date-fns.bundle.min.js" async defer></script>
         <!-- <script src="../../../assets/js/filterDropDown.min.js" async defer></script> -->
@@ -17,6 +17,9 @@
 
             //default configuration for all the tables
             $.extend( $.fn.dataTable.defaults, {
+                language: {
+                    emptyTable: "No records found" //message to display if there is no data in the database
+                },
                 "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
                 responsive: true,
                 pagingType: 'numbers',
@@ -50,6 +53,7 @@
                     // },
                     {   //excel button
                         extend: 'excel',
+                        title: document.title,
                         //excel icon
                         text: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-spreadsheet-fill" viewBox="0 0 16 16"><path d="M12 0H4a2 2 0 0 0-2 2v4h12V2a2 2 0 0 0-2-2zm2 7h-4v2h4V7zm0 3h-4v2h4v-2zm0 3h-4v3h2a2 2 0 0 0 2-2v-1zm-5 3v-3H6v3h3zm-4 0v-3H2v1a2 2 0 0 0 2 2h1zm-3-4h3v-2H2v2zm0-3h3V7H2v2zm4 0V7h3v2H6zm0 1h3v2H6v-2z"/></svg>',
                         //styling bootstrap class
@@ -57,6 +61,8 @@
                         exportOptions: {
                             columns: ':not(:last-child)' //will not include the action column
                         },
+                        titleAttr: 'Download Excel',
+                        
                     },
                     {   //pdf button
                         extend: 'pdf',
@@ -109,6 +115,7 @@
                         
                         // bondpaper size
                         pageSize: 'LEGAL',
+                        titleAttr: 'Download PDF',
                         
                     },
                     {
@@ -120,7 +127,8 @@
                         className: 'btn btn-dark m-1 rounded',
                         exportOptions: {
                             columns: ':not(:last-child)' //excludes the action column
-                        }
+                        },
+                        titleAttr: 'View Table',
                     },
                 ],
                 buttonStyling: true,

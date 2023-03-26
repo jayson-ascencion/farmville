@@ -25,13 +25,13 @@ try{
         $note = $_POST['note'];
     
         //validate age if empty
-        if (!preg_match ("/^[0-9]*$|^0$/", $age) ){  
+        if (!preg_match("/^[0-9]+$/", $age) ){  
             $age_err = "Please enter a valid age."; 
         }
         else if(empty($age)){
             $age_err = "Please enter age";
         }
-
+ 
         //validate coop number and only accept numeric input
         if (!preg_match ("/^[0-9]*$/", trim($coopNumber)) ) {  
            $coopNumber_err = "Please enter a valid coop number.";
@@ -95,7 +95,7 @@ try{
         }
 
 
-        if(empty($coopNumber_err) && empty($batchName_err) && empty($breedType_err) && empty($batchPurpose_err) && empty($startingQuantity_err) && empty($inStock_err) && empty($dateAcquired_err) && empty($acquisitionType_err) && empty($note_err)){
+        if(empty($age_err) && empty($coopNumber_err) && empty($batchName_err) && empty($breedType_err) && empty($batchPurpose_err) && empty($startingQuantity_err) && empty($inStock_err) && empty($dateAcquired_err) && empty($acquisitionType_err) && empty($note_err)){
 
            // Prepare an insert statement
            $sql = "INSERT INTO chickenproduction (age, coopNumber, batchName, breedType, batchPurpose, startingQuantity, inStock, dateAcquired, acquisitionType, note) VALUES (:age, :coopNumber, :batchName, :breedType, :batchPurpose, :startingQuantity, :startingQuantity, :dateAcquired, :acquisitionType, :note)";

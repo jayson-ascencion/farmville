@@ -486,14 +486,14 @@
             
             ranges:{
                 'Today' : [moment(), moment()],
-                'Yesterday' : [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                // 'Yesterday' : [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
                 'Last 7 Days' : [moment().subtract(6, 'days'), moment()],
-                'Last 30 Days' : [moment().subtract(29, 'days'), moment()],
+                // 'Last 30 Days' : [moment().subtract(29, 'days'), moment()],
                 'This Month' : [moment().startOf('month'), moment().endOf('month')],
-                'Last Month' : [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
-                'Last 12 Months': [moment().subtract(11, 'months').startOf('month'), moment().endOf('month')],
+                // 'Last Month' : [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+                // 'Last 12 Months': [moment().subtract(11, 'months').startOf('month'), moment().endOf('month')],
                 'This Year': [moment().startOf('year'), moment().endOf('year')],
-                'Last Year': [moment().subtract(1, 'year').startOf('year'), moment().subtract(1, 'year').endOf('year')]
+                // 'Last Year': [moment().subtract(1, 'year').startOf('year'), moment().subtract(1, 'year').endOf('year')]
             },
             format : 'YYYY-MM-DD',
         }, function(start, end){

@@ -199,7 +199,7 @@
                         <!-- DATE OF VACCINATION -->
                         <div class="form-group mb-3">
                             <label for="administrationSched" class="mb-2 text-dark">Administration Schedule</label>
-                            <input type="date" name="administrationSched" class="form-control" value="<?php echo $administrationSched ?>">
+                            <input type="date" min="2022-01-01" name="administrationSched" class="form-control" value="<?php echo $administrationSched ?>">
                             <span class="text-danger" style="font-size: small;"> <?php echo $administrationSched_err; ?> </span>
                         </div>
 
@@ -220,17 +220,18 @@
 
                                     //connect to the database
                                     include('../../../config/database_connection.php');
-                                    $selectedID = "";
+                                     
                                     //statement to select the all the medicine names
                                     $sql = "SELECT user_ID, username FROM users WHERE role='3'";
                                     $stmt = $conn->query($sql);
                                     if($stmt){
                                         if($stmt->rowCount() > 0){
-                                            while($row = $stmt->fetch()){?>
+                                            while($row = $stmt->fetch()){
+                                                if($row['user_ID'] != $administeredBy){?>
                                             <option value="<?php echo $row['user_ID']; ?>"> <?php echo $row["username"];?> </option>
-                                        <?php }
-                                            // Free result set
-                                            unset($result);
+                                        <?php }}
+                                            // // Free result set
+                                            // unset($result);
                                         } else{
                                             echo '<div class="alert alert-danger"><em>No records were found.</em></div>';
                                         }

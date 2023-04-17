@@ -220,24 +220,25 @@
 
                                     //connect to the database
                                     include('../../../config/database_connection.php');
-                                    
+                                     
                                     //statement to select the all the medicine names
                                     $sql = "SELECT user_ID, username FROM users WHERE role='3'";
                                     $stmt = $conn->query($sql);
                                     if($stmt){
                                         if($stmt->rowCount() > 0){
-                                            while($row = $stmt->fetch()){?>
+                                            while($row = $stmt->fetch()){
+                                                if($row['user_ID'] != $administeredBy){?>
                                             <option value="<?php echo $row['user_ID']; ?>"> <?php echo $row["username"];?> </option>
-                                        <?php }
-                                            // Free result set
-                                            unset($result);
+                                        <?php }}
+                                            // // Free result set
+                                            // unset($result);
                                         } else{
                                             echo '<div class="alert alert-danger"><em>No records were found.</em></div>';
                                         }
                                     } else{
                                         echo "Oops! Something went wrong. Please try again later.";
                                     }
-                                    unset($pdo);
+                                    unset($stmt);
 
                                 ?>
                             </select>

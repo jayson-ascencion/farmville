@@ -24,7 +24,7 @@
         <div class="col-xl-6 col-md-6">
             <div class="card bg-light  shadow-lg mb-4">
                 <div class="card-header text-center fw-bold p-3" style="background-color: #FFAF1A; color: #91452c">ADD EGG REDUCTION</div>
-                    <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST">
+                    <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST" novalidate>
                         <div class="card-body p-4">
                             <!-- ID  -->
                             <div class="form-group mb-3">
@@ -70,7 +70,7 @@
                             <!-- Quantity -->
                             <div class="form-group mb-3">
                                 <label for="quantity" class="mb-2 text-dark">Quantity</label>
-                                <input type="number" name="quantity" class="form-control" value="<?php echo $quantity; ?>" placeholder="Enter a quantity." required>
+                                <input type="number" name="quantity" class="form-control" value="<?php echo $quantity; ?>" required>
                                 <span class="text-danger" style="font-size: 13px;">  <?php echo $quantity_err; ?> </span>
                             </div>
 
@@ -106,7 +106,7 @@
                             <!-- Date Reduced -->
                             <div class="form-group mb-3">
                                 <label for="dateReduced" class="mb-2 text-dark">Date Reduced</label>
-                                <input type="date" name="dateReduced" class="form-control" value="<?php echo $dateReduced; ?>" required>
+                                <input type="date" min="2022-01-01" name="dateReduced" class="form-control" value="<?php echo $dateReduced; ?>" required>
                                 <span class="text-danger" style="font-size: 13px;">  <?php echo $dateReduced_err; ?> </span>
                             </div>
     

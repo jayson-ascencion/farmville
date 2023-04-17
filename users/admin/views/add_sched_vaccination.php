@@ -22,7 +22,7 @@
     <div class="row justify-content-center mt-2">
         <div class="col-xl-6 col-md-6">
             <div class="card bg-light shadow-lg mb-4">
-                <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST">
+                <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST" novalidate>
                     <div class="card-header text-center fw-bold p-3"  style="background-color: #FFAF1A; color: #91452c"> ADD VACCINATION SCHEDULE </div>
                     <div class="card-body">
                         <!-- CHICKEN BATCH ID -->
@@ -144,7 +144,7 @@
                         <!-- DATE OF VACCINATION -->
                         <div class="form-group mb-3">
                             <label for="administrationSched" class="mb-2 text-dark">Administration Schedule</label>
-                            <input type="date" name="administrationSched" class="form-control" value="<?php echo $administrationSched ?>">
+                            <input type="date" min="2022-01-01" name="administrationSched" class="form-control" value="<?php echo $administrationSched ?>">
                             <span class="text-danger" style="font-size: small;"> <?php echo $administrationSched_err; ?> </span>
                         </div>
 
@@ -219,7 +219,7 @@
                     
                     <div class="card-footer w-100 d-flex justify-content-between">
                         <div class="m-1 w-100">
-                            <a href="vaccination_pending.php" class="btn fw-bold btn-outline-danger w-100"> Cancel</a>
+                            <a href="vaccination_pending.php" class="btn fw-bold btn-outline-secondary w-100"> Cancel</a>
                         </div>
                         <div class="m-1 w-100">
                             <button class="btn btn-outline-success ml-1 fw-bold w-100" type="submit" name="submit">Save</button>

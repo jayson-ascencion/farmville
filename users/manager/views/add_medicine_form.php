@@ -25,7 +25,7 @@
         <div class="col-xl-6 col-md-6">
             <div class="card  bg-light shadow-lg mb-4">
                 <div class="card-header text-center fw-bold p-3" style="background-color: #FFAF1A; color: #91452c">ADD NEW MEDICINE</div>
-                    <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST">
+                    <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST" novalidate>
                         <div class="card-body p-4">
                             <!-- Medicine Type -->
                             <div class="form-group mb-3">
@@ -105,14 +105,14 @@
                                 <!-- Date Added -->
                                 <div class="form-group w-100 mb-3">
                                     <label for="dateAdded" class="mb-2 text-dark">Date Added </label>
-                                    <input type="date" name="dateAdded" class="form-control" value="<?php echo $dateAdded; ?>" required>
+                                    <input type="date" min="2022-01-01" name="dateAdded" class="form-control" value="<?php echo $dateAdded; ?>" required>
                                     <span class="text-danger" style="font-size: 13px;"> <?php echo $dateAdded_err; ?> </span>
                                 </div>
                                     
                                 <!-- Expiration Date -->
                                 <div class="form-group w-100 mb-3">
                                     <label for="expirationDate" class="mb-2 text-dark">Expiration Date</label>
-                                    <input type="date" name="expirationDate" class="form-control" value="<?php echo $expirationDate; ?>" required>
+                                    <input type="date" min="2022-01-01" name="expirationDate" class="form-control" value="<?php echo $expirationDate; ?>" required>
                                     <span class="text-danger" style="font-size: 13px;"> <?php echo $expirationDate_err; ?> </span>
                                 </div>
                             </div>

@@ -23,7 +23,7 @@
         <div class="col-xl-6 col-md-6">
             <div class="card bg-light shadow-lg mb-4 ">
                 <div class="card-header text-center p-3 fw-bold" style="background-color: #FFAF1A; color: #91452c">UPDATE CHICKEN REDUCTION</div>
-                    <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST">
+                    <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST" novalidate>
                             <?php
                                 //connect to the database
                                 include('../../../config/database_connection.php');
@@ -126,7 +126,7 @@
                             <!-- Date Reduced -->
                             <div class="form-group mb-3">
                                 <label for="dateReduced" class="mb-2 text-dark">Date Reduced</label>
-                                <input type="date" name="dateReduced" class="form-control"value="<?php echo $dateReduced; ?>" required>
+                                <input type="date" min="2022-01-01" name="dateReduced" class="form-control"value="<?php echo $dateReduced; ?>" required>
                                 <span class="text-danger" style="font-size: 13px;"> <?php echo $dateReduced_err; ?> </span>
                             </div>
 

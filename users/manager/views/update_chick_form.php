@@ -24,7 +24,7 @@
         <div class="col-xl-6 col-md-6">
             <div class="card bg-light shadow-lg mb-4 ">
                 <div class="card-header text-center p-3 fw-bold" style="background-color: #FFAF1A; color: #91452c">UPDATE CHICKEN BATCH</div>
-                    <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST">
+                    <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST" novalidate>
                         <?php
                                 //connect to the database
                                 include('../../../config/database_connection.php');
@@ -147,7 +147,7 @@
                             <!-- Date Acquired -->
                             <div class="form-group mb-3">
                                 <label for="dateAcquired" class="mb-2 text-dark">Date Acquired</label>
-                                <input type="date" name="dateAcquired" class="form-control" value="<?php echo $dateAcquired; ?>" required>
+                                <input type="date" min="2022-01-01" name="dateAcquired" class="form-control" value="<?php echo $dateAcquired; ?>" required>
                                 <span class="text-danger" style="font-size: 13px;">  <?php echo $dateAcquired_err; ?> </span>
                             </div>
 

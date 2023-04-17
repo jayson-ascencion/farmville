@@ -25,7 +25,7 @@
         <div class="col-xl-6 col-md-6">
             <div class="card  bg-light shadow mb-4">
                 <div class="card-header text-center fw-bold p-3" style="background-color: #FFAF1A; color: #91452c">ADD NEW FEED INVENTORY </div>
-                    <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST">
+                    <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST" novalidate>
                         <div class="card-body p-4">
                             <!-- Feed Name -->
                             <div class="form-group mb-3">
@@ -58,17 +58,12 @@
                             <!-- Date Purchased -->
                             <div class="form-group mb-3">
                                 <label for="datePurchased" class="mb-2 text-dark">Date Purchased </label>
-                                <input type="date" name="datePurchased" class="form-control" value="<?php echo $datePurchased; ?>" required>
+                                <input type="date" min="2022-01-01" name="datePurchased" class="form-control" value="<?php echo $datePurchased; ?>" required>
                                 <span class="text-danger" style="font-size: 13px;">  <?php echo $datePurchased_err; ?> </span>
                             </div>
                         
                         </div>
                         <div class="card-footer w-100 border d-flex justify-content-between">
-                            <div>
-
-                                
- 
-                            </div>
                             <div class="m-1 w-100">
                                 <a class="small btn btn-outline-secondary w-100 fw-bold" href="./feeds.php">
                                     Cancel

@@ -24,7 +24,7 @@
         <div class="col-xl-6 col-md-6">
             <div class="card bg-light shadow-lg mb-4 ">
                 <div class="card-header text-center fw-bold p-3" style="background-color: #FFAF1A; color: #91452c">UPDATE MEDICINE DETAILS</div>
-                    <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST">
+                    <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST" novalidate>
 
                         <!-- retrieves the data from the database based on the id -->
                         <?php
@@ -173,7 +173,7 @@
                                 <!-- Date Added -->
                                 <div class="form-group w-100 mb-3">
                                     <label for="dateAdded" class="mb-2 text-dark">Date Added </label>
-                                    <input type="date" name="dateAdded" class="form-control" value="<?php echo $dateAdded; ?>" required>
+                                    <input type="date" min="2022-01-01" name="dateAdded" class="form-control" value="<?php echo $dateAdded; ?>" required>
                                     <span class="text-danger" style="font-size: 13px;"> <?php echo $dateAdded_err; ?> </span>
                                 </div>
                                     

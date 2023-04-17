@@ -23,7 +23,7 @@
         <div class="col-xl-6 col-md-6">
             <div class="card bg-light shadow-lg mb-4 ">
                 <div class="card-header text-center fw-bold p-3" style="background-color: #FFAF1A; color: #91452c">ADD MEDICINE REDUCTION</div>
-                    <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST">
+                    <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST" novalidate>
                         <div class="card-body p-4">
                             <!-- Medicine ID -->
                             <div class="form-group mb-3">
@@ -38,7 +38,7 @@
                                         $sql = "SELECT medicine_ID, medicineName FROM medicines WHERE archive='not archived'";
                                         $stmt = $conn->query($sql);
                                         if($stmt){
-                                            if($stmt->rowCount() > 0){
+                                            // if($stmt->rowCount() > 0){
                                                 if(empty($medicine_ID)){
                                                     echo '<option value="">- select a medicine id -</option>';
                                                 }else{
@@ -51,9 +51,9 @@
                                             <?php }
                                                 // Free result set
                                                 unset($result);
-                                            } else{
-                                                echo '<option> - no medicines found - </option>';
-                                            }
+                                            // } else{
+                                            //     echo '<option> - no medicines found - </option>';
+                                            // }
                                         } else{
                                             echo "Oops! Something went wrong. Please try again later.";
                                         }
@@ -93,7 +93,7 @@
                             <!-- Date Reduced -->
                             <div class="form-group mb-3">
                                 <label for="dateReduced" class="mb-2 text-dark">Date Reduced</label>
-                                <input type="date" name="dateReduced" class="form-control"value="<?php echo $dateReduced; ?>" required>
+                                <input type="date" min="2022-01-01" name="dateReduced" class="form-control"value="<?php echo $dateReduced; ?>" required>
                                 <span class="text-danger" style="font-size: 13px;"> <?php echo $dateReduced_err; ?> </span>
                             </div>
 

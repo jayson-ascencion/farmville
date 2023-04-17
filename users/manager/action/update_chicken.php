@@ -27,7 +27,7 @@ try{
     
     
         //validate coop number and only accept numeric input
-        if (!preg_match ("/^[0-9]*$/", trim($coopNumber)) ) {  
+        if (!preg_match ("/^[0-9]+$/", trim($coopNumber)) ) {  
             $coopNumber_err = "Please enter a valid coop number.";
          }
          else if (empty(trim($coopNumber))) {  
@@ -89,12 +89,12 @@ try{
         }
 
         //validate starting quantity if empty
-        if (!preg_match ("/^[0-9]*$/", $startingQuantity) ){  
+        if (!preg_match ("/^[0-9]+$/", $startingQuantity) ){  
             $startingQuantity_err = "Please enter a valid quantity."; 
         }
 
         //validate starting quantity if empty
-        if (!preg_match ("/^[0-9]*$/", $inStock) ){  
+        if (!preg_match ("/^[0-9]+$/", $inStock) ){  
             $inStock_err = "Please enter a valid quantity."; 
         }
 

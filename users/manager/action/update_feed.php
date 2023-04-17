@@ -41,12 +41,12 @@ try{
         }
 
         //validate starting quantity if empty and only allows number with a length of 11, validate if number exist then display error
-        if (!preg_match ("/^[0-9]*$/", $startingQuantity) ){  
+        if (!preg_match ("/^[0-9]+$/", $startingQuantity) ){  
             $startingQuantity_err = "Please enter a valid quantity."; 
         }
 
         //validate starting quantity if empty and only allows number with a length of 11, validate if number exist then display error
-        if (!preg_match ("/^[0-9]*$/", $inStock) ){  
+        if (!preg_match ("/^[0-9]+$/", $inStock) ){  
             $inStock_err = "Please enter a valid quantity."; 
         }
 

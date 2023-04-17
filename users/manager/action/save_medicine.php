@@ -25,11 +25,12 @@ try{
     
     
         //validate medicine type if empty and only allows only alphabets and white spaces
-        if (!preg_match('/^[\p{L} ]+$/u', trim($medicineType)) ) {  
-           $medicineType_err = "Only alphabets and whitespace are allowed.";
-        }
-        else if (empty(trim($medicineType))) {  
-            $medicineType_err = "Please enter medicine type.";
+        // if (!preg_match('/^[\p{L} ]+$/u', trim($medicineType)) ) {  
+        //    $medicineType_err = "Only alphabets and whitespace are allowed.";
+        // }
+        // else 
+        if (empty(trim($medicineType))) {  
+            $medicineType_err = "Please select medicine type.";
         }
         
         //validate medicine name if empty and allows only alphabets and white spaces
@@ -48,27 +49,27 @@ try{
 
         //validate medicineFor
         if (empty($medicineFor)){
-            $medicineFor_err = "Please select a medicine unit";
+            $medicineFor_err = "Please select a medicine ";
         }
 
         //validate starting quantity if empty and only allows number with a length of 11, validate if number exist then display error
-        if (!preg_match ("/^[0-9]*$/", $startingQuantity) ){  
+        if (!preg_match ("/^[0-9]+$/", $startingQuantity) ){  
             $startingQuantity_err = "Please enter a valid quantity."; 
         }
 
         //validate in stock quantity if empty and only allows number with a length of 11, validate if number exist then display error
-        if (!preg_match ("/^[0-9]*$/", $inStock) ){  
+        if (!preg_match ("/^[0-9]+$/", $inStock) ){  
             $inStock_err = "Please enter a valid quantity."; 
         }
 
         //validate date added if empty
         if (empty($dateAdded)){
-            $dateAdded_err = "Please select a date";
+            $dateAdded_err = "Please enter a date";
         }
 
         //validate expiration date if empty
         if (empty($expirationDate)){
-            $expirationDate_err = "Please select a date";
+            $expirationDate_err = "Please enter a date";
         }
         
 

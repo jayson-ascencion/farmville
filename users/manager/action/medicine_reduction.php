@@ -33,18 +33,18 @@ try{
                     // Free result set
                     unset($result);
                 } else{
-                    echo '<div class="alert alert-danger"><em>No records were found.</em></div>';
+                    echo '<div class="alert alert-danger"><em>No records were found fuck.</em></div>';
                 }
             } else{
                 echo "Oops! Something went wrong. Please try again later.";
             }
         }
         else {  
-            $medicine_ID_err = "Please enter coop number.";
+            $medicine_ID_err = "Please select a medicine.";
         }
         
         //validate starting quantity if empty
-        if (!preg_match ("/^[0-9]*$/", $quantity) ){  
+        if (!preg_match ("/^[0-9]+$/", $quantity) ){  
             $quantity_err = "Please enter a valid quantity."; 
         }
         else if(!empty($quantity)){
@@ -75,12 +75,12 @@ try{
 
         //validate reduction type if empty and allows only alphabets and white spaces
         if (empty(trim($reductionType))) {  
-            $reductionType_err = "Please enter reduction type.";
+            $reductionType_err = "Please select a reduction type.";
         }
 
         //validate reduction date
         if (empty($dateReduced)){
-            $dateReduced_err = "Please select batch purpose";
+            $dateReduced_err = "Please enter a date";
         }
 
 

@@ -23,22 +23,22 @@ try{
 
         //validate medicine name if empty and allows only alphabets and white spaces
         if (empty(trim($eggSize))) {  
-            $eggSize_err = "Please enter egg size.";
+            $eggSize_err = "Please select egg size.";
         }
 
         //validate starting quantity if empty
-        if (!preg_match ("/^[0-9]*$/", $quantity) ){  
+        if (!preg_match ("/^[0-9]+$/", $quantity) ){  
             $quantity_err = "Please enter a valid quantity."; 
         }
 
         //validate collection date if empty
         if (empty($collectionDate) ){  
-            $collectionDate_err = "Please enter date acquired."; 
+            $collectionDate_err = "Please enter collection date."; 
         }
 
         //validate collectionType
         if (empty($collectionType)){
-            $collectionType_err = "Please select batch purpose";
+            $collectionType_err = "Please select collection type";
         }
 
         if(empty($note)){

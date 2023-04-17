@@ -21,50 +21,52 @@ try{
         
         //validate egg batch ID
         if(empty($feed_ID)){
-            $feed_ID_err = "Please enter egg batch ID";
+            $feed_ID_err = "Please select a feed";
         }
         
         //validate quantity if empty
-        if (!preg_match ("/^[0-9]*$/", $quantity) ){  
+        if (!preg_match ("/^[0-9]+$/", $quantity) ){  
             $quantity_err = "Please enter a valid quantity."; 
         }
         else if($quantity<1){
             $quantity_err = "Please enter a valid quantity."; 
         }
+        else if(!empty($quantity)){
+            //statement to quantity in feeds
+            $sql = "SELECT feedName, inStock FROM feeds WHERE feed_ID = '$feed_ID'";
+            $stmt = $conn->query($sql);
 
-        //statement to quantity in feeds
-        $sql = "SELECT feedName, inStock FROM feeds WHERE feed_ID = '$feed_ID'";
-        $stmt = $conn->query($sql);
-
-        if($stmt){
-            if($stmt->rowCount() > 0){
-                while($row = $stmt->fetch()){
-                    $productionQuantity = $row['inStock'];
-                    $feedName = $row['feedName'];
+            if($stmt){
+                if($stmt->rowCount() > 0){
+                    while($row = $stmt->fetch()){
+                        $productionQuantity = $row['inStock'];
+                        $feedName = $row['feedName'];
+                    }
+                    // Free result set
+                    unset($result);
+                } else{
+                    echo '<div class="alert alert-danger"><em>No records were found.</em></div>';
                 }
-                // Free result set
-                unset($result);
             } else{
-                echo '<div class="alert alert-danger"><em>No records were found.</em></div>';
+                echo "Oops! Something went wrong. Please try again later.";
             }
-        } else{
-            echo "Oops! Something went wrong. Please try again later.";
+
+            if($quantity > $productionQuantity){
+                $quantity_err = "Reduction quantity is greater than the stock available. Stock available is only "  .  $productionQuantity . ".";
+            }else{
+                $newQuantity = $productionQuantity - $quantity;
+            }
         }
 
-        if($quantity > $productionQuantity){
-            $quantity_err = "Reduction quantity is greater than the stock available. Stock available is only "  .  $productionQuantity . ".";
-        }else{
-            $newQuantity = $productionQuantity - $quantity;
-        }
 
         //validate reduction type if empty and allows only alphabets and white spaces
         if (empty(trim($reductionType))) {  
-            $reductionType_err = "Please enter reduction type.";
+            $reductionType_err = "Please select reduction type.";
         }
 
         //validate reduction date
         if (empty($dateReduced)){
-            $dateReduced_err = "Please enter date reduced";
+            $dateReduced_err = "Please enter a date";
         }
 
 

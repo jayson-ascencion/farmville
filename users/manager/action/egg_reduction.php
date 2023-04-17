@@ -21,19 +21,18 @@ try{
         
         //validate egg batch ID
         if(empty($eggBatch_ID)){
-            $eggBatch_ID_err = "Please enter egg batch ID";
+            $eggBatch_ID_err = "Please select egg batch ID";
         }
         
         //validate quantity if empty
-        if (!preg_match ("/^[0-9]*$/", $quantity) ){  
+        if (!preg_match ("/^[0-9]+$/", $quantity) ){  
             $quantity_err = "Please enter a valid quantity."; 
         }
         else if($quantity<1){
             $quantity_err = "Please enter a valid quantity."; 
         }
-
-        //statement to select the all the medicine names
-        $sql = "SELECT eggSize, quantity FROM eggproduction WHERE eggBatch_ID = '$eggBatch_ID'";
+        else if (!empty($quantity)){
+            $sql = "SELECT eggSize, quantity FROM eggproduction WHERE eggBatch_ID = '$eggBatch_ID'";
         $stmt = $conn->query($sql);
 
         if($stmt){
@@ -56,20 +55,21 @@ try{
         }else{
             $newQuantity = $productionQuantity - $quantity;
         }
+        }
 
         //validate reduction type if empty and allows only alphabets and white spaces
         if (empty(trim($reductionType))) {  
-            $reductionType_err = "Please enter reduction type.";
+            $reductionType_err = "Please select a reduction type.";
         }
 
         //validate reduction date
         if (empty($dateReduced)){
-            $dateReduced_err = "Please enter date reduced";
+            $dateReduced_err = "Please enter date reduced.";
         }
 
 
         if(empty($eggBatch_ID_err) && empty($quantity_err) && empty($reductionType_err) && empty($dateReduced_err)){
-
+           
            // Prepare an insert statement
            $sql = "INSERT INTO eggreduction (eggBatch_ID, eggSize, quantity, reductionType, dateReduced) VALUES (:eggBatch_ID, :eggSize, :quantity, :reductionType, :dateReduced)";
          

@@ -62,7 +62,7 @@ try{
 
         //validate breed type if empty and allows only alphabets and white spaces
         if (empty(trim($breedType))) {  
-            $breedType_err = "Please enter breed type.";
+            $breedType_err = "Please select breed type.";
         }
 
         //validate batchPurpose
@@ -75,7 +75,7 @@ try{
             $startingQuantity_err = "Please enter a valid quantity."; 
         }
         else if(empty($startingQuantity)){
-            $startingQuantity_err = "Please enter age";
+            $startingQuantity_err = "Please enter a quantity";
         }
         
         //validate starting quantity if empty

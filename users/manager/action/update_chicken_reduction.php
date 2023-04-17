@@ -103,7 +103,7 @@ try{
                 $newQuantity = $inStock + $diff;
             }
         }else if($updateQuantity < 0){
-            $updateQuantity_err = "Please enter a valid quantitys";
+            $updateQuantity_err = "Please enter a valid quantity";
         }
 
         //validate starting quantity if empty

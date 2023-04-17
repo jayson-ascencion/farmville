@@ -16,6 +16,7 @@
     if($stmt){
         if($stmt->rowCount() > 0){
             while($row = $stmt->fetch()){
+                $age = $row['age'];
                 $coopNumber = $row['coopNumber'];
                 $batchName = $row['batchName'];
                 $breedType = $row['breedType'];
@@ -111,6 +112,11 @@
                             <!-- egg batch id -->
                             <div class="mb-3">
                                 <p class="fw-bold">Coop Number: <span class="fw-normal ps-2"><?php echo $coopNumber; ?></span></p>
+                            </div>
+
+                            <!-- egg batch id -->
+                            <div class="mb-3">
+                                <p class="fw-bold">Age: <span class="fw-normal ps-2"><?php echo $age; ?></span></p>
                             </div>
 
                             <!-- egg Size -->

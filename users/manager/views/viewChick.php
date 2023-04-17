@@ -19,6 +19,7 @@
         if($stmt->rowCount() > 0){
             while($row = $stmt->fetch()){
                 //collect data from the form
+                $age = $row['age'];
                 $coopNumber = $row['coopNumber'];
                 $batchName = $row['batchName'];
                 $breedType = $row['breedType'];
@@ -67,6 +68,11 @@
                                 <p class="fw-bold">Coop Number: <span class="fw-normal ps-2"><?php echo $coopNumber; ?></span></p>
                             </div>
 
+                            <!-- egg batch id -->
+                            <div class="mb-3">
+                                <p class="fw-bold">Age: <span class="fw-normal ps-2"><?php echo $age; ?></span></p>
+                            </div>
+
                             <!-- egg Size -->
                             <div class="mb-3">
                                 <p class="fw-bold">Batch Name: <span class="fw-normal ps-2"><?php echo $batchName; ?></span></p>
@@ -81,8 +87,7 @@
                             <div class="mb-3">
                                 <p class="fw-bold">Starting Quantity: <span class="fw-normal ps-2"><?php echo $startingQuantity; ?></span></p>
                             </div>
-
-                            
+     
                             <!-- Collection Date -->
                             <div class="mb-3">
                                 <p class="fw-bold">In Stock: <span class="fw-normal ps-2"><?php echo $inStock; ?></span></p>

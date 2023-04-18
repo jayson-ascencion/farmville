@@ -99,7 +99,7 @@
                             <!-- Date Acquired -->
                             <div class="form-group mb-3">
                                 <label for="dateAcquired" class="mb-2 text-dark">Date Acquired</label>
-                                <input type="date" min="2022-01-01" name="dateAcquired" class="form-control" value="<?php echo $dateAcquired; ?>" required>
+                                <input type="date" min="2022-01-01" max="<?php echo date('Y-m-d'); ?>" name="dateAcquired" class="form-control" value="<?php echo $dateAcquired; ?>" required>
                                 <span class="text-danger" style="font-size: 13px;">  <?php echo $dateAcquired_err; ?> </span>
                             </div>
 

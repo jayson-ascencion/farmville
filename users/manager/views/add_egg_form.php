@@ -79,7 +79,7 @@
                             <!-- Collection Date -->
                             <div class="form-group mb-3">
                                 <label for="collectionDate" class="mb-2 text-dark">Collection Date</label>
-                                <input type="date" min="2022-01-01" name="collectionDate" class="form-control" value="<?php echo $collectionDate; ?>" required>
+                                <input type="date" min="2022-01-01" max="<?php echo date('Y-m-d'); ?>" name="collectionDate" class="form-control" value="<?php echo $collectionDate; ?>" required>
                                 <span class="text-danger" style="font-size: 13px;">  <?php echo $collectionDate_err; ?> </span>
                             </div>
                                

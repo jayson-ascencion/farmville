@@ -105,14 +105,15 @@
                                 <!-- Date Added -->
                                 <div class="form-group w-100 mb-3">
                                     <label for="dateAdded" class="mb-2 text-dark">Date Added </label>
-                                    <input type="date" min="2022-01-01" name="dateAdded" class="form-control" value="<?php echo $dateAdded; ?>" required>
+                                    <input type="date" min="2022-01-01" max="<?php echo date('Y-m-d'); ?>" name="dateAdded" class="form-control" value="<?php echo $dateAdded; ?>" required>
                                     <span class="text-danger" style="font-size: 13px;"> <?php echo $dateAdded_err; ?> </span>
                                 </div>
                                     
                                 <!-- Expiration Date -->
                                 <div class="form-group w-100 mb-3">
                                     <label for="expirationDate" class="mb-2 text-dark">Expiration Date</label>
-                                    <input type="date" min="2022-01-01" name="expirationDate" class="form-control" value="<?php echo $expirationDate; ?>" required>
+                                    <!-- <input type="date" min="2022-01-01" name="expirationDate" class="form-control" value=" echo $expirationDate; ?>" required> -->
+                                    <input type="date" min="<?php echo date('Y-m-d'); ?>" name="expirationDate" class="form-control" value="<?php echo $expirationDate; ?>" required>
                                     <span class="text-danger" style="font-size: 13px;"> <?php echo $expirationDate_err; ?> </span>
                                 </div>
                             </div>

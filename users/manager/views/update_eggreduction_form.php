@@ -142,7 +142,7 @@
                             <!-- reduction Date -->
                             <div class="form-group mb-3">
                                 <label for="dateReduced" class="mb-2 text-dark">Reduction Date</label>
-                                <input type="date" min="2022-01-01" name="dateReduced" class="form-control" value="<?php echo $dateReduced; ?>" required>
+                                <input type="date" min="2022-01-01" max="<?php echo date('Y-m-d'); ?>" name="dateReduced" class="form-control" value="<?php echo $dateReduced; ?>" required>
                                 <span class="text-danger" style="font-size: 13px;">  <?php echo $dateReduced_err; ?> </span>
                             </div>
                                 

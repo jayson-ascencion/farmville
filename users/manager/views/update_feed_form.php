@@ -88,7 +88,7 @@
                             <!-- Purchased Date -->
                             <div class="form-group mb-3">
                                 <label for="datePurchased" class="mb-2 text-dark">Date Purchased</label>
-                                <input type="date" min="2022-01-01" name="datePurchased" class="form-control" value="<?php echo $datePurchased; ?>" required>
+                                <input type="date" min="2022-01-01" max="<?php echo date('Y-m-d'); ?>" name="datePurchased" class="form-control" value="<?php echo $datePurchased; ?>" required>
                                 <span class="text-danger" style="font-size: 13px;">  <?php echo $datePurchased_err; ?> </span>
                             </div>
                                

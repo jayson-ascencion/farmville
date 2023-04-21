@@ -199,7 +199,7 @@
                         <!-- DATE OF VACCINATION -->
                         <div class="form-group mb-3">
                             <label for="administrationSched" class="mb-2 text-dark">Administration Schedule</label>
-                            <input type="date" name="administrationSched" class="form-control" value="<?php echo $administrationSched ?>">
+                            <input type="date" min="<?php echo date('Y-m-d'); ?>" name="administrationSched" class="form-control" value="<?php echo $administrationSched ?>">
                             <span class="text-danger" style="font-size: small;"> <?php echo $administrationSched_err; ?> </span>
                         </div>
 

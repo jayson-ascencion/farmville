@@ -141,6 +141,26 @@
                         </nav>
                     </div>
 
+                    <!-- Users -->
+                    <div class="sb-sidenav-menu-heading"> Users</div>
+                    <!-- Medication -->
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#users" aria-expanded="false" aria-controls="collapseLayouts">
+                        <div class="sb-nav-link-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">
+                        <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7Zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-5.784 6A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216ZM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"/>
+                        </svg>
+                        </i>
+                        </div>
+                        Manager Users
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="users" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="medication_pending.php">Active Users</a>
+                            <a class="nav-link" href="medication_completed.php">Disabled Users</a>
+                        </nav>
+                    </div>
+
                     <!-- Deleted Records -->
                     <div class="sb-sidenav-menu-heading"> Records</div>
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#deletedRecords" aria-expanded="false" aria-controls="collapseLayouts">
@@ -148,7 +168,7 @@
   <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM5 4h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zm-.5 2.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zM5 8h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zm0 2h3a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1z"/>
 </svg>
                     </div>
-                    Deleted Records
+                    Archived Records
                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                     </a>
                     <div class="collapse <?= $page == 'delete_schedules.php' || $page == 'delete_feeds.php' || $page == 'delete_medicine.php' || $page == 'delete_egg.php' || $page == 'delete_chicken.php' || $page == 'restore_schedules.php' || $page == 'schedules.php' || $page == 'restore_medicine.php' || $page == 'restore_feeds.php' || $page == 'restore_egg.php' || $page == 'restore_chicken.php' || $page == 'chicken_production.php' || $page == 'egg_production.php' || $page == 'medicines.php' || $page == 'feeds.php'  ? 'show' : '' ?>" id="deletedRecords" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
@@ -161,6 +181,7 @@
                         </nav>
                     </div>
 
+                    
                 <!-- buttons for employee, will not show when the role is not equals to 3-->
                 <?php
                     }else if($_SESSION['role']==3){

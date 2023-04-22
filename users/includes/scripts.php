@@ -1193,6 +1193,65 @@
                 });
             } );
 
+             //configuration for the users table
+             $(document).ready(function() {
+                //this code will prevent the table from going back to page 1 when the user is in page 2 ang opens another function and then exits the page.
+                var pageReloading = false;
+                $(window).on('beforeunload', function(){
+                pageReloading = true;
+                });
+
+                //this will reset the filter
+                $('#reset-btn').click(function() {
+                if (!pageReloading) {
+                    $('#filtertable select').val('');
+                    $('#users_disabled').DataTable().columns().search('').draw();
+                }
+                });
+
+                //table initialization
+                $('#users_disabled').DataTable({
+                    columns: [ //this will define what columns are orderable
+                        { orderable: ['asc'] },
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        { orderable: false },
+                        { orderable: false },
+                    ],
+                    //table initialization
+                    initComplete: function () {
+                        this.api().columns([4,6]).every( function (d) {
+                            var column = this;
+                            var theadname = $('#users_disabled th').eq([d]).text();
+                            var select = $('<select class="mx-1 p-1 rounded rounded-3 col-md-2 col-sm-4 m-1"><option value="">'+theadname+': All</option></select>')
+                                .appendTo( '#filtertable' )
+                                .on( 'change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex(
+                                        $(this).val()
+                                    );
+
+                                    if (val === '') {
+                                        column.search('').draw();
+                                    } else {
+                                        column
+                                            .search( '^'+val+'$', true, false )
+                                            .draw();
+                                    }
+                                } );
+                            select.find('option[value=""]').attr("selected", true);
+                            column.data().unique().sort().each( function ( d, j ) {
+                                var val = $('<div/>').html(d).text();
+                                select.append( '<option value="'+val+'">'+val+'</option>' )
+                            } );
+                        } );
+                    }
+                });
+
+            } );
+
               //configuration for the MEDICINE DASHBOARD
               $(document).ready(function() {
                 $('#medicineDashboard').DataTable({

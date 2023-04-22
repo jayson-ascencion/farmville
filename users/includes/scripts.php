@@ -196,7 +196,7 @@
                     ],
                     //this code if for the filter buttons
                     initComplete: function () {
-                        this.api().columns([3,4,7,8]).every( function (d) {
+                        this.api().columns([3,4,8]).every( function (d) {
                             var column = this;
                             var theadname = $('#chickenProduction th').eq([d]).text();
                             var select = $('<select class="mx-1 p-1 rounded rounded-3 col-md-2 col-sm-4 m-1"><option value="">'+theadname+': All</option></select>')
@@ -242,7 +242,7 @@
                         "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                     //this code if for the filter buttons
                     initComplete: function () {
-                        this.api().columns([3,4,7,8]).every( function (d) {
+                        this.api().columns([3,4,8]).every( function (d) {
                             var column = this;
                             var theadname = $('#chickenProduction_Delete th').eq([d]).text();
                             var select = $('<select class="mx-1 p-1 rounded rounded-3 col-md-2 col-sm-4 m-1"><option value="">'+theadname+': All</option></select>')
@@ -302,7 +302,7 @@
                     ],
                     //this code is for the filter buttons
                     initComplete: function () {
-                        this.api().columns([5,6]).every( function (d) {
+                        this.api().columns([5]).every( function (d) {
                             var column = this;
                             var theadname = $('#chickenReduction th').eq([d]).text();
                             var select = $('<select class="mx-1 p-1 rounded rounded-3 col-md-2 col-sm-4 m-1"><option value="">'+theadname+': All</option></select>')
@@ -409,7 +409,7 @@
                     ],
                     //for filter buttons
                     initComplete: function () {
-                        this.api().columns([1,3,4]).every( function (d) {
+                        this.api().columns([1,3]).every( function (d) {
                             var column = this;
                             var theadname = $('#eggProduction th').eq([d]).text();
                             var select = $('<select class="mx-1 p-1 rounded rounded-3 col-md-2 col-sm-4 m-1"><option value="">'+theadname+': All</option></select>')
@@ -452,7 +452,7 @@
                     "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                     //for filter buttons
                     initComplete: function () {
-                        this.api().columns([1,3,4]).every( function (d) {
+                        this.api().columns([1,3]).every( function (d) {
                             var column = this;
                             var theadname = $('#eggProduction_Delete th').eq([d]).text();
                             var select = $('<select class="mx-1 p-1 rounded rounded-3 col-md-2 col-sm-4 m-1"><option value="">'+theadname+': All</option></select>')
@@ -510,7 +510,7 @@
                     ],
                     //for filter buttons
                     initComplete: function () {
-                        this.api().columns([2,4,5]).every( function (d) {
+                        this.api().columns([2,4]).every( function (d) {
                             var column = this;
                             var theadname = $('#eggReduction th').eq([d]).text();
                             var select = $('<select class="mx-1 p-1 rounded rounded-3 col-md-2 col-sm-4 m-1"><option value="">'+theadname+': All</option></select>')
@@ -746,7 +746,7 @@
                     ],
                     //table initialization
                     initComplete: function () {
-                        this.api().columns([2,5]).every( function (d) {
+                        this.api().columns([2]).every( function (d) {
                             var column = this;
                             var theadname = $('#feedRecords th').eq([d]).text();
                             var select = $('<select class="mx-1 p-1 rounded rounded-3 col-md-2 col-sm-4 m-1"><option value="">'+theadname+': All</option></select>')
@@ -789,7 +789,7 @@
                     "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                     //table initialization
                     initComplete: function () {
-                        this.api().columns([2,5]).every( function (d) {
+                        this.api().columns([2]).every( function (d) {
                             var column = this;
                             var theadname = $('#feedRecords_Delete th').eq([d]).text();
                             var select = $('<select class="mx-1 p-1 rounded rounded-3 col-md-2 col-sm-4 m-1"><option value="">'+theadname+': All</option></select>')
@@ -847,7 +847,7 @@
                     ],
                     //for filter buttons
                     initComplete: function () {
-                        this.api().columns([2,4,5]).every( function (d) {
+                        this.api().columns([2,4]).every( function (d) {
                             var column = this;
                             var theadname = $('#feedReductions th').eq([d]).text();
                             var select = $('<select class="mx-1 p-1 rounded rounded-3 col-md-2 col-sm-4 m-1"><option value="">'+theadname+': All</option></select>')
@@ -1013,7 +1013,7 @@
                     ],
                     //for filter buttons
                     initComplete: function () {
-                        this.api().columns([0,2,4,5,8]).every( function (d) {
+                        this.api().columns([0,2,4,5]).every( function (d) {
                             var column = this;
                             var theadname = $('#schedules th').eq([d]).text();
                             var select = $('<select class="mx-1 p-1 rounded rounded-3 col-md-2 col-sm-4 m-1"><option value="">'+theadname+': All</option></select>')
@@ -1060,7 +1060,7 @@
                     "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                     //for filter buttons
                     initComplete: function () {
-                        this.api().columns([0,2,4,5,8]).every( function (d) {
+                        this.api().columns([0,2,4,5]).every( function (d) {
                             var column = this;
                             var theadname = $('#schedules_Delete th').eq([d]).text();
                             var select = $('<select class="mx-1 p-1 rounded rounded-3 col-md-2 col-sm-4 m-1"><option value="">'+theadname+': All</option></select>')
@@ -1120,7 +1120,7 @@
                     ],
                     //for filter buttons
                     initComplete: function () {
-                        this.api().columns([3,4,7]).every( function (d) {
+                        this.api().columns([3,4]).every( function (d) {
                             var column = this;
                             var theadname = $('#vaccinationSchedules th').eq([d]).text();
                             var select = $('<select class="mx-1 p-1 rounded rounded-3 col-md-2 col-sm-4 m-1"><option value="">'+theadname+': All</option></select>')
@@ -1165,7 +1165,7 @@
                     "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                     //for filter buttons
                     initComplete: function () {
-                        this.api().columns([3,4,7]).every( function (d) {
+                        this.api().columns([3,4]).every( function (d) {
                             var column = this;
                             var theadname = $('#vaccinationSchedules_Employee th').eq([d]).text();
                             var select = $('<select class="mx-1 p-1 rounded rounded-3 col-md-2 col-sm-4 m-1"><option value="">'+theadname+': All</option></select>')

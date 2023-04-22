@@ -5,10 +5,10 @@ include('../../../config/database_connection.php');
 try{
 
     //define variables
-    $medicineType = $medicineName = $medicineBrand = $medicineFor = $startingQuantity = $inStock = $dateAdded =  $expirationDate = $success = $futureDate = "";
+    $medicineType = $medicineName = $medicineBrand = $medicineFor = $startingQuantity = $dateAdded =  $expirationDate = $success = $futureDate = "";
 
     //variables to store error message
-    $medicineType_err = $medicineName_err = $medicineBrand_err = $medicineFor_err = $startingQuantity_err = $inStock_err = $dateAdded_err = $expirationDate_err = "";
+    $medicineType_err = $medicineName_err = $medicineBrand_err = $medicineFor_err = $startingQuantity_err = $dateAdded_err = $expirationDate_err = "";
     
     //processing the data from the form submitted
     if(isset($_POST['submit'])){
@@ -20,7 +20,7 @@ try{
         $medicineBrand = $_POST['medicineBrand'];
         $medicineFor = $_POST['medicineFor'];
         $startingQuantity = $_POST['startingQuantity'];
-        $inStock = $_POST['inStock'];
+        // $inStock = $_POST['inStock'];
         $dateAdded = $_POST['dateAdded'];
         $expirationDate = $_POST['expirationDate'];
     
@@ -63,9 +63,9 @@ try{
         }
 
         //validate starting quantity if empty and only allows number with a length of 11, validate if number exist then display error
-        if (!preg_match ("/^[0-9]+$/", $inStock) ){  
-            $inStock_err = "Please enter a valid quantity."; 
-        }
+        // if (!preg_match ("/^[0-9]+$/", $inStock) ){  
+        //     $inStock_err = "Please enter a valid quantity."; 
+        // }
 
         //validate date added if empty
         if (empty($dateAdded)){
@@ -77,10 +77,10 @@ try{
             $expirationDate_err = "Please enter a date";
         }
 
-        if(empty($medicineType_err) && empty($medicineName_err) && empty($medicineBrand_err) && empty($medicineFor_err) && empty($startingQuantity_err) && empty($inStock_err) && empty($dateAdded_err) && empty($expirationDate_err)){
+        if(empty($medicineType_err) && empty($medicineName_err) && empty($medicineBrand_err) && empty($medicineFor_err) && empty($startingQuantity_err) && empty($dateAdded_err) && empty($expirationDate_err)){
 
            // Prepare an insert statement
-           $sql = "UPDATE medicines SET medicineType=:medicineType, medicineName=:medicineName, medicineBrand=:medicineBrand, medicineFor=:medicineFor, startingQuantity=:startingQuantity, inStock=:inStock, dateAdded=:dateAdded, expirationDate=:expirationDate WHERE medicine_ID = '$id'";
+           $sql = "UPDATE medicines SET medicineType=:medicineType, medicineName=:medicineName, medicineBrand=:medicineBrand, medicineFor=:medicineFor, startingQuantity=:startingQuantity, dateAdded=:dateAdded, expirationDate=:expirationDate WHERE medicine_ID = '$id'";
          
            if($stmt = $conn->prepare($sql))
            {
@@ -90,7 +90,7 @@ try{
                $stmt->bindParam(":medicineBrand", $param_medicineBrand, PDO::PARAM_STR);
                $stmt->bindParam(":medicineFor", $param_medicineFor, PDO::PARAM_STR);
                $stmt->bindParam(":startingQuantity", $param_startingQuantity, PDO::PARAM_STR);
-               $stmt->bindParam(":inStock", $param_inStock, PDO::PARAM_STR);
+            //    $stmt->bindParam(":inStock", $param_inStock, PDO::PARAM_STR);
                $stmt->bindParam(":dateAdded", $param_dateAdded, PDO::PARAM_STR);
                $stmt->bindParam(":expirationDate", $param_expirationDate, PDO::PARAM_STR);
 
@@ -100,7 +100,7 @@ try{
                $param_medicineBrand = $medicineBrand;
                $param_medicineFor = $medicineFor;
                $param_startingQuantity = $startingQuantity;
-               $param_inStock = $inStock;
+            //    $param_inStock = $inStock;
                $param_dateAdded = $dateAdded;
                $param_expirationDate = $expirationDate;
                // Attempt to execute the prepared statement

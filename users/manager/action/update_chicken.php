@@ -5,10 +5,10 @@ include('../../../config/database_connection.php');
 try{
 
     //define variables
-    $coopNumber = $batchName = $breedType = $batchPurpose = $startingQuantity = $inStock = $dateAcquired =  $acquisitionType = $note = $success = "";
+    $coopNumber = $batchName = $breedType = $batchPurpose = $startingQuantity = $dateAcquired =  $acquisitionType = $note = $success = "";
 
     //variables to store error message
-    $coopNumber_err = $batchName_err = $breedType_err = $batchPurpose_err = $startingQuantity_err = $inStock_err = $dateAcquired_err = $acquisitionType_err = $note_err = "";
+    $coopNumber_err = $batchName_err = $breedType_err = $batchPurpose_err = $startingQuantity_err = $dateAcquired_err = $acquisitionType_err = $note_err = "";
     
     //processing the data from the form submitted
     if(isset($_POST['submit'])){
@@ -20,7 +20,7 @@ try{
         $breedType = $_POST['breedType'];
         $batchPurpose = $_POST['batchPurpose'];
         $startingQuantity = $_POST['startingQuantity'];
-        $inStock = $_POST['inStock'];
+        // $inStock = $_POST['inStock'];
         $dateAcquired = $_POST['dateAcquired'];
         $acquisitionType = $_POST['acquisitionType'];
         $note = $_POST['note'];
@@ -94,9 +94,9 @@ try{
         }
 
         //validate starting quantity if empty
-        if (!preg_match ("/^[0-9]+$/", $inStock) ){  
-            $inStock_err = "Please enter a valid quantity."; 
-        }
+        // if (!preg_match ("/^[0-9]+$/", $inStock) ){  
+        //     $inStock_err = "Please enter a valid quantity."; 
+        // }
 
         //validate starting quantity if empty
         if (empty($dateAcquired) ){  
@@ -108,10 +108,10 @@ try{
         }
 
 
-        if(empty($coopNumber_err) && empty($batchName_err) && empty($breedType_err) && empty($batchPurpose_err) && empty($startingQuantity_err) && empty($inStock_err) && empty($dateAcquired_err) && empty($acquisitionType_err) && empty($note_err)){
+        if(empty($coopNumber_err) && empty($batchName_err) && empty($breedType_err) && empty($batchPurpose_err) && empty($startingQuantity_err) && empty($dateAcquired_err) && empty($acquisitionType_err) && empty($note_err)){
 
            // Prepare an insert statement
-           $sql = "UPDATE chickenproduction SET coopNumber=:coopNumber, batchName=:batchName, breedType=:breedType, batchPurpose=:batchPurpose, startingQuantity=:startingQuantity, inStock=:inStock, dateAcquired=:dateAcquired, acquisitionType=:acquisitionType, note=:note WHERE chickenBatch_ID = '$id'";
+           $sql = "UPDATE chickenproduction SET coopNumber=:coopNumber, batchName=:batchName, breedType=:breedType, batchPurpose=:batchPurpose, startingQuantity=:startingQuantity, dateAcquired=:dateAcquired, acquisitionType=:acquisitionType, note=:note WHERE chickenBatch_ID = '$id'";
          
            if($stmt = $conn->prepare($sql))
            {
@@ -121,7 +121,7 @@ try{
                $stmt->bindParam(":breedType", $param_breedType, PDO::PARAM_STR);
                $stmt->bindParam(":batchPurpose", $param_batchPurpose, PDO::PARAM_STR);
                $stmt->bindParam(":startingQuantity", $param_startingQuantity, PDO::PARAM_STR);
-               $stmt->bindParam(":inStock", $param_inStock, PDO::PARAM_STR);
+            //    $stmt->bindParam(":inStock", $param_inStock, PDO::PARAM_STR);
                $stmt->bindParam(":dateAcquired", $param_dateAcquired, PDO::PARAM_STR);
                $stmt->bindParam(":acquisitionType", $param_acquisitionType, PDO::PARAM_STR);
                $stmt->bindParam(":note", $param_note, PDO::PARAM_STR);
@@ -132,7 +132,7 @@ try{
                $param_breedType = $breedType;
                $param_batchPurpose = $batchPurpose;
                $param_startingQuantity = $startingQuantity;
-               $param_inStock = $inStock;
+            //    $param_inStock = $inStock;
                $param_dateAcquired = $dateAcquired;
                $param_acquisitionType = $acquisitionType;
                $param_note = $note;

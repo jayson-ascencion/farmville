@@ -42,7 +42,7 @@
                                             $breedType = $row['breedType'];
                                             $batchPurpose = $row['batchPurpose'];
                                             $startingQuantity = $row['startingQuantity'];
-                                            $inStock = $row['inStock'];
+                                            // $inStock = $row['inStock'];
                                             $dateAcquired = $row['dateAcquired'];
                                             $acquisitionType = $row['acquisitionType'];
                                             $note = $row['note'];
@@ -138,11 +138,11 @@
                             </div>
                             
                             <!-- inStock Quantity -->
-                            <div class="form-group mb-3">
+                            <!-- <div class="form-group mb-3">
                                 <label for="inStock" class="mb-2 text-dark">In Stock Quantity</label>
-                                <input type="number" name="inStock" class="form-control" value="<?php echo $inStock; ?>" required>
-                                <span class="text-danger" style="font-size: 13px;">  <?php echo $inStock_err; ?> </span>
-                            </div>
+                                <input type="number" name="inStock" class="form-control" value="echo $inStock; ?>" required>
+                                <span class="text-danger" style="font-size: 13px;">  echo $inStock_err; ?> </span>
+                            </div> -->
 
                             <!-- Date Acquired -->
                             <div class="form-group mb-3">

@@ -95,11 +95,11 @@
                             </div>
                             
                             <!-- inStock Quantity -->
-                            <div class="form-group mb-3">
+                            <!-- <div class="form-group mb-3">
                                 <label for="inStock" class="mb-2 text-dark">In Stock</label>
-                                <input type="number" name="inStock" class="form-control" value="<?php echo $inStock; ?>" required>
-                                <span class="text-danger" style="font-size: 13px;">  <?php echo $inStock_err; ?> </span>
-                            </div>
+                                <input type="number" name="inStock" class="form-control" value=" echo $inStock; ?>" required>
+                                <span class="text-danger" style="font-size: 13px;">   echo $inStock_err; ?> </span>
+                            </div> -->
 
                             <div class="d-flex flex-column flex-sm-column flex-lg-row gap-2">
                                 <!-- Date Added -->

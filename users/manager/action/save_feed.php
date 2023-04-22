@@ -5,10 +5,10 @@ include('../../../config/database_connection.php');
 try{
 
     //define variables
-    $feedName = $brand = $startingQuantity = $inStock = $datePurchased = "";
+    $feedName = $brand = $startingQuantity = $datePurchased = "";
 
     //variables to store error message
-    $feedName_err = $brand_err = $startingQuantity_err = $inStock_err = $datePurchased_err = "";
+    $feedName_err = $brand_err = $startingQuantity_err = $datePurchased_err = "";
 
     //processing the data from the form submitted
     if(isset($_POST['submit'])){
@@ -17,7 +17,7 @@ try{
         $feedName = $_POST['feedName'];
         $brand = $_POST['brand'];
         $startingQuantity = $_POST['startingQuantity'];
-        $inStock = $_POST['inStock'];
+        // $inStock = $_POST['inStock'];
         $datePurchased = $_POST['datePurchased'];
     
         //validate feedName if empty and only allows only alphabets and white spaces
@@ -47,21 +47,21 @@ try{
         }
 
         //validate starting quantity if empty and only allows number with a length of 11, validate if number exist then display error
-        if (!preg_match ("/^[0-9]+$/", $inStock) ){  
-            $inStock_err = "Please enter a valid quantity."; 
-        }
-        else if(empty($inStock)){
-            $inStock_err = "Please enter a quantity";
-        }
+        // if (!preg_match ("/^[0-9]+$/", $inStock) ){  
+        //     $inStock_err = "Please enter a valid quantity."; 
+        // }
+        // else if(empty($inStock)){
+        //     $inStock_err = "Please enter a quantity";
+        // }
 
         if (empty(trim($datePurchased))) {  
             $datePurchased_err = "Please enter a date.";
         }
 
-        if(empty($feedName_err) && empty($brand_err) && empty($startingQuantity_err) && empty($inStock_err)  && empty($datePurchased_err)){
+        if(empty($feedName_err) && empty($brand_err) && empty($startingQuantity_err) && empty($datePurchased_err)){
 
            // Prepare an insert statement
-           $sql = "INSERT INTO feeds (feedName, brand, startingQuantity, inStock, datePurchased) VALUES (:feedName, :brand, :startingQuantity, :inStock, :datePurchased)";
+           $sql = "INSERT INTO feeds (feedName, brand, startingQuantity, datePurchased) VALUES (:feedName, :brand, :startingQuantity, :datePurchased)";
          
            if($stmt = $conn->prepare($sql))
            {
@@ -69,14 +69,14 @@ try{
                $stmt->bindParam(":feedName", $param_feedName, PDO::PARAM_STR);
                $stmt->bindParam(":brand", $param_brand, PDO::PARAM_STR);
                $stmt->bindParam(":startingQuantity", $param_startingQuantity, PDO::PARAM_STR);
-               $stmt->bindParam(":inStock", $param_inStock, PDO::PARAM_STR);
+            //    $stmt->bindParam(":inStock", $param_inStock, PDO::PARAM_STR);
                $stmt->bindParam(":datePurchased", $param_datePurchased, PDO::PARAM_STR);
 
                // Set parameters
                $param_feedName = $feedName;
                $param_brand = $brand;
                $param_startingQuantity = $startingQuantity;
-               $param_inStock = $inStock;
+            //    $param_inStock = $inStock;
                $param_datePurchased = $datePurchased;
 
                // Attempt to execute the prepared statement

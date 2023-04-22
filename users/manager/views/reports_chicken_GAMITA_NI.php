@@ -1,11 +1,11 @@
 <?php
     //title of the pge
-    $title = "Chicken Production";
+    $title = "Chicken Production whahah";
 
     //header
     include("../../includes/header.php");
     
-?>
+?> 
 
 <!-- content --> 
 <div id="content" class="container-fluid px-4">

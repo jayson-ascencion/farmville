@@ -1,6 +1,6 @@
 <?php
     //page title
-    $title = "Delete Feeds";
+    $title = "Archive Feeds";
     
     //header
     include('../../includes/header.php');

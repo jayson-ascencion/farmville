@@ -1,6 +1,6 @@
 <?php
     //page title
-    $title = "Delete Egg Batch";
+    $title = "Archive Egg Batch";
     
     //header
     include('../../includes/header.php');
@@ -86,7 +86,7 @@
         <li class="breadcrumb-item">
             <a href="./egg_reduction.php" style="text-decoration: none">Egg Reduction</a>
         </li>
-        <li class="breadcrumb-item active">Delete Egg Reduction</li>
+        <li class="breadcrumb-item active">Archive Egg Reduction</li>
     </ol>
 
     <div class="row justify-content-center mt-2">
@@ -95,7 +95,7 @@
                 <div class="card-header text-center fw-bold p-3" style="background-color: #FFAF1A; color: #91452c">Are you sure you want to restore this record?</div>
                     <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST">
                         <div class="card-body p-4">
-                            <!-- <div class="card-title mb-3 fw-bold">Are you sure you want to delete this record?</div> -->
+                            <!-- <div class="card-title mb-3 fw-bold">Are you sure you want to Archive this record?</div> -->
                             <!-- egg batch id -->
                             <div class="mb-3">
                                 <p class="fw-bold">Egg Batch ID: <span class="fw-normal ps-2"><?php echo $eggBatch_ID; ?></span></p>

@@ -47,7 +47,7 @@
                             </div> -->
                             <div class="row justify-content-between">
                                 <div class="col-xl-3 col-md-6">
-                                    <h4 class="pt-2 fs-5 fw-bold" style="background-color: #FFAF1A; color: #91452c">Deleted Egg Records</h4>
+                                    <h4 class="pt-2 fs-5 fw-bold" style="background-color: #FFAF1A; color: #91452c">Archived Egg Records</h4>
                                 </div>
 
                                 <!-- <div class="col-xl-2 col-md-2 align-content-end">

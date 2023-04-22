@@ -1,6 +1,6 @@
 <?php
     //title of the pge
-    $title = "Delete Medicine";
+    $title = "Archive Medicine";
 
     include("../../includes/header.php");
 

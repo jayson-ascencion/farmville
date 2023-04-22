@@ -1,6 +1,6 @@
 <?php
     //page title
-    $title = "Delete Schedule";
+    $title = "Archive Schedule";
     
     //header
     include('../../includes/header.php');
@@ -59,7 +59,7 @@
                 // Attempt to execute the prepared statement
                 if($stmt->execute())
                 {
-                    $_SESSION['status'] = "Vaccination Schedule Successfully Deleted."; 
+                    $_SESSION['status'] = "Vaccination Schedule Successfully Archived."; 
                     header("Location: vaccination_pending.php");
                 } 
                 else
@@ -88,7 +88,7 @@
         <li class="breadcrumb-item">
             <a class="text-decoration-none" href="./vaccination_pending.php">Vaccination Schedules</a>
         </li>
-        <li class="breadcrumb-item active">Delete Schedule</li>
+        <li class="breadcrumb-item active">Archive Schedule</li>
     </ol>
 
 
@@ -96,7 +96,7 @@
         <div class="col-sm-4">
             <div class="card bg-light shadow-lg mb-4 ">
                 <div class="card-header text-center fw-bold p-3"  style="background-color: #FFAF1A; color: #91452c">
-                <div>Are you sure you want to delete this record?</div>
+                <div>Are you sure you want to Archive this record?</div>
             </div>
                         <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST">
                         <div class="card-body p-4">
@@ -183,7 +183,7 @@
                             </div>
                             <div class="w-100 m-1">
                                 <button type="submit" name="archiveRecord" class="btn btn-outline-danger fw-bold w-100">
-                                    Delete
+                                    Archive
                                 </button>                                    
                             </div>
                         </div>

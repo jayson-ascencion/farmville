@@ -1,6 +1,6 @@
 <?php
     //page title
-    $title = "Delete Schedule";
+    $title = "Archive Schedule";
     
     //header
     include('../../includes/header.php');
@@ -88,7 +88,7 @@
         <li class="breadcrumb-item">
             <a class="text-decoration-none" href="./medication_pending.php">Medication Schedules</a>
         </li>
-        <li class="breadcrumb-item active">Delete Schedule</li>
+        <li class="breadcrumb-item active">Archive Schedule</li>
     </ol>
 
 

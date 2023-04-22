@@ -91,7 +91,7 @@
         <li class="breadcrumb-item">
             <a href="./chicken_production.php" class="text-decoration-none">Chicken Production</a>
         </li>
-        <li class="breadcrumb-item active">Delete Chicken Batch</li>
+        <li class="breadcrumb-item active">Archive Chicken Batch</li>
     </ol>
 
     <div class="row justify-content-center mt-2">

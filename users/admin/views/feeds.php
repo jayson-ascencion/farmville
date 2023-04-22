@@ -47,7 +47,7 @@
                             </div> -->
                             <div class="row justify-content-between">
                                 <div class="col-xl-3 col-md-6">
-                                    <h4 class="pt-2 fs-5 fw-bold">Deleted Feed Records</h4>
+                                    <h4 class="pt-2 fs-5 fw-bold">Archived Feed Records</h4>
                                 </div>
 
                                 <!-- <div class="col-xl-2 col-md-2 align-content-end">

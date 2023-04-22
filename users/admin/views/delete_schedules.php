@@ -1,6 +1,6 @@
 <?php
     //page title
-    $title = "Archive Schedule";
+    $title = "Delete Schedule";
     
     //header
     include('../../includes/header.php');
@@ -48,7 +48,7 @@
 
             // Prepare an insert statement
             $sql = "BEGIN;
-            Archive FROM schedules WHERE administration_ID = '$id';
+            DELETE FROM schedules WHERE administration_ID = '$id';
             COMMIT;
             ";
             
@@ -63,7 +63,7 @@
                 // Attempt to execute the prepared statement
                 if($stmt->execute())
                 {
-                    $_SESSION['status'] = "Schedule Successfully Archived."; 
+                    $_SESSION['status'] = "Schedule Successfully Deleted."; 
                     header("Location: schedules.php");
                 } 
                 else
@@ -91,7 +91,7 @@
         <li class="breadcrumb-item">
             <a class="text-decoration-none" href="./medication_pending.php">Medication Schedules</a>
         </li>
-        <li class="breadcrumb-item active">Archive Schedule</li>
+        <li class="breadcrumb-item active">Delete Schedule</li>
     </ol>
 
 
@@ -186,7 +186,7 @@
                             </div>
                             <div class="w-100 m-1">
                                 <button type="button" name="archiveRecord" class="btn  btn-outline-danger  fw-bold w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                Archive
+                                Delete
                                 </button>                                    
                             </div>
                         </div>
@@ -199,10 +199,10 @@
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="orange" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
                                     <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
                                     </svg>
-                                    <h1 class="modal-title fs-6 ms-1" id="exampleModalLabel">Permanently Archive Record?</h1>
+                                    <h1 class="modal-title fs-6 ms-1" id="exampleModalLabel">Permanently Delete Record?</h1>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
-                                <div class="modal-body"> Once Archived, the record cannot be retrieved or restored.
+                                <div class="modal-body"> Once deleted, the record cannot be retrieved or restored.
                                 </div>
                                 <div class="modal-footer">
                                     <div class="w-100    d-flex justify-content-between">

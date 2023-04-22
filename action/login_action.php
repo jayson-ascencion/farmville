@@ -57,7 +57,7 @@ try{
         //if validation error variables are empty then proceed to validating user if username exist in the database
         if(empty($username_err) && empty($password_err)){
             // Prepare a select statement
-            $sql = "SELECT user_ID, role, username, password FROM users WHERE username = :username";
+            $sql = "SELECT user_ID, status, role, username, password FROM users WHERE username = :username";
             
             if($stmt = $conn->prepare($sql)){
                 // Bind variables to the prepared statement as parameters
@@ -72,6 +72,7 @@ try{
                     if($stmt->rowCount() == 1){
                         if($row = $stmt->fetch()){
                             $user_ID = $row["user_ID"];
+                            $status = $row["status"];
                             $role = $row["role"];
                             $username = $row["username"];
                             $hashed_password = $row["password"];
@@ -79,6 +80,9 @@ try{
                                 
                                 //check if username exist in the database
                                 $login_err = "Invalid username or password.";
+                            }
+                            else if($status !== 'active'){
+                                $login_err = "<strong> Your account is disabled.</strong> Contact administrator for support.";
                             }
                             else if(password_verify($password, $hashed_password)){
                                 // Password is correct, so start a new session

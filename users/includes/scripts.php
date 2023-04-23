@@ -737,16 +737,15 @@
                 $('#feedRecords').DataTable({
                     columns: [ //this will define what columns are orderable
                         { orderable: ['asc'] },
-                        null,
-                        null,
-                        null,
+                        { orderable: ['asc'] },
+                        // { orderable: ['asc'] },
                         null,
                         null,
                         { orderable: false },
                     ],
                     //table initialization
                     initComplete: function () {
-                        this.api().columns([2]).every( function (d) {
+                        this.api().columns([1,2]).every( function (d) {
                             var column = this;
                             var theadname = $('#feedRecords th').eq([d]).text();
                             var select = $('<select class="mx-1 p-1 rounded rounded-3 col-md-2 col-sm-4 m-1"><option value="">'+theadname+': All</option></select>')
@@ -841,13 +840,11 @@
                         null,
                         null,
                         null,
-                        null,
-                        null,
                         { orderable: false },
                     ],
                     //for filter buttons
                     initComplete: function () {
-                        this.api().columns([2,4]).every( function (d) {
+                        this.api().columns([0,2]).every( function (d) {
                             var column = this;
                             var theadname = $('#feedReductions th').eq([d]).text();
                             var select = $('<select class="mx-1 p-1 rounded rounded-3 col-md-2 col-sm-4 m-1"><option value="">'+theadname+': All</option></select>')

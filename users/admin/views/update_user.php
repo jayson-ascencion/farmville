@@ -91,12 +91,18 @@
                             <span class="text-danger" style="font-size: small;"> <?php echo $new_contact_num_err; ?> </span>
                         </div>
 
-                        <!-- ROLE -->
-                        <div class="form-group w-100 mb-3">
-                            <label for="role" class="mb-2 text-dark">Role</label>
-                            <input type="number" name="role" class="form-control" value="<?php echo $role ?>">
-                            <span class="text-danger" style="font-size: small;"> <?php echo $role_err; ?> </span>
-                        </div>
+                        <!-- Role -->
+                        <div class="form-group mb-3">
+    <label for="role" class="mb-2 text-dark">Role</label>
+    <select class="form-select" name="role">
+        <option value=""> - select role - </option>
+        <option value="1" <?php if($role == 1) echo "selected"; ?>>Manager</option>
+        <option value="2" <?php if($role == 2) echo "selected"; ?>>Administrator</option>
+        <option value="3" <?php if($role == 3) echo "selected"; ?>>Employee</option>
+    </select>
+    <span class="text-danger" style="font-size: small;"> <?php echo $role_err; ?> </span>
+</div>
+
 
                         <!-- USERNAME -->
                         <div class="form-group w-100 mb-3">

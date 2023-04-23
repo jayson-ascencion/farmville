@@ -46,7 +46,7 @@
                                 <!-- First Name -->
                                     <div class="form-group mb-3">
                                         <label for="fname" class="mb-2 text-dark">First Name</label>
-                                        <input type="text" name="fname" class="form-control" placeholder="Juan" value="<?php echo $fname; ?>" required>
+                                        <input type="text" name="fname" class="form-control" value="<?php echo $fname; ?>" required>
                                         <span class="text-danger" style="font-size: small;"> <?php echo $fname_err; ?> </span>
                                     </div>
                                 </div>
@@ -54,7 +54,7 @@
                                     <!-- Last Name -->
                                     <div class="form-group mb-3">
                                         <label for="lname" class="mb-2 text-dark">Last Name</label>
-                                        <input type="text" name="lname" class="form-control" placeholder="Dela Cruz" value="<?php echo $lname; ?>" required>
+                                        <input type="text" name="lname" class="form-control" value="<?php echo $lname; ?>" required>
                                         <span class="text-danger" style="font-size: small;"> <?php echo $lname_err; ?> </span>
                                     </div>
                                 </div>
@@ -63,7 +63,7 @@
                             <!-- Contact Number -->
                             <div class="form-group mb-3">
                                 <label for="contact_num" class="mb-2 text-dark">Contact Number</label>
-                                <input type="number" name="contact_num" class="form-control" placeholder="09123456789" value="<?php echo $contact_num; ?>" required>
+                                <input type="number" name="contact_num" class="form-control" value="<?php echo $contact_num; ?>" required>
                                 <span class="text-danger" style="font-size: small;">  <?php echo $contact_num_err; ?> </span>
                             </div>
 
@@ -82,7 +82,7 @@
                             <!-- Username -->
                             <div class="form-group mb-3">
                                 <label for="username" class="mb-2 text-dark">Username</label>
-                                <input type="text" name="username" class="form-control" placeholder="username" value="<?php echo $username; ?>" required>
+                                <input type="text" name="username" class="form-control" value="<?php echo $username; ?>" required>
                                 <span class="text-danger" style="font-size: small;"> <?php echo $username_err; ?> </span>
                             </div>
 
@@ -91,7 +91,7 @@
                                     <!-- Password -->
                                     <div class="form-group mb-3">
                                         <label for="password" class="mb-2 text-dark">Password</label>
-                                        <input type="password" name="password" class="form-control" placeholder="******" required>
+                                        <input type="password" name="password" class="form-control" required>
                                         <span class="text-danger" style="font-size: small;"> <?php echo $password_err; ?> </span>
                                     </div>
                                 </div>
@@ -99,7 +99,7 @@
                                     <!-- Confirm Password -->
                                     <div class="form-group mb-3">
                                         <label for="confirm_password" class="mb-2 text-dark">Confirm Password</label>
-                                        <input type="password" name="confirm_password" class="form-control" placeholder="******" required>
+                                        <input type="password" name="confirm_password" class="form-control" required>
                                         <span class="text-danger" style="font-size: small;"> <?php echo $confirm_password_err; ?> </span>
                                     </div>
                                     

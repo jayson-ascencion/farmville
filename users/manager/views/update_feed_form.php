@@ -6,7 +6,7 @@
     include('../../includes/header.php');
 
     include('../action/update_feed.php'); 
-    
+     
  
 ?>
 
@@ -21,7 +21,7 @@
     </ol>
 
     <div class="row justify-content-center mt-2">
-        <div class="col-xl-6 col-md-6">
+        <div class="col-md-4">
             <div class="card bg-light shadow mb-4 ">
                 <div class="card-header text-center fw-bold p-3" style="background-color: #FFAF1A; color: #91452c">UPDATE FEED INVENTORY DETAILS</div>
                     <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST" novalidate>
@@ -34,17 +34,15 @@
                             $id = $_REQUEST['id'];
                             
                             //statement to select the specific schedule to update
-                            $sql = "SELECT * FROM feeds WHERE feed_ID = '$id'";
+                            $sql = "SELECT * FROM feedtransaction WHERE transaction_ID = '$id'";
                             $stmt = $conn->query($sql);
                             if($stmt){
                                 if($stmt->rowCount() > 0){
                                     while($row = $stmt->fetch()){
                                         $feed_ID = $row['feed_ID'];
-                                        $feedName = $row['feedName'];
-                                        $brand = $row['brand'];
-                                        $startingQuantity = $row['startingQuantity'];
+                                        $quantity = $row['quantity'];
                                         // $inStock = $row['inStock'];
-                                        $datePurchased = $row['datePurchased'];
+                                        $datePurchased = $row['transactionDate'];
                                      }
                                     // Free result set
                                     unset($result);
@@ -57,41 +55,80 @@
                             unset($pdo);
                         ?>
                         <div class="card-body p-4">
-                            <!-- Feed Name -->
                             <div class="form-group mb-3">
-                                <label for="feedName" class="mb-2 text-dark">Feed Name</label>
-                                <input type="text" name="feedName" class="form-control" value="<?php echo $feedName; ?>" required>
-                                <span class="text-danger" style="font-size: 13px;">  <?php echo $feedName_err; ?> </span>
-                            </div>    
-                            
-                            <!-- Feed Brand -->
-                            <div class="form-group mb-3">
-                                <label for="brand" class="mb-2 text-dark">Feed Brand</label>
-                                <input type="text" name="brand" class="form-control" value="<?php echo $brand; ?>" required>
-                                <span class="text-danger" style="font-size: 13px;">  <?php echo $brand_err; ?> </span>
-                            </div> 
+                            <label for="feed_ID" class="mb-2 text-dark">Feed Name</label>
+                                    <select class="form-select" name="feed_ID" required>
+                                        <option value="<?php echo $feed_ID; ?>">
+                                            <?php
+                                            if(!empty($feed_ID)){
+                                                //connect to the database
+                                                include('../../../config/database_connection.php');
+                                                $selectedID = "";
+                                                //statement to select the all the medicine names
+                                                $sql = "SELECT feedName FROM feeds WHERE feed_ID = '$feed_ID'";
+                                                $stmt = $conn->query($sql);
+                                                if($stmt){
+                                                    if($stmt->rowCount() > 0){
+                                                        while($row = $stmt->fetch()){
+                                                            echo $row['feedName'];
+                                                     }
+                                                        // Free result set
+                                                        unset($result);
+                                                    } else{
 
-                            <!-- Starting Quantity -->
-                            <div class="form-group mb-3">
-                                <label for="startingQuantity" class="mb-2 text-dark">Starting Quantity</label>
-                                <input type="number" name="startingQuantity" class="form-control" value="<?php echo $startingQuantity; ?>" required>
-                                <span class="text-danger" style="font-size: 13px;">  <?php echo $startingQuantity_err; ?> </span>
-                            </div>
+                                                        echo '<div class="alert alert-danger"><em>No records were found.</em></div>';
+                                                    }
+                                                } else{
+                                                    echo "Oops! Something went wrong. Please try again later.";
+                                                }
+                                                unset($stmt);
+                                            }else{
+                                                echo "- select a batch id -";
+                                            }
+                                            ?>
+                                        </option>
+                                        <?php
 
-                            <!-- In Stock Quantity -->
-                            <!-- <div class="form-group mb-3">
-                                <label for="inStock" class="mb-2 text-dark">In Stock</label>
-                                <input type="number" name="inStock" class="form-control" value=" echo $inStock; ?>" required>
-                                <span class="text-danger" style="font-size: 13px;">   echo $inStock_err; ?> </span>
-                            </div> -->
+                                            //connect to the database
+                                            include('../../../config/database_connection.php');
+                                            $selectedID = "";
+                                            //statement to select the all the medicine names
+                                            $sql = "SELECT feedName, feed_ID FROM feeds";
+                                            $stmt = $conn->query($sql);
+                                            if($stmt){
+                                                if($stmt->rowCount() > 0){
+                                                    while($row = $stmt->fetch()){?>
+                                                    <option value="<?php echo $row['feed_ID']; ?>"> <?php echo $row["feedName"];?> </option>
+                                                <?php }
+                                                    // Free result set
+                                                    unset($result);
+                                                } else{
 
-                            <!-- Purchased Date -->
-                            <div class="form-group mb-3">
-                                <label for="datePurchased" class="mb-2 text-dark">Date Purchased</label>
-                                <input type="date" min="2022-01-01" max="<?php echo date('Y-m-d'); ?>" name="datePurchased" class="form-control" value="<?php echo $datePurchased; ?>" required>
-                                <span class="text-danger" style="font-size: 13px;">  <?php echo $datePurchased_err; ?> </span>
-                            </div>
-                               
+                                                    echo '<div class="alert alert-danger"><em>No records were found.</em></div>';
+                                                }
+                                            } else{
+                                                echo "Oops! Something went wrong. Please try again later.";
+                                            }
+                                            unset($stmt);
+
+                                        ?>
+                                    </select>
+                                    <span class="text-danger" style="font-size: small;"> <?php echo $feed_ID_err; ?> </span>
+                                </div>                
+
+                                <!-- Quantity -->
+                                <div class="form-group mb-3">
+                                    <label for="quantity" class="mb-2 text-dark">Quantity</label>
+                                    <input type="number" name="quantity" class="form-control"value="<?php echo $quantity; ?>" required>
+                                    <span class="text-danger" style="font-size: 13px;">  <?php echo $quantity_err; ?> </span>
+                                </div>
+
+                                <!-- Date Purchased -->
+                                <div class="form-group mb-3">
+                                    <label for="datePurchased" class="mb-2 text-dark">Date Purchased </label>
+                                    <input type="date" min="2022-01-01" max="<?php echo date('Y-m-d'); ?>" name="datePurchased" class="form-control" value="<?php echo $datePurchased; ?>" required>
+                                    <span class="text-danger" style="font-size: 13px;">  <?php echo $datePurchased_err; ?> </span>
+                                </div>
                         </div>
                         <input type="hidden" name="id" value="<?php echo $id; ?>"/>
                         <div class="card-footer w-100 border d-flex justify-content-end">

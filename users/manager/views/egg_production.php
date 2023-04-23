@@ -48,7 +48,7 @@
                                         include('../../../config/database_connection.php');
 
                                         //to count how many schedules are completed
-                                        $sql = "SELECT SUM(quantity) as 'total' FROM eggproduction WHERE eggSize = 'XS' AND archive = 'not archived'";
+                                        $sql = "SELECT inStock FROM eggproduction WHERE eggSize = 'XS'";
                                         $stmt = $conn->query($sql);
                                         $stmt->execute();
                                         $total = $stmt->fetchColumn();
@@ -72,7 +72,7 @@
                                         include('../../../config/database_connection.php');
 
                                         //to count how many schedules are completed
-                                        $sql = "SELECT SUM(quantity) as 'total' FROM eggproduction WHERE eggSize = 'S' AND archive = 'not archived'";
+                                        $sql = "SELECT inStock FROM eggproduction WHERE eggSize = 'S'";
                                         $stmt = $conn->query($sql);
                                         $stmt->execute();
                                         $total = $stmt->fetchColumn();
@@ -96,7 +96,7 @@
                                         include('../../../config/database_connection.php');
 
                                         //to count how many schedules are completed
-                                        $sql = "SELECT SUM(quantity) as 'total' FROM eggproduction WHERE eggSize = 'M' AND archive = 'not archived'";
+                                        $sql = "SELECT inStock FROM eggproduction WHERE eggSize = 'M'";
                                         $stmt = $conn->query($sql);
                                         $stmt->execute();
                                         $total = $stmt->fetchColumn();
@@ -120,7 +120,7 @@
                                         include('../../../config/database_connection.php');
 
                                         //to count how many schedules are completed
-                                        $sql = "SELECT SUM(quantity) as 'total' FROM eggproduction WHERE eggSize = 'L' AND archive = 'not archived'";
+                                        $sql = "SELECT inStock FROM eggproduction WHERE eggSize = 'L'";
                                         $stmt = $conn->query($sql);
                                         $stmt->execute();
                                         $total = $stmt->fetchColumn();
@@ -144,7 +144,7 @@
                                         include('../../../config/database_connection.php');
 
                                         //to count how many schedules are completed
-                                        $sql = "SELECT SUM(quantity) as 'total' FROM eggproduction WHERE eggSize = 'XL' AND archive = 'not archived'";
+                                        $sql = "SELECT inStock FROM eggproduction WHERE eggSize = 'XL'";
                                         $stmt = $conn->query($sql);
                                         $stmt->execute();
                                         $total = $stmt->fetchColumn();

@@ -32,7 +32,115 @@
         <div class="container">
             <div class="row">
                 <div class="p-0">
-                    <div class="card shadow-lg">
+
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header fw-bold pb-2 fs-5" style="background-color: #FFAF1A; color: #91452c">
+                        <div class="p-2">
+                            Feeds In Stock
+                        </div>
+                    </div>
+                    <div class="row p-3 text-center">
+                        <div class="col-sm">
+                            <div class="card bg-secondary text-white mb-2">
+                                <div class="card-header">Layex 2000: <span class="fw-bold fs-5">
+                                    <?php
+                                        //connect to the database
+                                        include('../../../config/database_connection.php');
+
+                                        //to count how many schedules are completed
+                                        $sql = "SELECT inStock FROM feeds WHERE feed_ID = 1";
+                                        $stmt = $conn->query($sql);
+                                        $stmt->execute();
+                                        $total = $stmt->fetchColumn();
+                                        if($total > 0){
+                                            echo $total;
+                                        }else{
+                                            echo "0";
+                                        }
+
+                                        // Close connection
+                                        unset($conn);
+                                    ?>
+                                </span></div>
+                            </div>
+                        </div>
+                        <div class="col-sm">
+                            <div class="card bg-primary text-white mb-2">
+                                <div class="card-header">Broiler 3000: <span class="fw-bold fs-5">
+                                    <?php
+                                        //connect to the database
+                                        include('../../../config/database_connection.php');
+
+                                        //to count how many schedules are completed
+                                        $sql = "SELECT inStock FROM feeds WHERE feed_ID = 2";
+                                        $stmt = $conn->query($sql);
+                                        $stmt->execute();
+                                        $total = $stmt->fetchColumn();
+                                        if($total > 0){
+                                            echo $total;
+                                        }else{
+                                            echo "0";
+                                        }
+
+                                        // Close connection
+                                        unset($conn);
+                                    ?>
+                                </span></div>
+                            </div>
+                        </div>
+                        <div class="col-sm">
+                            <div class="card bg-warning text-white mb-2">
+                                <div class="card-header">Chick Booster: <span class="fw-bold fs-5">
+                                    <?php
+                                        //connect to the database
+                                        include('../../../config/database_connection.php');
+
+                                        //to count how many schedules are completed
+                                        $sql = "SELECT inStock FROM feeds WHERE feed_ID = 3";
+                                        $stmt = $conn->query($sql);
+                                        $stmt->execute();
+                                        $total = $stmt->fetchColumn();
+                                        if($total > 0){
+                                            echo $total;
+                                        }else{
+                                            echo "0";
+                                        }
+
+                                        // Close connection
+                                        unset($conn);
+                                    ?>
+                                </span></div>
+                            </div>
+                        </div>
+                        <div class="col-sm">
+                            <div class="card bg-success text-white mb-2">
+                                <div class="card-header">Mixed Pellets: <span class="fw-bold fs-5">
+                                    <?php
+                                        //connect to the database
+                                        include('../../../config/database_connection.php');
+
+                                        //to count how many schedules are completed
+                                        $sql = "SELECT inStock FROM feeds WHERE feed_ID = 4";
+                                        $stmt = $conn->query($sql);
+                                        $stmt->execute();
+                                        $total = $stmt->fetchColumn();
+                                        if($total > 0){
+                                            echo $total;
+                                        }else{
+                                            echo "0";
+                                        }
+
+                                        // Close connectionprint_r($stmt->fetchColumn());
+                                        unset($conn);
+                                    ?>
+                                </span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                    <div class="card shadow-lg mb-5">
                         <div class="card-header" style="background-color: #FFAF1A; color: #91452c">
 
                             <!-- <div class="w-100 d-flex justify-content-between p-2">
@@ -53,7 +161,7 @@
                                 <div class="col-xl-2 col-md-2 align-content-end">
                                     <div class="w-100 d-flex justify-content-end">
                                         <div class="m-1 w-100 float-end">
-                                            <a href="add_feeds_form.php" class="btn btn-success shadow-sm w-100 fw-bold">Add Feeds</a>
+                                            <a href="add_feeds_form.php" class="btn btn-success shadow-sm w-100 fw-bold">Add Feeds Stock</a>
                                         </div>
                                         <!-- <div class="m-1 w-100">
                                             <a href="#" class="btn btn-outline-danger shadow-sm w-100 fw-bold">Archives</a>                                 

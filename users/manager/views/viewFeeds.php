@@ -12,7 +12,7 @@
     $feed_ID = $feedName = $brand = $startingQuantity = $inStock = $datePurchased = "";
 
     //statement to get the old brand
-    $sql = "SELECT * FROM feeds WHERE feed_ID = '$id'";
+    $sql = "SELECT * FROM feedtransaction WHERE transaction_ID = '$id'";
     $stmt = $conn->query($sql);
 
     if($stmt){
@@ -20,10 +20,10 @@
             while($row = $stmt->fetch()){
                 $feed_ID = $row['feed_ID'];
                 $feedName = $row['feedName'];
-                $brand = $row['brand'];
-                $startingQuantity = $row['startingQuantity'];
-                $inStock = $row['inStock'];
-                $dateString = strtotime($row['datePurchased']);
+                // $brand = $row['brand'];
+                // $startingQuantity = $row['startingQuantity'];
+                $quantity = $row['quantity'];
+                $dateString = strtotime($row['transactionDate']);
                 $datePurchased = date("F d, Y",$dateString); 
             }
             // Free result set
@@ -67,20 +67,20 @@
                         <p class="fw-bold">Feed Name: <span class="fw-normal ps-2"><?php echo $feedName; ?></span></p>
                     </div>
             
-                    <!-- Feed Brand -->
+                    <!-- Feed Brand
                     <div class="mb-3">
                         <p class="fw-bold">Feed Brand: <span class="fw-normal ps-2"><?php echo $brand; ?></span></p>
-                    </div>
+                    </div> -->
 
-                    <!-- Starting Quantity -->
+                    <!-- Starting Quantity
                     <div class="mb-3">
                         <p class="fw-bold">Starting Quantity: <span class="fw-normal ps-2"><?php echo $startingQuantity; ?></span></p>
-                    </div>
+                    </div> -->
 
                     
                     <!-- In Stock -->
                     <div class="mb-3">
-                        <p class="fw-bold">In Stock: <span class="fw-normal ps-2"><?php echo $inStock; ?></span></p>
+                        <p class="fw-bold">Quantity: <span class="fw-normal ps-2"><?php echo $quantity; ?></span></p>
                     </div>
                         
                     <!-- Date Purchased -->

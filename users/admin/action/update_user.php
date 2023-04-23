@@ -5,163 +5,182 @@
 try{
 
     //define empty variables
-    $chickenBatch_ID = $coopNumber = $dosage = $medicine_ID = $medicine_ID = $methodType = $numberHeads = $administrationSched = $administeredBy = $notes = $status = "";
+    $fname = $lname = $new_contact_num = $role = $new_username = $status = $old_contact = $old_username = "";
     
     //variables to store error messages
-    $chickenBatch_err = $medicine_ID_err = $dosage_err = $methodType_err = $numberHeads_err = $administrationSched_err = $administeredBy_err = $notes_err = $status_err = "";
+    $fname_err = $lname_err = $new_contact_num_err = $role_err = $new_username_err = $status_err = "";
     
     //processes the data from the form submitted
-    if(isset($_POST['updateVaccination'])){
+    if(isset($_POST['submit'])){
 
         //this is an administration id passeed  from the previous page and will be use in update the record
         $id = $_REQUEST['id'];
 
+                            
+        //statement to select the specific schedule to update
+        $sql = "SELECT * FROM users WHERE user_ID = '$id'";
+        $stmt = $conn->query($sql);
+        if($stmt){
+            if($stmt->rowCount() > 0){
+                while($row = $stmt->fetch()){
+                $old_contact = $row['contact_num'];
+                $old_username = $row['username'];
+                }
+                // Free result set
+                unset($result);
+            } else{
+                echo '<div class="alert alert-danger"><em>No records were found.</em></div>';
+            }
+        } else{
+            echo "Oops! Something went wrong. Please try again later.";
+        }
+        unset($stmt);
+         
         //collect data from the form and store them in the defined variables
-        $updateType = $_POST['update_type'];
-        $chickenBatch_ID = $_POST['chickenBatch_ID'];
-        $medicine_ID = $_POST['medicine_ID'];
-        $methodType = $_POST['methodType'];
-        $numberHeads = $_POST['numberHeads'];
-        $administrationSched = $_POST['administrationSched'];
-        $administeredBy = $_POST['administeredBy'];
-        $notes = $_POST['notes'];
+        $fname = $_POST['fname'];
+        $lname = $_POST['lname'];
+        $new_contact_num = $_POST['new_contact_num'];
+        $role = $_POST['role'];
+        $new_username = $_POST['new_username'];
         $status = $_POST['status'];
-        $dosage = $_POST['dosage'];
-    
-        //validate chickenBatch ID
-        if(empty($chickenBatch_ID)){
-            $chickenBatch_err = "Please select chicken batch ID";
-        }else if(!empty($chickenBatch_ID)){
-            //statement to select the coopnumber
-            $sql = "SELECT coopNumber FROM chickenproduction WHERE chickenBatch_ID = '$chickenBatch_ID'";
-            $stmt = $conn->query($sql);
 
-            if($stmt){
-                if($stmt->rowCount() > 0){
-                    while($row = $stmt->fetch()){
-                        $coopNumber = $row['coopNumber']; //stores the coopnumber
+        //validate first name if empty and only allows only alphabets and white spaces
+        if (!preg_match('/^[\p{L} ]+$/u', trim($fname)) ) {  
+            $fname_err = "Only alphabets and whitespace are allowed.";
+         }
+         else if (empty(trim($fname))) {  
+            $fname_err = "Please enter first name.";
+         }
+         else if(strlen(trim($fname)) > 50){
+            $fname_err = "First Name should not exceed more than 50 characters.";
+         }
+         
+         //validate last name if empty and allows only alphabets and white spaces
+         if (!preg_match('/^[\p{L} ]+$/u', $lname) ) {  
+            $lname_err = "Only alphabets and whitespace are allowed."; 
+         }
+         else if (empty(trim($lname))) {  
+            $lname_err = "Please enter last name.";
+         }
+         else if(strlen(trim($lname)) > 50){
+            $lname_err = "Last Name should not exceed more than 50 characters.";
+         }
+     
+         //validate contact_number if empty and only allows number with a length of 11, validate if number exist then display error
+         if (!preg_match ("/^[0-9]+$/", $new_contact_num) ){  
+            $new_contact_num_err = "Please enter a valid mobile number."; 
+         }
+         else if (empty(trim($new_contact_num))) {
+            $new_contact_num_err = "Please enter a mobile number";
+         }
+         else if (strlen(trim($new_contact_num)) < 11 || strlen(trim($new_contact_num)) > 11){
+            $new_contact_num_err = "Please enter 11 digits mobile number.";
+         }
+         else if(!empty($new_contact_num)){ 
+            if($new_contact_num != $old_contact){
+                $sql = "SELECT contact_num FROM users WHERE contact_num = :new_contact_num";
+            
+                if($stmt = $conn->prepare($sql))
+                {
+                    // Bind variables to the prepared statement as parameters
+                    $stmt->bindParam(":new_contact_num", $param_contact_num, PDO::PARAM_STR);
+                
+                    // Set parameters
+                    $param_contact_num = trim($_POST["new_contact_num"]);
+                
+                    // Attempt to execute the prepared statement
+                    if($stmt->execute()){
+                        if($stmt->rowCount() == 1){
+
+                        $new_contact_num_err = "Mobile Number is already taken.";
+                        } 
+                    } 
+                    else{
+                        echo "Oops! Something went wrong. Please try again later.";
                     }
-                    // Free result set
+
+                    // Close statement
                     unset($stmt);
-                } else{
-                    echo '<div class="alert alert-danger"><em>No records gfgffg were found.</em></div>';
                 }
-            } else{
-                echo "Oops! Something went wrong. Please try again later.";
             }
-        }
-
-        //validate medicine id and if not empty, fetch the medicine id
-        if(empty($medicine_ID)){
-            $medicine_ID_err = "Please select a medicine";
-        }else if(!empty($medicine_ID)){
-            //statement to select  the medicine names
-            $sql = "SELECT medicineName FROM medicines WHERE medicine_ID = '$medicine_ID'";
-            $stmt = $conn->query($sql);
-
-            if($stmt){
-                if($stmt->rowCount() > 0){
-                    while($row = $stmt->fetch()){
-                        $medicineName = $row['medicineName']; //stores the medicine name
+         }
+ 
+         //validate role
+         if (empty($role)){
+            $role_err = "Please select a role";
+         }
+ 
+         //validate username
+         if (empty(trim(($new_username)))) {
+            $new_username_err = "Please enter a username.";
+         }
+         else if(strlen(trim($new_username)) > 50){
+            $new_username_err = "Username should not exceed more than 50 characters.";
+         }
+         else{
+            if($new_username != $old_username){
+                //this will validate if the username already exist in the database
+                // Prepare a select statement to check if username already exists
+                $sql = "SELECT username FROM users WHERE username = :new_username";
+            
+                if($stmt = $conn->prepare($sql))
+                {
+                    // Bind variables to the prepared statement as parameters
+                    $stmt->bindParam(":new_username", $param_username, PDO::PARAM_STR);
+                
+                    // Set parameters
+                    $param_username = trim($_POST["new_username"]);
+                
+                    // Attempt to execute the prepared statement
+                    if($stmt->execute()){
+                        if($stmt->rowCount() == 1){
+                        $new_username_err = "This username is already taken.";
+                        } 
+                    } 
+                    else{
+                        echo "Oops! Something went wrong. Please try again later.";
                     }
-                    // Free result set
+
+                    // Close statement
                     unset($stmt);
-                } else{
-                    echo '<div class="alert alert-danger"><em>No records were found.</em></div>';
                 }
-            } else{
-                echo "Oops! Something went wrong. Please try again later.";
             }
-        }
-
-        //validate number of heads
-        if(empty($numberHeads)){
-            $numberHeads_err = "Please enter number of heads";
-        }
-        else if($numberHeads < 1){ //if the number of head is lesser than 1, display error
-            $numberHeads_err = "Please enter valid number of heads";
-        }
-
-        //validate dosage
-        if(empty($dosage)){
-            $dosage_err = "Please enter dosage";
-        }
-        else if($dosage < 1){ //if the dosage is lesser than 1, display error
-            $dosage_err = "Please enter valid dosage";
-        }
-
-        //validate methodType
-        if(empty($methodType)){
-            $methodType_err = "Please select medication type";
-        }
-
-        //validate medicine administration schedule
-        if(empty($administrationSched)){
-            $administrationSched_err = "Please enter administration schedule";
-        }
+         }
 
         //validate status
         if(empty($status)){
-            $status_err = "Please enter status";
-        }
-
-        //validate administered by
-        if(empty($administeredBy)){
-            $administeredBy_err = "Please select an mployee";
-        }
-
-        //validate notes
-        if(empty($notes)){
-            $notes = "no notes.";
-        }
-        else if(strlen(trim($notes)) > 100){ //if the length of the notes is greater than 100, display error
-            $notes_err = "Note exceed 100 character limit.";
+            $status = "no status.";
         }
 
         //if the error variables is empty then the data will be save to the database
-        if(empty($chickenBatch_err) && empty($medicine_ID_err) && empty($dosage_err) && empty($methodType_err) && empty($administrationSched_err) && empty($status_err) && empty($numberHeads_err) && empty($administeredBy_err) && empty($notes_err)){
+        if(empty($fname_err) && empty($lname_err) && empty($new_contact_num_err) && empty($role_err) && empty($new_username_err) && empty($status_err)){
 
            // Prepare an insert statement
-           $sql = "UPDATE schedules SET chickenBatch_ID=:chickenBatch_ID, coopNumber=:coopNumber, medicine_ID=:medicine_ID, medicineName=:medicineName, methodType=:methodType, dosage=:dosage, numberHeads=:numberHeads, administrationSched=:administrationSched, administeredBy=:administeredBy, status=:status, notes=:notes WHERE administration_ID = '$id'";
+           $sql = "UPDATE users SET fname=:fname, lname=:lname, contact_num=:new_contact_num, role=:role, username=:new_username, status=:status, status=:status WHERE user_ID = '$id'";
          
            if($stmt = $conn->prepare($sql))
            {
                // Bind variables to the prepared statement as parameters
-               $stmt->bindParam(":chickenBatch_ID", $param_chickenBatch_ID, PDO::PARAM_STR);
-               $stmt->bindParam(":coopNumber", $param_coopNumber, PDO::PARAM_STR);
-               $stmt->bindParam(":medicine_ID", $param_medicine_ID, PDO::PARAM_STR);
-               $stmt->bindParam(":medicineName", $param_medicineName, PDO::PARAM_STR);
-               $stmt->bindParam(":methodType", $param_methodType, PDO::PARAM_STR);
-               $stmt->bindParam(":dosage", $param_dosage, PDO::PARAM_STR);
-               $stmt->bindParam(":numberHeads", $param_numberHeads, PDO::PARAM_STR);
-               $stmt->bindParam(":administrationSched", $param_administrationSched, PDO::PARAM_STR);
-               $stmt->bindParam(":administeredBy", $param_administeredBy, PDO::PARAM_STR);
+               $stmt->bindParam(":fname", $param_fname, PDO::PARAM_STR);
+               $stmt->bindParam(":lname", $param_lname, PDO::PARAM_STR);
+               $stmt->bindParam(":new_contact_num", $param_new_contact_num, PDO::PARAM_STR);
+               $stmt->bindParam(":role", $param_role, PDO::PARAM_STR);
+               $stmt->bindParam(":new_username", $param_new_username, PDO::PARAM_STR);
                $stmt->bindParam(":status", $param_status, PDO::PARAM_STR);
-               $stmt->bindParam(":notes", $param_notes, PDO::PARAM_STR);
 
                // Set parameters
-               $param_chickenBatch_ID = $chickenBatch_ID;
-               $param_coopNumber = $coopNumber;
-               $param_medicine_ID = $medicine_ID;
-               $param_medicineName = $medicineName;
-               $param_methodType = $methodType;
-               $param_dosage = $dosage;
-               $param_numberHeads = $numberHeads;
-               $param_administrationSched = $administrationSched;
-               $param_administeredBy = $administeredBy;
+               $param_fname = $fname;
+               $param_lname = $lname;
+               $param_new_contact_num = $new_contact_num;
+               $param_role = $role;
+               $param_new_username = $new_username;
                $param_status = $status;
-               $param_notes = $notes;
                // Attempt to execute the prepared statement
                if($stmt->execute())
                {
-                    $_SESSION['status'] = "Schedule Updated Successfully."; 
-                    if($updateType === 'pending'){
-
-                        header('Location: vaccination_pending.php');
-                    }else{
-
-                        header('Location: vaccination_completed.php');
-                    }
+                    $_SESSION['status'] = "User Successully Updated"; 
+                    header('Location: users.php');
+                    
                } 
                else
                {

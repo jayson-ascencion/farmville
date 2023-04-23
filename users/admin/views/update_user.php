@@ -65,54 +65,54 @@
 
                         <!-- USER ID -->
                         <div class="form-group w-100 mb-3">
-                            <label for="role" class="mb-2 text-dark">User ID</label>
-                            <input type="number" name="role" class="form-control" value="<?php echo $user_ID ?>" disabled>
+                            <label for="user_ID" class="mb-2 text-dark">User ID</label>
+                            <input type="number" name="user_ID" class="form-control" value="<?php echo $user_ID ?>" disabled>
                             <!-- <span class="text-danger" style="font-size: small;"> echo $dosage_err; ?> </span> -->
                         </div>
 
                         <!-- FNAME -->
                         <div class="form-group w-100 mb-3">
-                            <label for="role" class="mb-2 text-dark">First Name</label>
-                            <input type="text" name="role" class="form-control" value="<?php echo $fname ?>">
-                            <span class="text-danger" style="font-size: small;"> <?php echo $dosage_err; ?> </span>
+                            <label for="fname" class="mb-2 text-dark">First Name</label>
+                            <input type="text" name="fname" class="form-control" value="<?php echo $fname ?>">
+                            <span class="text-danger" style="font-size: small;"> <?php echo $fname_err; ?> </span>
                         </div>
 
                         <!-- LNAME -->
                         <div class="form-group w-100 mb-3">
-                            <label for="role" class="mb-2 text-dark">Last Name</label>
-                            <input type="text" name="role" class="form-control" value="<?php echo $lname ?>">
-                            <span class="text-danger" style="font-size: small;"> <?php echo $dosage_err; ?> </span>
+                            <label for="lname" class="mb-2 text-dark">Last Name</label>
+                            <input type="text" name="lname" class="form-control" value="<?php echo $lname ?>">
+                            <span class="text-danger" style="font-size: small;"> <?php echo $lname_err; ?> </span>
                         </div>
 
                         <!-- CONTACTNUMBER -->
                         <div class="form-group w-100 mb-3">
-                            <label for="role" class="mb-2 text-dark">Contact Number</label>
-                            <input type="number" name="role" class="form-control" value="<?php echo $contact_num ?>">
-                            <span class="text-danger" style="font-size: small;"> <?php echo $dosage_err; ?> </span>
+                            <label for="new_contact_num" class="mb-2 text-dark">Contact Number</label>
+                            <input type="text" name="new_contact_num" class="form-control" value="<?php echo $contact_num ?>">
+                            <span class="text-danger" style="font-size: small;"> <?php echo $new_contact_num_err; ?> </span>
                         </div>
 
                         <!-- ROLE -->
                         <div class="form-group w-100 mb-3">
                             <label for="role" class="mb-2 text-dark">Role</label>
                             <input type="number" name="role" class="form-control" value="<?php echo $role ?>">
-                            <span class="text-danger" style="font-size: small;"> <?php echo $dosage_err; ?> </span>
+                            <span class="text-danger" style="font-size: small;"> <?php echo $role_err; ?> </span>
                         </div>
 
                         <!-- USERNAME -->
                         <div class="form-group w-100 mb-3">
-                            <label for="username" class="mb-2 text-dark">Username</label>
-                            <input type="text" name="username" class="form-control" value="<?php echo $username ?>">
-                            <span class="text-danger" style="font-size: small;"> <?php echo $numberHeads_err; ?> </span>
+                            <label for="new_username" class="mb-2 text-dark">Username</label>
+                            <input type="text" name="new_username" class="form-control" value="<?php echo $username ?>">
+                            <span class="text-danger" style="font-size: small;"> <?php echo $new_username_err; ?> </span>
                         </div>
 
                         <!-- STATUS -->
                         <div class="form-group mb-3">
                             <label for="status" class="mb-2 text-dark">Status</label>
                             <select name="status" class="form-control">
-                                <option value="active" <?php if($status == 'active') {echo 'selected';} ?>>Active</option>
-                                <option value="disabled" <?php if($status == 'disabled') {echo 'selected';} ?>>Disabled</option>
+                                <option value="active" <?php if($status == 'active') {echo 'selected';} ?>>Activate</option>
+                                <option value="disabled" <?php if($status == 'disabled') {echo 'selected';} ?>>Disable</option>
                             </select>
-                            <span class="text-danger" style="font-size: small;"> <?php echo $administrationSched_err; ?> </span>
+                            <span class="text-danger" style="font-size: small;"> <?php echo $status_err; ?> </span>
                         </div>
 
                         

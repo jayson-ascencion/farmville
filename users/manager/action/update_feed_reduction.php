@@ -5,9 +5,9 @@ include('../../../config/database_connection.php');
 
     //this will hold the quantity before update
     $oldQuantity = "";
-
+ 
     //statement to get the old quantity
-    $sql = "SELECT quantity FROM feedreduction WHERE feedReduction_ID = '$id'";
+    $sql = "SELECT quantity FROM feedtransaction WHERE transaction_ID = '$id'";
     $stmt = $conn->query($sql);
 
     if($stmt){
@@ -115,7 +115,7 @@ try{
         if(empty($feed_ID_err) && empty($updateQuantity_err) && empty($reductionType_err) && empty($dateReduced_err)){
 
            // Prepare an insert statement
-           $sql = "UPDATE feedreduction SET feed_ID=:feed_ID, quantity=:updateQuantity, reductionType=:reductionType, dateReduced=:dateReduced WHERE feedReduction_ID = '$id'";
+           $sql = "UPDATE feedtransaction SET feed_ID=:feed_ID, quantity=:updateQuantity, reductionType=:reductionType, transactionDate=:dateReduced WHERE transaction_ID = '$id'";
          
            if($stmt = $conn->prepare($sql))
            {

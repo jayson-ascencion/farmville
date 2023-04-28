@@ -29,26 +29,46 @@
                         <div class="card-body p-4">
                             <!-- egg Size -->
                             <div class="form-group mb-3">
-                                <label for="eggSize" class="mb-2 text-dark">Egg Size</label>
-                                <select class="form-select" name="eggSize" required>
-                                    <?php
-                                        if(empty($eggSize)){
-                                            echo '<option value="">- select a egg size -</option>';
+                                <label for="eggSize_ID" class="mb-2 text-dark">Egg Size</label>
+                                <select class="form-select" name="eggSize_ID" required>
+                                    <option value="<?php echo $eggSize_ID; ?>">
+                                        <?php
+                                        if(!empty($eggSize_ID)){
+                                            echo $eggSize_ID;
                                         }else{
-                                            ?>
-                                                <option value="<?php echo $eggSize; ?>"><?php echo $eggSize; ?></option>';
-                                            <?php
+                                            echo "- select an egg size -";
                                         }
+                                        ?>
+                                    </option>
+                                    <?php
+
+                                        //connect to the database
+                                        include('../../../config/database_connection.php');
+                                        $selectedID = "";
+                                        //statement to select the all the medicine names
+                                        $sql = "SELECT eggSize, eggSize_ID FROM eggproduction";
+                                        $stmt = $conn->query($sql);
+                                        if($stmt){
+                                            if($stmt->rowCount() > 0){
+                                                while($row = $stmt->fetch()){?>
+                                                <option value="<?php echo $row['eggSize_ID']; ?>"> <?php echo $row["eggSize"];?> </option>
+                                            <?php }
+                                                // Free result set
+                                                unset($result);
+                                            } else{
+
+                                                echo '<div class="alert alert-danger"><em>No records were found.</em></div>';
+                                            }
+                                        } else{
+                                            echo "Oops! Something went wrong. Please try again later.";
+                                        }
+                                        unset($pdo);
+
                                     ?>
-                                    <option value="XS">XS</option>
-                                    <option value="S">S</option>
-                                    <option value="M">M</option>
-                                    <option value="L">L</option>
-                                    <option value="XL">XL</option>
                                 </select>
-                                <span class="text-danger" style="font-size: 13px;"> <?php echo $eggSize_err; ?> </span>
+                                <span class="text-danger" style="font-size: small;"> <?php echo $eggSize_ID_err; ?> </span>
                             </div>
-                    
+
                             <!-- Quantity -->
                             <div class="form-group mb-3">
                                 <label for="quantity" class="mb-2 text-dark">Quantity</label>

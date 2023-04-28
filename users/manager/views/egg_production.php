@@ -182,7 +182,7 @@
                                 <div class="col-xl-2 col-md-2 align-content-end">
                                     <div class="w-100 d-flex justify-content-end">
                                         <div class="m-1 w-100 float-end">
-                                            <a href="add_egg_form.php" class="btn btn-success shadow-sm w-100 fw-bold">Add Egg Batch</a>
+                                            <a href="add_egg_form.php" class="btn btn-success shadow-sm w-100 fw-bold">Add New Collection</a>
                                         </div>
                                         <!-- <div class="m-1 w-100">
                                             <a href="#" class="btn btn-outline-danger shadow-sm w-100 fw-bold">Archives</a>                                 

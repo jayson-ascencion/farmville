@@ -11,16 +11,16 @@
     $id = $_REQUEST['id'];
     
     //statement to select the specific schedule to update
-    $sql = "SELECT * FROM eggreduction WHERE eggReduction_ID = '$id'";
+    $sql = "SELECT * FROM eggtransaction WHERE collection_ID = '$id'";
     $stmt = $conn->query($sql);
     if($stmt){
         if($stmt->rowCount() > 0){
             while($row = $stmt->fetch()){
-                $eggBatch_ID = $row['eggBatch_ID'];
+                $eggSize_ID = $row['eggSize_ID'];
                 $eggSize = $row['eggSize'];
                 $quantity = $row['quantity'];
-                $reductionType = $row['reductionType'];
-                $dateReduced = $row['dateReduced'];
+                $reductionType = $row['dispositionType'];
+                $dateReduced = $row['transactionDate'];
                 }
             // Free result set
             unset($result);
@@ -39,10 +39,10 @@
             $id = $_POST['id'];
             // $archived = 'archived';
 
-            // Prepare an insert statementUPDATE eggreduction SET archive=:archived WHERE eggReduction_ID = '$id'
+            // Prepare an insert statementUPDATE eggreduction SET archive=:archived WHERE collection_ID = '$id'
             $sql = "BEGIN;
-            UPDATE eggproduction SET quantity = quantity + $quantity WHERE eggBatch_ID = '$eggBatch_ID';
-            DELETE FROM eggreduction WHERE eggReduction_ID = '$id';
+            UPDATE eggproduction SET inStock = inStock + $quantity WHERE eggSize_ID = '$eggSize_ID';
+            DELETE FROM eggtransaction WHERE collection_ID = '$id';
             COMMIT;";
             
             if($stmt = $conn->prepare($sql))
@@ -96,7 +96,7 @@
 
                             <!-- egg Size -->
                             <div class="mb-3">
-                                <p class="fw-bold">Egg Batch ID: <span class="fw-normal ps-2"><?php echo $eggBatch_ID; ?></span></p>
+                                <p class="fw-bold">Egg Batch ID: <span class="fw-normal ps-2"><?php echo $eggSize_ID; ?></span></p>
                             </div>
                     
                             <!-- Quantity -->

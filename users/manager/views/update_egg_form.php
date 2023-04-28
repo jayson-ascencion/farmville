@@ -32,18 +32,19 @@
                             include('../../../config/database_connection.php');
 
                             $id = $_REQUEST['id'];
-                            
+                            // $eggSize_ID = $id;
                             //statement to select the specific schedule to update
-                            $sql = "SELECT * FROM eggproduction WHERE eggBatch_ID = '$id'";
+                            $sql = "SELECT * FROM eggtransaction WHERE collection_ID = '$id'";
                             $stmt = $conn->query($sql);
                             if($stmt){
                                 if($stmt->rowCount() > 0){
                                     while($row = $stmt->fetch()){
-                                        $eggBatch_ID = $row['eggBatch_ID'];
+                                        $collection_ID = $row['collection_ID'];
+                                        $eggSize_ID = $row['eggSize_ID'];
                                         $eggSize = $row['eggSize'];
                                         $quantity = $row['quantity'];
-                                        $collectionType = $row['collectionType'];
-                                        $collectionDate = $row['collectionDate'];
+                                        $collectionType = $row['dispositionType'];
+                                        $collectionDate = $row['transactionDate'];
                                         $note = $row['note'];
                                      }
                                     // Free result set
@@ -54,43 +55,51 @@
                             } else{
                                 echo "Oops! Something went wrong. Please try again later.";
                             }
-                            unset($pdo);
+                            // unset($stmt);
                         ?>
                         <div class="card-body p-4">
-                            <!-- Egg Batch ID -->
-                            <div class="form-group mb-3">
-                                <label for="eggBatch_ID" class="mb-2 text-dark">Egg Batch ID</label>
-                                <input type="text" name="eggBatch_ID" class="form-control"value="<?php echo $eggBatch_ID; ?>" disabled required>
-                            </div>
-
                             <!-- egg Size -->
                             <div class="form-group mb-3">
-                                <label for="eggSize" class="mb-2 text-dark">Egg Size</label>
-                                <select class="form-select" name="eggSize">
-                                    <option value="<?php echo $eggSize; ?>"><?php echo $eggSize; ?></option>
-                                    <!-- <option value="XS">XS</option>
-                                    <option value="S">S</option>
-                                    <option value="M">M</option>
-                                    <option value="L">L</option>
-                                    <option value="XL">XL</option> -->
-                                    <?php if($eggSize != "XS") { ?>
-                                        <option value="XS">XS</option>
-                                    <?php } ?>
-                                    <?php if($eggSize != "S") { ?>
-                                        <option value="S">S</option>
-                                    <?php } ?>
-                                    <?php if($eggSize != "M") { ?>
-                                        <option value="M">M</option>
-                                    <?php } ?>
-                                    <?php if($eggSize != "L") { ?>
-                                        <option value="L">L</option>
-                                    <?php } ?>
-                                    <?php if($eggSize != "XL") { ?>
-                                        <option value="XL">XL</option>
-                                    <?php } ?>
+                                <label for="eggSize_ID" class="mb-2 text-dark">Egg Size</label>
+                                <select class="form-select" name="eggSize_ID" required>
+                                    <!-- <option value="cho $eggSize_ID; ?>">
+                                        
+                                        if(!empty($id)){
+                                            echo $eggSize_ID;
+                                        }else{
+                                            echo "- select an egg size -";
+                                        }
+                                        ?>
+                                    </option> -->
+                                    <?php
+
+                                        //connect to the database
+                                        include('../../../config/database_connection.php');
+                                        $selectedID = "";
+                                        //statement to select the all the medicine names
+                                        $sql = "SELECT eggSize, eggSize_ID FROM eggproduction";
+                                        $stmt = $conn->query($sql);
+                                        if($stmt){
+                                            if($stmt->rowCount() > 0){
+                                                echo '<option value="' . $eggSize_ID . '">' . $eggSize .'</option>';
+                                                while($row = $stmt->fetch()){?>
+                                                <option value="<?php echo $row['eggSize_ID']; ?>"> <?php echo $row["eggSize"];?> </option>
+                                            <?php }
+                                                // Free result set
+                                                unset($result);
+                                            } else{
+
+                                                echo '<div class="alert alert-danger"><em>No records were found.</em></div>';
+                                            }
+                                        } else{
+                                            echo "Oops! Something went wrong. Please try again later.";
+                                        }
+                                        unset($pdo);
+
+                                    ?>
                                 </select>
-                                <span class="text-danger" style="font-size: 13px;"> <?php echo $eggSize_err; ?> </span>
-                            </div>                          
+                                <span class="text-danger" style="font-size: small;"> <?php echo $eggSize_ID_err; ?> </span>
+                            </div>                        
 
                             <!-- Quantity -->
                             <div class="form-group mb-3">

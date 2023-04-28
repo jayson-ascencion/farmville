@@ -9,21 +9,21 @@
     $id = $_REQUEST['id'];
 
     //this will hold the eggSize before update
-    $eggReduction_ID = $eggBatch_ID = $eggSize = $reductionType = $dateReduced = "";
+    $collection_ID = $eggBatch_ID = $eggSize = $reductionType = $dateReduced = "";
 
     //statement to get the old eggSize
-    $sql = "SELECT * FROM eggreduction WHERE eggReduction_ID = '$id'";
+    $sql = "SELECT * FROM eggtransaction WHERE collection_ID = '$id'";
     $stmt = $conn->query($sql);
 
     if($stmt){
         if($stmt->rowCount() > 0){
             while($row = $stmt->fetch()){
-                $eggReduction_ID = $row['eggReduction_ID'];
-                $eggBatch_ID = $row['eggBatch_ID'];
+                $collection_ID = $row['collection_ID'];
+                // $eggBatch_ID = $row['eggBatch_ID'];
                 $eggSize = $row['eggSize'];
-                $reductionType = $row['reductionType'];
+                // $reductionType = $row['reductionType'];
                 $quantity = $row['quantity'];
-                $dateString = strtotime($row['dateReduced']);
+                $dateString = strtotime($row['transactionDate']);
                 $dateReduced = date("F d, Y",$dateString);
             }
             // Free result set
@@ -59,7 +59,7 @@
                         <div class="card-body p-4">
                             <!-- egg batch id -->
                             <div class="mb-3">
-                                <p class="fw-bold">Egg Reduction ID: <span class="fw-normal ps-2"><?php echo $eggReduction_ID; ?></span></p>
+                                <p class="fw-bold">Egg Reduction ID: <span class="fw-normal ps-2"><?php echo $collection_ID; ?></span></p>
                             </div>
 
                             <!-- egg Size -->

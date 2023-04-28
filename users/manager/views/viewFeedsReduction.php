@@ -9,21 +9,19 @@
     $id = $_REQUEST['id'];
 
     //this will hold the brand before update
-    $feed_ID = $feedName = $brand = $quantity = $reductionType = $dateReduced = "";
+    $feedName = $quantity = $reductionType = $dateReduced = "";
 
     //statement to get the old brand
-    $sql = "SELECT * FROM feedreduction WHERE feedReduction_ID = '$id'";
+    $sql = "SELECT * FROM feedtransaction WHERE transaction_ID = '$id' AND archive='not archived'";
     $stmt = $conn->query($sql);
 
     if($stmt){
         if($stmt->rowCount() > 0){
             while($row = $stmt->fetch()){
-                $feed_ID = $row['feed_ID'];
                 $feedName = $row['feedName'];
                 $quantity = $row['quantity'];
                 $reductionType = $row['reductionType'];
-
-                $dateString = strtotime($row['dateReduced']);
+                $dateString = strtotime($row['transactionDate']);
                 $dateReduced = date("F d, Y",$dateString); 
             }
             // Free result set
@@ -58,9 +56,9 @@
                         </div></div>
                         <div class="card-body p-4">
                             <!-- FEED ID -->
-                            <div class="mb-3">
+                            <!-- <div class="mb-3">
                                 <p class="fw-bold">Feed ID: <span class="fw-normal ps-2"><?php echo $feed_ID; ?></span></p>
-                            </div>
+                            </div> -->
 
                             <!-- FEED NAME -->
                             <div class="mb-3">

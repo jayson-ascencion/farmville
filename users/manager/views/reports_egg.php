@@ -5,6 +5,37 @@
     //header
     include("../../includes/header.php");
     
+    //database connection
+    include('../../../config/database_connection.php');
+
+    $sql = "SELECT eggSize, inStock 
+    FROM eggproduction
+    ";
+    $stmt = $conn->query($sql);
+    if($stmt){
+        if($stmt->rowCount() > 0){
+            $eggSize = array();
+            while($row = $stmt->fetch()){
+                $eggSize[] = $row['eggSize'];
+                if($row['eggSize'] == 'XS'){
+                    $extraS = $row['inStock'];
+                }else if($row['eggSize'] == 'S'){
+                    $small = $row['inStock'];
+                }else if($row['eggSize'] == 'M'){
+                    $medium = $row['inStock'];
+                }else if($row['eggSize'] == 'L'){
+                    $large = $row['inStock'];
+                }else if($row['eggSize'] == 'XL'){
+                    $extraL = $row['inStock'];
+                }
+            }
+        }
+            // Free result set
+            unset($stmt);
+    }
+    else{
+        echo "Oops! Something went wrong. Please try again later.";
+    }
 ?>
 
 
@@ -50,7 +81,7 @@
                     <div class="card mt-3 shadow-lg">
                         <div class="card-body">
                             <div class="table-responsive m-1">
-                                <h5 class="text-center" style="color: rgb(100, 100, 100)">Egg Report</h5>
+                                <h5 class="text-center" style="color: rgb(100, 100, 100)">Quantity By Egg Size</h5>
                                 <div class="chart-container bar-chart">
                                     <canvas id="bar_chart" height="100"> </canvas>
                                 </div>
@@ -96,7 +127,7 @@
 
 
                         <!-- <hr class="border border-dark border-3 opacity-75"> -->
-                    <div class="card mt-3 shadow-lg">
+                    <!-- <div class="card mt-3 shadow-lg">
                         <div class="card-body">
                             <div class="table-responsive m-1">
                                 <h5 class="text-center" style="color: rgb(100, 100, 100)">In Stock Summary By Egg Size</h5>
@@ -116,7 +147,7 @@
                                 </table>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -141,6 +172,124 @@
     //To register it globally to all charts
     Chart.register(ChartDataLabels);
 
+    const {eggSize, extraS, small, medium, large, extraL} = {
+        eggSize: <?php echo json_encode($eggSize);?>,
+        extraS: <?php echo json_encode($extraS);?>,
+        small: <?php echo json_encode($small);?>,
+        medium: <?php echo json_encode($medium);?>,
+        large: <?php echo json_encode($large);?>,
+        extraL: <?php echo json_encode($extraL);?>,
+    };
+
+    console.log(eggSize)
+    const ctx3 = document.getElementById('bar_chart');
+            new Chart(ctx3, {
+                type: 'bar',
+                data: {
+                labels: eggSize,
+                datasets: [{
+                            label: 'Quantity',
+                            data: [extraS,small, medium, large, extraL],
+                            borderWidth: 1,
+                            backgroundColor: [
+                                '#F44336', 
+                                '#E91E63', 
+                                '#9C27B0', 
+                                '#673AB7', 
+                                '#3F51B5'
+                            // 'rgb(34, 139, 134)',
+                            ]
+                        },
+                        // {
+                        //     label: 'S',
+                        //     data: small,
+                        //     borderWidth: 1,
+                        //     backgroundColor: [
+                        //         '#f0d481'
+                        //     // 'rgb(255, 99, 132)',
+                        //     ]
+                        // },
+                        // {
+                        //     label: 'M',
+                        //     data: medium,
+                        //     borderWidth: 1,
+                        //     backgroundColor: [
+                        //         '#f0d481'
+                        //     // 'rgb(255, 99, 132)',
+                        //     ]
+                        // },
+                        // {
+                        //     label: 'L',
+                        //     data: large,
+                        //     borderWidth: 1,
+                        //     backgroundColor: [
+                        //         '#f0d481'
+                        //     // 'rgb(255, 99, 132)',
+                        //     ]
+                        // },
+                        // {
+                        //     label: 'XL',
+                        //     data: extraL,
+                        //     borderWidth: 1,
+                        //     backgroundColor: [
+                        //         '#f0d481'
+                        //     // 'rgb(255, 99, 132)',
+                        //     ]
+                        // }
+                    ]
+                },
+                options: {
+                    scales: {
+                        y: {
+                        beginAtZero: true
+                        }
+                    },
+                    maintainAspectRatio: true,
+                    rotation: 0,
+                    plugins: {
+                        datalabels: { // This code is used to display data values
+                            color: 'black',
+                            anchor: 'auto',
+                            align: 'top',
+                            formatter: Math.round,
+                            //                                     formatter: function(value, context) {
+                            //   return context.dataset.label + ': ' + value + '%';
+                            // },
+                            font: {
+                                weight: 'normal',
+                                size: 12
+                            },
+                            minRotation: 0,
+                            maxRotation: 90,
+                        }
+                    }
+                },
+                plugins: [{
+                    afterDatasetsDraw: ((chart, args, plugins) => {
+                    const {ctx, data, chartArea: {top, bottom, left, right, width, height}} = chart;
+
+                    ctx.save();
+                    
+                    if (data.datasets.length > 0) {
+                        // console.log(data.datasets.length)
+                        // console.log(data.datasets[0].data)
+                    if (data.datasets[0].data.every(item => Number(item) === 0) && data.datasets[1].data.every(item => Number(item) === 0)) {
+                        
+                        chart.options.scales.y.display = false;
+                        ctx.fillStyle = 'rgba(255, 255, 255, 1)';
+                        ctx.fillRect(left, top, width, height);
+
+                        ctx.font = '20px sans-serif';
+                        ctx.fillStyle = 'black';
+                        ctx.textAlign = 'center';
+                        ctx.fillText('No Data Available', left + width / 2, top + height / 2);
+                    }
+                    }
+
+                })
+                }]
+            });
+            
     $.extend( $.fn.dataTable.defaults, {
         // "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
         "lengthMenu": [[-1, 10, 25, 50, 100], ["All", 10, 25, 50, 100]],
@@ -176,119 +325,121 @@
             document.getElementById("end_date_input").value = end_date;
             //creates the table
             //production table
-            var dataTable = $('#production_table').DataTable({
-                "columnDefs": [
-                    {
-                        "targets": 0,
-                        "render": function (data, type, row) {
-                            var date = new Date(data);
-                            var options = {year: 'numeric', month: 'short', day: 'numeric' };
-                            return date.toLocaleDateString('en-US', options);
-                        },
+            // var dataTable = $('#production_table').DataTable({
+            //     "columnDefs": [
+            //         {
+            //             "targets": 0,
+            //             "render": function (data, type, row) {
+            //                 var date = new Date(data);
+            //                 var options = {year: 'numeric', month: 'short', day: 'numeric' };
+            //                 return date.toLocaleDateString('en-US', options);
+            //             },
                     
-                    },
-                    {
-                        "className": "dt-center", "targets": "_all"
-                    }
-                ],
-                "processing" : true,
-                "serverSide" : true, //serverside
-                "order" : [], //enables table ordering
-                "ajax" : {
-                    url:"../action/reports_action.php",
-                    type:"POST",
-                    data:{action:'egg', start_date:start_date, end_date:end_date}
-                },
-                "drawCallback" : function(settings)
-                {
-                    var collectionDate = [];
-                    var totalQuantity = [];
-                    var reductions = [];
+            //         },
+            //         {
+            //             "className": "dt-center", "targets": "_all"
+            //         }
+            //     ],
+            //     "processing" : true,
+            //     "serverSide" : true, //serverside
+            //     "order" : [], //enables table ordering
+            //     "ajax" : {
+            //         url:"../action/reports_action.php",
+            //         type:"POST",
+            //         data:{action:'egg', start_date:start_date, end_date:end_date}
+            //     },
+            //     "drawCallback" : function(settings)
+            //     {
+            //         var collectionDate = [];
+            //         var totalQuantity = [];
+            //         var reductions = [];
 
-                    for(var count = 0; count < settings.aoData.length; count++)
-                    {
-                        var date = new Date(settings.aoData[count]._aData[0]);
-                        var options = {year: 'numeric', month: 'short', day: 'numeric' };
-                        collectionDate.push(date.toLocaleDateString('en-US', options));
-                        // eggSize.push(settings.aoData[count]._aData[1]);
-                        totalQuantity.push(parseFloat(settings.aoData[count]._aData[2]));
-                        reductions.push(parseFloat(settings.aoData[count]._aData[3]));
-                    }
-                    // console.log(collectionDate)
-                    var chart_data = {
-                        labels:collectionDate,
-                        datasets:[
-                            {
-                                label : 'Total Quantity',
-                                backgroundColor : 'rgb(65,105,225)',
-                                color : '#fff',
-                                data:totalQuantity
-                            },
-                            {
-                                label : 'Quantity Reduced',
-                                backgroundColor : 'rgb(205,92,92)',
-                                color : '#fff',
-                                data:reductions
-                            }
-                        ],
-                    };
+            //         for(var count = 0; count < settings.aoData.length; count++)
+            //         {
+            //             var date = new Date(settings.aoData[count]._aData[0]);
+            //             var options = {year: 'numeric', month: 'short', day: 'numeric' };
+            //             collectionDate.push(date.toLocaleDateString('en-US', options));
+            //             // eggSize.push(settings.aoData[count]._aData[1]);
+            //             totalQuantity.push(parseFloat(settings.aoData[count]._aData[2]));
+            //             reductions.push(parseFloat(settings.aoData[count]._aData[3]));
+            //         }
+            //         // console.log(collectionDate)
+            //         var chart_data = {
+            //             labels:collectionDate,
+            //             datasets:[
+            //                 {
+            //                     label : 'Total Quantity',
+            //                     backgroundColor : 'rgb(65,105,225)',
+            //                     color : '#fff',
+            //                     data:totalQuantity
+            //                 },
+            //                 {
+            //                     label : 'Quantity Reduced',
+            //                     backgroundColor : 'rgb(205,92,92)',
+            //                     color : '#fff',
+            //                     data:reductions
+            //                 }
+            //             ],
+            //         };
 
-                    var group_chart3 = $('#bar_chart');
+            //         var group_chart3 = $('#bar_chart');
 
-                    if(production_chart)
-                    {
-                        production_chart.destroy();
-                    }
+            //         if(production_chart)
+            //         {
+            //             production_chart.destroy();
+            //         }
 
-                    production_chart = new Chart(group_chart3, {
-                        type:'bar',
-                        data:chart_data,
-                        options: {
-                            maintainAspectRatio: true,
-                            responsive: true,
-                            plugins: {
-                                datalabels: { // This code is used to display data values
-                                    color: 'black',
-                                    anchor: 'auto',
-                                    align: 'top',
-                                    formatter: Math.round,
-                                    //                                     formatter: function(value, context) {
-                                    //   return context.dataset.label + ': ' + value + '%';
-                                    // },
-                                    font: {
-                                        weight: 'normal',
-                                        size: 12
-                                    },
-                                    minRotation: 0,
-                                    maxRotation: 90,
-                                }
-                            }
-                        },
-                        plugins: [{
-                            afterDatasetsDraw: ((chart, args, plugins) => {
-                            const {ctx, data, chartArea: {top, bottom, left, right, width, height}} = chart;
+            //         production_chart = new Chart(group_chart3, {
+            //             type:'bar',
+            //             data:chart_data,
+            //             options: {
+            //                 maintainAspectRatio: true,
+            //                 responsive: true,
+            //                 plugins: {
+            //                     datalabels: { // This code is used to display data values
+            //                         color: 'black',
+            //                         anchor: 'auto',
+            //                         align: 'top',
+            //                         formatter: Math.round,
+            //                         //                                     formatter: function(value, context) {
+            //                         //   return context.dataset.label + ': ' + value + '%';
+            //                         // },
+            //                         font: {
+            //                             weight: 'normal',
+            //                             size: 12
+            //                         },
+            //                         minRotation: 0,
+            //                         maxRotation: 90,
+            //                     }
+            //                 }
+            //             },
+            //             plugins: [{
+            //                 afterDatasetsDraw: ((chart, args, plugins) => {
+            //                 const {ctx, data, chartArea: {top, bottom, left, right, width, height}} = chart;
 
-                            ctx.save();
+            //                 ctx.save();
                             
-                            if (data.datasets.length > 0) {
-                                // console.log(data.datasets.length)
-                                // console.log(data.datasets[0].data)
-                            if (data.datasets[0].data.every(item => Number(item) === 0) && data.datasets[1].data.every(item => Number(item) === 0)) {
-                                ctx.fillStyle = 'rgba(255, 255, 255, 1)';
-                                ctx.fillRect(left, top, width, height);
+            //                 if (data.datasets.length > 0) {
+            //                     // console.log(data.datasets.length)
+            //                     // console.log(data.datasets[0].data)
+            //                 if (data.datasets[0].data.every(item => Number(item) === 0) && data.datasets[1].data.every(item => Number(item) === 0)) {
+            //                     ctx.fillStyle = 'rgba(255, 255, 255, 1)';
+            //                     ctx.fillRect(left, top, width, height);
 
-                                ctx.font = '20px sans-serif';
-                                ctx.fillStyle = 'black';
-                                ctx.textAlign = 'center';
-                                ctx.fillText('No Data Available', left + width / 2, top + height / 2);
-                            }
-                            }
+            //                     ctx.font = '20px sans-serif';
+            //                     ctx.fillStyle = 'black';
+            //                     ctx.textAlign = 'center';
+            //                     ctx.fillText('No Data Available', left + width / 2, top + height / 2);
+            //                 }
+            //                 }
 
-                        })
-                        }] 
-                    });
-                }
-            });
+            //             })
+            //             }] 
+            //         });
+            //     }
+            // });
+
+           
 
             //second table
             var dataTable = $('#second_table').DataTable({
@@ -321,8 +472,16 @@
                         datasets: [
                             {
                                 label: 'Quantity Reduced',
-                                backgroundColor: 'rgba(205,92,92)',
-                                color: '#fff',
+                                borderWidth: 1,
+                            backgroundColor: [
+                                '#F44336', 
+                                '#E91E63', 
+                                '#9C27B0', 
+                                '#673AB7', 
+                                '#3F51B5'
+                            // 'rgb(34, 139, 134)',
+                            ],
+                                // color: '#fff',
                                 data: reductions
                             }
                         ],
@@ -367,6 +526,7 @@
                                 
                                 if (reductions.length === 0) {
                                     // console.log('ahah')
+                                    chart.options.scales.y.display = false;
                                     ctx.fillStyle = 'rgba(255, 255, 255, 1)';
                                     ctx.fillRect(left, top, width, height);
 
@@ -382,104 +542,104 @@
                 }
             });
 
-            //third table
-            var dataTable = $('#third_table').DataTable({
-                info: false,
-                paging: false,
-                filter: false,
-                stateSave: true,
-                "processing" : true,
-                "serverSide" : true, //serverside
-                "order" : [], //enables table ordering
-                "ajax" : {
-                    url:"../action/reports_action.php",
-                    type:"POST",
-                    data:{action:'eggsize', start_date:start_date, end_date:end_date}
-                },
-                "drawCallback" : function(settings)
-                {
+            // //third table
+            // var dataTable = $('#third_table').DataTable({
+            //     info: false,
+            //     paging: false,
+            //     filter: false,
+            //     stateSave: true,
+            //     "processing" : true,
+            //     "serverSide" : true, //serverside
+            //     "order" : [], //enables table ordering
+            //     "ajax" : {
+            //         url:"../action/reports_action.php",
+            //         type:"POST",
+            //         data:{action:'eggsize', start_date:start_date, end_date:end_date}
+            //     },
+            //     "drawCallback" : function(settings)
+            //     {
                     
-                    var breedType = [];
-                    var instock = [];
+            //         var breedType = [];
+            //         var instock = [];
                     
-                    for(var count = 0; count < settings.aoData.length; count++)
-                    {
-                        breedType.push(settings.aoData[count]._aData[0]);
-                        instock.push(parseFloat(settings.aoData[count]._aData[1]));
-                    }
+            //         for(var count = 0; count < settings.aoData.length; count++)
+            //         {
+            //             breedType.push(settings.aoData[count]._aData[0]);
+            //             instock.push(parseFloat(settings.aoData[count]._aData[1]));
+            //         }
 
-                    var chart_data = {
-                        labels: breedType,
-                        datasets: [
-                            {
-                                label: 'Quantity In Stock',
-                                backgroundColor: [
-                                    'rgba(153, 102, 255)',
-                                    'rgba(255, 99, 132)', 
-                                    'rgba(255, 159, 64)', 
-                                    'rgba(255, 205, 86)', 
-                                    'rgba(75, 192, 192)'
-                                ],
-                                color: '#fff',
-                                data: instock
-                            }
-                        ],
+            //         var chart_data = {
+            //             labels: breedType,
+            //             datasets: [
+            //                 {
+            //                     label: 'Quantity In Stock',
+            //                     backgroundColor: [
+            //                         'rgba(153, 102, 255)',
+            //                         'rgba(255, 99, 132)', 
+            //                         'rgba(255, 159, 64)', 
+            //                         'rgba(255, 205, 86)', 
+            //                         'rgba(75, 192, 192)'
+            //                     ],
+            //                     color: '#fff',
+            //                     data: instock
+            //                 }
+            //             ],
 
-                    };
+            //         };
                     
-                    var group_chart3 = $('#third_chart');
+            //         var group_chart3 = $('#third_chart');
 
-                    if(third_chart)
-                    {
-                        third_chart.destroy();
-                    }
+            //         if(third_chart)
+            //         {
+            //             third_chart.destroy();
+            //         }
 
-                    third_chart = new Chart(group_chart3, {
-                        type:'bar',
-                        data:chart_data,
-                        options: {
-                            maintainAspectRatio: true,
-                            responsive: true,
-                            plugins: {
-                                datalabels: { // This code is used to display data values
-                                    color: 'black',
-                                    anchor: 'auto',
-                                    align: 'top',
-                                    formatter: Math.round,
-                                    //                                     formatter: function(value, context) {
-                                    //   return context.dataset.label + ': ' + value + '%';
-                                    // },
-                                    font: {
-                                        weight: 'normal',
-                                        size: 12
-                                    },
-                                    minRotation: 0,
-                                    maxRotation: 90,
-                                }
-                            }
-                        },
-                        plugins: [{
-                            afterDatasetsDraw: ((chart, args, plugins) => {
-                                const {ctx, data, chartArea: {top, bottom, left, right, width, height}} = chart;
-                                    // console.log(data)
-                                ctx.save();
+            //         third_chart = new Chart(group_chart3, {
+            //             type:'bar',
+            //             data:chart_data,
+            //             options: {
+            //                 maintainAspectRatio: true,
+            //                 responsive: true,
+            //                 plugins: {
+            //                     datalabels: { // This code is used to display data values
+            //                         color: 'black',
+            //                         anchor: 'auto',
+            //                         align: 'top',
+            //                         formatter: Math.round,
+            //                         //                                     formatter: function(value, context) {
+            //                         //   return context.dataset.label + ': ' + value + '%';
+            //                         // },
+            //                         font: {
+            //                             weight: 'normal',
+            //                             size: 12
+            //                         },
+            //                         minRotation: 0,
+            //                         maxRotation: 90,
+            //                     }
+            //                 }
+            //             },
+            //             plugins: [{
+            //                 afterDatasetsDraw: ((chart, args, plugins) => {
+            //                     const {ctx, data, chartArea: {top, bottom, left, right, width, height}} = chart;
+            //                         // console.log(data)
+            //                     ctx.save();
                                 
-                                if (instock.length === 0) {
-                                    // console.log('ahah')
-                                    ctx.fillStyle = 'rgba(255, 255, 255, 1)';
-                                    ctx.fillRect(left, top, width, height);
+            //                     if (instock.length === 0) {
+            //                         // console.log('ahah')
+            //                         ctx.fillStyle = 'rgba(255, 255, 255, 1)';
+            //                         ctx.fillRect(left, top, width, height);
 
-                                    ctx.font = '20px sans-serif';
-                                    ctx.fillStyle = 'black';
-                                    ctx.textAlign = 'center';
-                                    ctx.fillText('No Data Available', left + width / 2, top + height / 2);
-                                }
+            //                         ctx.font = '20px sans-serif';
+            //                         ctx.fillStyle = 'black';
+            //                         ctx.textAlign = 'center';
+            //                         ctx.fillText('No Data Available', left + width / 2, top + height / 2);
+            //                     }
 
-                            })
-                        }] 
-                    });
-                }
-            });
+            //                 })
+            //             }] 
+            //         });
+            //     }
+            // });
         }
         
         $('#daterange_textbox').daterangepicker({

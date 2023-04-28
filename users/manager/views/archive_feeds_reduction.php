@@ -11,7 +11,7 @@
     $id = $_REQUEST['id'];
     
     //statement to get the old brand
-    $sql = "SELECT * FROM feedreduction WHERE feedReduction_ID = '$id'";
+    $sql = "SELECT * FROM feedtransaction WHERE transaction_ID = '$id'";
     $stmt = $conn->query($sql);
 
     if($stmt){
@@ -21,7 +21,7 @@
                 $feedName = $row['feedName'];
                 $quantity = $row['quantity'];
                 $reductionType = $row['reductionType'];
-                $dateReduced = $row['dateReduced']; 
+                $dateReduced = $row['transactionDate']; 
             }
             // Free result set
             unset($result);
@@ -43,7 +43,7 @@
             // Prepare an insert statementUPDATE feedreduction SET archive=:archived WHERE feedReduction_ID = '$id'
             $sql = "BEGIN;
             UPDATE feeds SET inStock = inStock + $quantity WHERE feed_ID = '$feed_ID';
-            DELETE FROM feedreduction WHERE feedReduction_ID = '$id';
+            DELETE FROM feedtransaction WHERE transaction_ID = '$id';
             COMMIT;";
             
             if($stmt = $conn->prepare($sql))

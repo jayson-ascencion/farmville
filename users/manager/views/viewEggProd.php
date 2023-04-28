@@ -9,21 +9,21 @@
     $id = $_REQUEST['id'];
 
     //this will hold the quantity before update
-    $eggBatch_ID = $eggSize = $quantity = $collectionType = $collectionDate = $note = "";
+    $collection_ID = $eggSize = $quantity = $dispositionType = $transactionDate = $note = "";
 
     //statement to get the old quantity
-    $sql = "SELECT * FROM eggproduction WHERE eggBatch_ID = '$id'";
+    $sql = "SELECT * FROM eggtransaction WHERE transactionType = 'Collection' AND collection_ID = '$id'";
     $stmt = $conn->query($sql);
 
     if($stmt){
         if($stmt->rowCount() > 0){
             while($row = $stmt->fetch()){
-                $eggBatch_ID = $row['eggBatch_ID'];
+                $collection_ID = $row['collection_ID'];
                 $eggSize = $row['eggSize'];
                 $quantity = $row['quantity'];
-                $collectionType = $row['collectionType'];
-                $dateString = strtotime($row['collectionDate']);
-                $collectionDate = date("F d, Y",$dateString);
+                $dispositionType = $row['dispositionType'];
+                $dateString = strtotime($row['transactionDate']);
+                $transactionDate = date("F d, Y",$dateString);
                 $note = $row['note']; 
             }
             // Free result set
@@ -59,7 +59,7 @@
                         <div class="card-body p-4">
                             <!-- egg batch id -->
                             <div class="mb-3">
-                                <p class="fw-bold">Egg Batch ID: <span class="fw-normal ps-2"><?php echo $eggBatch_ID; ?></span></p>
+                                <p class="fw-bold">Egg Batch ID: <span class="fw-normal ps-2"><?php echo $collection_ID; ?></span></p>
                             </div>
 
                             <!-- egg Size -->
@@ -74,13 +74,13 @@
 
                             <!-- Collection Type -->
                             <div class="mb-3">
-                                <p class="fw-bold">Collection Type: <span class="fw-normal ps-2"><?php echo $collectionType; ?></span></p>
+                                <p class="fw-bold">Collection Type: <span class="fw-normal ps-2"><?php echo $dispositionType; ?></span></p>
                             </div>
 
                             
                             <!-- Collection Date -->
                             <div class="mb-3">
-                                <p class="fw-bold">Collection Date: <span class="fw-normal ps-2"><?php echo $collectionDate; ?></span></p>
+                                <p class="fw-bold">Collection Date: <span class="fw-normal ps-2"><?php echo $transactionDate; ?></span></p>
                             </div>
                                
                             <!-- Note -->

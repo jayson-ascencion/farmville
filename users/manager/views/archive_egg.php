@@ -11,18 +11,19 @@
     $id = $_REQUEST['id'];
     
     //statement to get the old quantity
-    $sql = "SELECT * FROM eggproduction WHERE eggBatch_ID = '$id'";
+    $sql = "SELECT * FROM eggtransaction WHERE collection_ID = '$id'";
     $stmt = $conn->query($sql);
 
     if($stmt){
         if($stmt->rowCount() > 0){
             while($row = $stmt->fetch()){
-                $eggBatch_ID = $row['eggBatch_ID'];
+                $collection_ID = $row['collection_ID'];
+                $eggSize_ID = $row['eggSize_ID'];
                 $eggSize = $row['eggSize'];
                 $quantity = $row['quantity'];
-                $collectionType = $row['collectionType'];
-                $collectionDate = $row['collectionDate'];
-                $note = $row['note']; 
+                $collectionType = $row['dispositionType'];
+                $collectionDate = $row['transactionDate'];
+                $note = $row['note'];
             }
             // Free result set
             unset($result);
@@ -42,17 +43,19 @@
             $archived = 'archived';
 
             // Prepare an insert statement
-            $sql = "UPDATE eggproduction ep 
-                    LEFT JOIN eggreduction er ON ep.eggBatch_ID = er.eggBatch_ID
-                    SET ep.archive=:archived, er.archive=:archived
-                    WHERE ep.eggBatch_ID = '$id'";
+            $sql = "UPDATE eggtransaction et
+                    LEFT JOIN eggproduction ep ON ep.eggSize_ID = et.eggSize_ID
+                    SET ep.inStock = inStock - :quantity, et.archive=:archived
+                    WHERE et.collection_ID = '$collection_ID'";
             
             if($stmt = $conn->prepare($sql))
             {
                 // Bind variables to the prepared statement as parameters
+                $stmt->bindParam(":quantity", $param_quantity, PDO::PARAM_STR);
                 $stmt->bindParam(":archived", $param_archived, PDO::PARAM_STR);
                 
                 // Set parameters
+                $param_quantity = $quantity;
                 $param_archived = $archived;
 
                 // Attempt to execute the prepared statement
@@ -97,9 +100,9 @@
                         <div class="card-body p-4">
                             <!-- <div class="card-title mb-3 fw-bold">Are you sure you want to delete this record?</div> -->
                             <!-- egg batch id -->
-                            <div class="mb-3">
+                            <!-- <div class="mb-3">
                                 <p class="fw-bold">Egg Batch ID: <span class="fw-normal ps-2"><?php echo $eggBatch_ID; ?></span></p>
-                            </div>
+                            </div> -->
 
                             <!-- egg Size -->
                             <div class="mb-3">

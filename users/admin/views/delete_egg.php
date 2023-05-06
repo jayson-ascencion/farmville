@@ -11,17 +11,17 @@
     $id = $_REQUEST['id'];
     
     //statement to get the old quantity
-    $sql = "SELECT * FROM eggproduction WHERE eggBatch_ID = '$id'";
+    $sql = "SELECT * FROM eggtransaction WHERE collection_ID = '$id'";
     $stmt = $conn->query($sql);
 
     if($stmt){
         if($stmt->rowCount() > 0){
             while($row = $stmt->fetch()){
-                $eggBatch_ID = $row['eggBatch_ID'];
+                $collection_ID = $row['collection_ID'];
                 $eggSize = $row['eggSize'];
                 $quantity = $row['quantity'];
-                $collectionType = $row['collectionType'];
-                $collectionDate = $row['collectionDate'];
+                $collectionType = $row['dispositionType'];
+                $collectionDate = $row['transactionDate'];
                 $note = $row['note']; 
             }
             // Free result set
@@ -43,8 +43,7 @@
 
             // Prepare an insert statement
             $sql = "BEGIN;
-            DELETE FROM eggreduction WHERE eggBatch_ID = '$id';
-            DELETE FROM eggproduction WHERE eggBatch_ID = '$id';
+            DELETE FROM eggtransaction WHERE collection_ID = '$id';
             COMMIT;
             ";
             
@@ -99,7 +98,7 @@
                             <!-- <div class="card-title mb-3 fw-bold">Are you sure you want to delete this record?</div> -->
                             <!-- egg batch id -->
                             <div class="mb-3">
-                                <p class="fw-bold">Egg Batch ID: <span class="fw-normal ps-2"><?php echo $eggBatch_ID; ?></span></p>
+                                <p class="fw-bold">Egg Batch ID: <span class="fw-normal ps-2"><?php echo $collection_ID; ?></span></p>
                             </div>
 
                             <!-- egg Size -->

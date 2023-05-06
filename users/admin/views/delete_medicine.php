@@ -10,18 +10,15 @@
     $id = $_REQUEST['id'];
     
     //statement to select the specific schedule to update
-    $sql = "SELECT * FROM medicines WHERE medicine_ID = '$id'";
+    $sql = "SELECT * FROM medicinetransaction WHERE transaction_ID = '$id'";
     $stmt = $conn->query($sql);
     if($stmt){
         if($stmt->rowCount() > 0){
             while($row = $stmt->fetch()){
-                $medicineType = $row['medicineType'];
+                // $medicineType = $row['medicineType'];
                 $medicineName = $row['medicineName'];
-                $medicineBrand = $row['medicineBrand'];
-                $medicineFor = $row['medicineFor'];
-                $startingQuantity = $row['startingQuantity'];
-                $inStock = $row['inStock'];
-                $dateAdded = $row['dateAdded'];
+                $quantity = $row['quantity'];
+                $dateAdded = $row['transactionDate'];
                 $expirationDate = $row['expirationDate'];
             }
             // Free result set
@@ -43,8 +40,7 @@
 
             // Prepare an insert statement
             $sql = "BEGIN;
-            DELETE FROM medicinereduction WHERE medicine_ID = '$id';
-            DELETE FROM medicines WHERE medicine_ID = '$id';
+            DELETE FROM medicinetransaction WHERE transaction_ID = '$id';
             COMMIT;
             ";
             
@@ -102,31 +98,10 @@
                     <div class="mb-3">
                         <p class="fw-bold">Medicine Name: <span class="fw-normal ps-2"><?php echo $medicineName; ?></span></p>
                     </div>
-
-                    <!-- egg Size -->
-                    <div class="mb-3">
-                        <p class="fw-bold">Medicine Type: <span class="fw-normal ps-2"><?php echo $medicineType; ?></span></p>
-                    </div>
-            
-                    <!-- Quantity -->
-                    <div class="mb-3">
-                        <p class="fw-bold">Medicine Brand: <span class="fw-normal ps-2"><?php echo $medicineBrand; ?></span></p>
-                    </div>
-
-                    <!-- Collection Type -->
-                    <div class="mb-3">
-                        <p class="fw-bold">Medicine For: <span class="fw-normal ps-2"><?php echo $medicineFor; ?></span></p>
-                    </div>
-
                     
-                    <!-- Collection Date -->
-                    <div class="mb-3">
-                        <p class="fw-bold">Starting Quantity: <span class="fw-normal ps-2"><?php echo $startingQuantity; ?></span></p>
-                    </div>
-                        
                     <!-- Note -->
                     <div class="mb-3">
-                        <p class="fw-bold">In Stock: <span class="fw-normal ps-2"><?php echo $inStock; ?></span></p>
+                        <p class="fw-bold">In Stock: <span class="fw-normal ps-2"><?php echo $quantity; ?></span></p>
                     </div>
 
                         <!-- Note -->

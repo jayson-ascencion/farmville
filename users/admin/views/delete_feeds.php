@@ -11,17 +11,17 @@
     $id = $_REQUEST['id'];
     
     //statement to select the specific schedule to update
-    $sql = "SELECT * FROM feeds WHERE feed_ID = '$id'";
+    $sql = "SELECT * FROM feedtransaction WHERE transaction_ID = '$id'";
     $stmt = $conn->query($sql);
     if($stmt){
         if($stmt->rowCount() > 0){
             while($row = $stmt->fetch()){
-                $feed_ID = $row['feed_ID'];
+                $transaction_ID = $row['transaction_ID'];
                 $feedName = $row['feedName'];
-                $brand = $row['brand'];
-                $startingQuantity = $row['startingQuantity'];
-                $inStock = $row['inStock'];
-                $datePurchased = $row['datePurchased'];
+                // $brand = $row['brand'];
+                // $startingQuantity = $row['startingQuantity'];
+                $quantity = $row['quantity'];
+                $datePurchased = $row['transactionDate'];
             }
             // Free result set
             unset($result);
@@ -42,8 +42,7 @@
 
             // Prepare an insert statement
             $sql = "BEGIN;
-            DELETE FROM feedreduction WHERE feed_ID = '$id';
-            DELETE FROM feeds WHERE feed_ID = '$id';
+            DELETE FROM feedtransaction WHERE transaction_ID = '$id';
             COMMIT;
             ";
             
@@ -97,29 +96,19 @@
                 </div>
                 <div class="card-body p-4">
                     <!-- Feed ID -->
-                    <div class="mb-3">
-                        <p class="fw-bold">Feed ID: <span class="fw-normal ps-2"><?php echo $feed_ID; ?></span></p>
-                    </div>
+                    <!-- <div class="mb-3">
+                        <p class="fw-bold">Feed ID: <span class="fw-normal ps-2"><?php echo $transaction_ID; ?></span></p>
+                    </div> -->
 
                     <!-- Feed Name -->
                     <div class="mb-3">
                         <p class="fw-bold">Feed Name: <span class="fw-normal ps-2"><?php echo $feedName; ?></span></p>
                     </div>
-            
-                    <!-- Feed Brand -->
-                    <div class="mb-3">
-                        <p class="fw-bold">Feed Brand: <span class="fw-normal ps-2"><?php echo $brand; ?></span></p>
-                    </div>
-
-                    <!-- Starting Quantity -->
-                    <div class="mb-3">
-                        <p class="fw-bold">Starting Quantity: <span class="fw-normal ps-2"><?php echo $startingQuantity; ?></span></p>
-                    </div>
 
                     
                     <!-- In Stock -->
                     <div class="mb-3">
-                        <p class="fw-bold">In Stock: <span class="fw-normal ps-2"><?php echo $inStock; ?></span></p>
+                        <p class="fw-bold">In Stock: <span class="fw-normal ps-2"><?php echo $quantity; ?></span></p>
                     </div>
                         
                     <!-- Date Purchased -->

@@ -27,7 +27,7 @@
                     <div class="card-body">
                         <!-- CHICKEN BATCH ID -->
                         <div class="form-group mb-3">
-                            <label for="chickenBatch_ID" class="mb-2 text-dark">Chicken Batch ID</label>
+                            <label for="chickenBatch_ID" class="mb-2 text-dark">Coop Number</label>
                             <select class="form-select" name="chickenBatch_ID">
                                 <option value="<?php echo $chickenBatch_ID; ?>">
                                     <?php
@@ -44,7 +44,7 @@
                                     include('../../../config/database_connection.php');
 
                                     //statement to select the all the medicine names
-                                    $sql = "SELECT chickenBatch_ID FROM chickenproduction WHERE archive='not archived'";
+                                    $sql = "SELECT chickenBatch_ID FROM chickenproduction";
                                     $stmt = $conn->query($sql);
                                     if($stmt){
                                         if($stmt->rowCount() > 0){
@@ -85,7 +85,7 @@
                                     include('../../../config/database_connection.php');
 
                                     //statement to select the all the medicine names
-                                    $sql = "SELECT medicineName, medicine_ID FROM medicines WHERE archive='not archived'";
+                                    $sql = "SELECT medicineName, medicine_ID FROM medicines";
                                     $stmt = $conn->query($sql);
                                     if($stmt){
                                         if($stmt->rowCount() > 0){

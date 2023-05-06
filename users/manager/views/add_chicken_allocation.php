@@ -6,7 +6,7 @@
     include('../../includes/header.php');
 
     //save chicken action
-    include('../action/save_chicken.php'); 
+    include('../action/save_chicken_allocation.php'); 
     
  
 ?>
@@ -28,25 +28,66 @@
                     <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST" novalidate>
                         <div class="card-body p-4">
                              <!-- Age -->
-                             <div class="form-group mb-3">
+                             <!-- <div class="form-group mb-3">
                                 <label for="age" class="mb-2 text-dark">Age</label>
                                 <input type="number" name="age" class="form-control" value="<?php echo $age; ?>">
                                 <span class="text-danger" style="font-size: 13px;">  <?php echo $age_err; ?> </span>
-                            </div>
+                            </div> -->
 
                             <!-- Coop Number -->
-                            <div class="form-group mb-3">
+                            <!-- <div class="form-group mb-3">
                                 <label for="coopNumber" class="mb-2 text-dark">Coop Number</label>
                                 <input type="number" name="coopNumber" class="form-control" value="<?php echo $coopNumber; ?>" required>
                                 <span class="text-danger" style="font-size: 13px;">  <?php echo $coopNumber_err; ?> </span>
+                            </div> -->
+
+                            <div class="form-group mb-3">
+                                <label for="coopNumber" class="mb-2 text-dark">Coop Number</label>
+                                <select class="form-select" name="coopNumber" required>
+                                    <option value="<?php echo $coopNumber; ?>">
+                                        <?php
+                                        if(!empty($coopNumber)){
+                                            echo $coopNumber;
+                                        }else{
+                                            echo "- select a coop number -";
+                                        }
+                                        ?>
+                                    </option>
+                                    <?php
+
+                                        //connect to the database
+                                        include('../../../config/database_connection.php');
+                                        $selectedID = "";
+                                        //statement to select the all the medicine names
+                                        $sql = "SELECT batchName, coopNumber FROM chickenproduction";
+                                        $stmt = $conn->query($sql);
+                                        if($stmt){
+                                            if($stmt->rowCount() > 0){
+                                                while($row = $stmt->fetch()){?>
+                                                <option value="<?php echo $row['coopNumber']; ?>"> <?php echo $row["coopNumber"];?> </option>
+                                            <?php }
+                                                // Free result set
+                                                unset($result);
+                                            } else{
+
+                                                echo '<div class="alert alert-danger"><em>No records were found.</em></div>';
+                                            }
+                                        } else{
+                                            echo "Oops! Something went wrong. Please try again later.";
+                                        }
+                                        unset($pdo);
+
+                                    ?>
+                                </select>
+                                <span class="text-danger" style="font-size: small;"> <?php echo $coopNumber_err; ?> </span>
                             </div>
 
                             <!-- Batch Name -->
-                            <div class="form-group mb-3">
+                            <!-- <div class="form-group mb-3">
                                 <label for="batchName" class="mb-2 text-dark">Batch Name</label>
                                 <input type="text" name="batchName" class="form-control"value="<?php echo $batchName; ?>" required>
                                 <span class="text-danger" style="font-size: 13px;">  <?php echo $batchName_err; ?> </span>
-                            </div>       
+                            </div>        -->
                             
                             <!-- <div class="form-group mb-3">
                                 <label for="breedType" class="mb-2 text-dark">BREED PLEASE</label>
@@ -61,7 +102,7 @@
                             </div> -->
 
                             <!-- BREED TYPE -->
-                            <div class="form-group mb-3">
+                            <!-- <div class="form-group mb-3">
                                 <label for="batchName" class="mb-2 text-dark">Breed Type</label>
                                 <select name="breedType" class="form-control"
                                     onchange="if(this.options[this.selectedIndex].value=='customOption'){
@@ -76,7 +117,7 @@
                                         <option value="customOption">Other</option>
                                 </select><input name="breedType" class="form-control" style="display:none;" disabled="disabled" 
                                     onblur="if(this.value==''){toggleField(this,this.previousSibling);}">
-                            </div>  
+                            </div>   -->
                             <!-- <div id="billdesc" class="form-group mb-3">
                                 <select id="test" class="form-select">
                                 <option class="non" value="option1">Option1</option>
@@ -113,8 +154,8 @@
                                 <input type="text" class="form-control" name="otherBreedType">
                             </div> -->
                             <!-- Batch Purpose -->
-                            <div class="form-group mb-3">
-                                <label for="batchPurpose" class="mb-2 text-dark">Batch Purpose</label>
+                            <!-- <div class="form-group mb-3">
+                                <label for="batchPurpose" class="mb-2 text-dark">Reduction Type</label>
                                 <select class="form-select" name="batchPurpose">
                                     <?php
                                         if(empty($batchPurpose)){
@@ -125,41 +166,66 @@
                                             <?php
                                         }
                                     ?>
-                                    <option value="Meat">Meat</option>
+                                    <option value="Culled">Culled</option>
                                     <option value="Layers">Layers</option>
                                     <option value="Breeding">Breeding</option>
                                 </select>
                                 <span class="text-danger" style="font-size: 13px;"> <?php echo $batchPurpose_err; ?> </span>
-                            </div>
+                            </div> -->
  
                             <!-- quantity -->
 
                             <div class="d-flex flex-column flex-sm-column flex-lg-row gap-2">
                                 <!-- Available Quantity -->
                                 <div class="form-group w-100 mb-3">
-                                    <label for="male" class="mb-2 text-dark">Number of males:</label>
-                                    <input type="number" name="male" class="form-control" value="<?php echo $male; ?>" required>
-                                    <span class="text-danger" style="font-size: 13px;"> <?php echo $male_err; ?> </span>
+                                    <label for="sex" class="mb-2 text-dark">Sex</label>
+                                    <!-- <input type="number" name="sex" class="form-control" value="<?php echo $sex; ?>" required> -->
+                                    <!-- <select name="sex" class="form-select">
+                                        
+                                    </select> -->
+                                    <!-- <div class="form-group mb-3"> -->
+                                        <!-- <label for="sex" class="mb-2 text-dark">Reduction Type</label> -->
+                                        <select class="form-select" name="sex">
+                                            
+                                                <?php
+                                                    if(empty($sex)){
+                                                        echo '<option value="">- select a sex -</option>';
+                                                        echo '<option value="Male">Male</option>';
+                                                        echo '<option value="Female">Female</option>';
+                                                    }else{
+                                                        echo '"<option value="'. $sex .'">" ' . $sex .' "</option>"';
+                                                    }
+                                                ?>
+                                            
+                                            
+                                            <!-- <option value="Distributed to Customer">Distributed to Customer</option>
+                                            <option value="Consumed">Personal Consumption</option>
+                                            <option value="Spoiled">Spoiled</option> -->
+                                        </select>
+                                        <!-- <span class="text-danger" style="font-size: 13px;"> <?php echo $reductionType_err; ?> </span>
+                                    </div> -->
+
+                                    <span class="text-danger" style="font-size: 13px;"> <?php echo $sex_err; ?> </span>
                                 </div>
                                 
                                 <!-- Reduction Quantity -->
                                 <div class="form-group w-100 mb-3">
-                                    <label for="female" class="mb-2 text-dark">Number of females: </label>
+                                    <label for="quantity" class="mb-2 text-dark">Quantity </label>
                                     <!-- <input type="date" min="2022-01-01" name="expirationDate" class="form-control" value=" echo $expirationDate; ?>" required> -->
-                                    <input type="number" name="female" class="form-control" value="<?php echo $female; ?>" required>
-                                    <span class="text-danger" style="font-size: 13px;"> <?php echo $female_err; ?> </span>
+                                    <input type="number" name="quantity" class="form-control" value="<?php echo $quantity; ?>" required>
+                                    <span class="text-danger" style="font-size: 13px;"> <?php echo $quantity_err; ?> </span>
                                 </div>
                             </div>
                             
                             <!-- Date Acquired -->
                             <div class="form-group mb-3">
-                                <label for="dateAcquired" class="mb-2 text-dark">Date Acquired</label>
+                                <label for="dateAcquired" class="mb-2 text-dark">Allocation Date</label>
                                 <input type="date" min="2022-01-01" max="<?php echo date('Y-m-d'); ?>" name="dateAcquired" class="form-control" value="<?php echo $dateAcquired; ?>" required>
                                 <span class="text-danger" style="font-size: 13px;">  <?php echo $dateAcquired_err; ?> </span>
                             </div>
 
                             <!-- Acquisition Type-->
-                            <div class="form-group mb-3">
+                            <!-- <div class="form-group mb-3">
                                 <label for="acquisitionType" class="mb-2 text-dark">Acquisition Type</label>
                                 <select class="form-select" name="acquisitionType">
                                     <?php
@@ -175,7 +241,7 @@
                                     <option value="Purchased">Purchased</option>
                                 </select>
                                 <span class="text-danger" style="font-size: 13px;"> <?php echo $acquisitionType_err; ?> </span>
-                            </div>
+                            </div> -->
                                
                             <!-- Note -->
                             <div class="form-group mb-3">

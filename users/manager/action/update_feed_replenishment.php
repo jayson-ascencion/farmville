@@ -2,6 +2,18 @@
 //database connection, located in the config directory
 include('../../../config/database_connection.php');
 
+$id = $_REQUEST['id'];
+$sql = "SELECT feed_ID, quantity FROM feedtransaction WHERE transaction_ID = $id";
+$stmt = $conn->query($sql);
+if($stmt){
+    if($stmt->rowCount() > 0){
+        while($row = $stmt->fetch()){
+            $old_feed_ID = $row['feed_ID'];
+            $old_quantity = $row['quantity'];
+        }
+    }
+}
+
 try{
 
     //define variables
@@ -98,6 +110,35 @@ try{
                     //     // Close statement
                     //     unset($stmt);
                     // }
+                    if($feed_ID == $old_feed_ID){
+                        if($quantity > $old_quantity){
+                            $diff = $quantity - $old_quantity;
+                            $stmt = $conn->prepare('UPDATE feeds SET inStock = inStock + :diff  WHERE feed_ID = :old_feed_ID');
+                            $stmt->bindValue(':diff', $diff, PDO::PARAM_INT);
+                            $stmt->bindValue(':old_feed_ID', $old_feed_ID, PDO::PARAM_STR);
+                            $stmt->execute();
+                        }else{
+                            $diff = $old_quantity - $quantity;
+                            $stmt = $conn->prepare('UPDATE feeds SET inStock = inStock - :diff  WHERE feed_ID = :old_feed_ID');
+                            $stmt->bindValue(':diff', $diff, PDO::PARAM_INT);
+                            $stmt->bindValue(':old_feed_ID', $old_feed_ID, PDO::PARAM_STR);
+                            $stmt->execute();
+                        }
+                    }else if ($feed_ID != $old_feed_ID) {
+                            $stmt = $conn->prepare('UPDATE feeds SET inStock = inStock - :old_quantity  WHERE feed_ID = :old_feed_ID');
+                            $stmt->bindValue(':old_quantity', $old_quantity, PDO::PARAM_INT);
+                            $stmt->bindValue(':old_feed_ID', $old_feed_ID, PDO::PARAM_STR);
+                            $stmt->execute();
+                        
+                            // Add quantity to new ID
+                            $stmt = $conn->prepare('UPDATE feeds SET inStock = inStock + :quantity WHERE feed_ID = :feed_ID');
+                            $stmt->bindValue(':quantity', $quantity, PDO::PARAM_INT);
+                            $stmt->bindValue(':feed_ID', $feed_ID, PDO::PARAM_STR);
+                            $stmt->execute();
+                        // }
+                        
+                    }
+
                 $_SESSION['status'] = "Feeds Stock Details Successfully Updated.";
                 header("Location: feeds.php");
             } 

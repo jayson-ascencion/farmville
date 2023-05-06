@@ -46,7 +46,7 @@
                                         include('../../../config/database_connection.php');
                                         $selectedID = "";
                                         //statement to select the all the medicine names
-                                        $sql = "SELECT eggSize, eggSize_ID FROM eggproduction";
+                                        $sql = "SELECT eggSize, eggSize_ID FROM eggproduction WHERE inStock <> 0 ";
                                         $stmt = $conn->query($sql);
                                         if($stmt){
                                             if($stmt->rowCount() > 0){

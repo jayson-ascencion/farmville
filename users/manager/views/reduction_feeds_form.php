@@ -45,7 +45,7 @@
                                         include('../../../config/database_connection.php');
                                         $selectedID = "";
                                         //statement to select the all the medicine names
-                                        $sql = "SELECT feedName, feed_ID FROM feeds";
+                                        $sql = "SELECT feedName, feed_ID FROM feeds WHERE inStock <> 0";
                                         $stmt = $conn->query($sql);
                                         if($stmt){
                                             if($stmt->rowCount() > 0){

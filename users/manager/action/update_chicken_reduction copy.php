@@ -7,7 +7,7 @@ include('../../../config/database_connection.php');
     $oldQuantity = "";
 
     //statement to get the old quantity
-    $sql = "SELECT quantity FROM medicinetransaction WHERE transaction_ID = '$id'";
+    $sql = "SELECT quantity FROM chickentransaction WHERE transaction_ID = '$id'";
     $stmt = $conn->query($sql);
 
     if($stmt){
@@ -24,12 +24,11 @@ include('../../../config/database_connection.php');
         echo "Oops! Something went wrong. Please try again later.";
     }
 
-    $user_ID = $_SESSION["user_ID"];
 try{
 
     //define variables
-    $medicine_ID = $updateQuantity = $reductionType =  $dateReduced = "";
-    
+    $coopNumber = $updateQuantity = $reductionType = $dateReduced = $diff = "";
+
     //this will hold the quantity in stock
     $inStock = "";
 
@@ -40,44 +39,36 @@ try{
     $newQuantity = "";
 
     //variables to store error message
-    $medicine_ID_err = $updateQuantity_err = $reductionType_err = $dateReduced_err = "";
+    $coopNumber_err = $updateQuantity_err = $reductionType_err = $dateReduced_err  = "";
     
     //processing the data from the form submitted
     if(isset($_POST['submit'])){
         $id = $_REQUEST['id'];
 
         //collect data from the form
-        $medicine_ID = $_POST['medicine_ID'];
+        $chickenBatch_ID = $_POST['chickenBatch_ID'];
+        $coopNumber = $_POST['coopNumber'];
         $updateQuantity = $_POST['quantity'];
-        $reductionType =  $_POST['reductionType'];
+        $reductionType = $_POST['reductionType'];
         $dateReduced = $_POST['dateReduced'];
     
     
-        //validate medicine id if empty
-        if (empty(trim($medicine_ID))) {  
-            $medicine_ID_err = "Please enter medicine ID.";
-        }
-        // else{
-            // $sql = "SELECT * FROM medicines WHERE medicine_ID = $medicine_ID";
-            // $stmt = $conn->query($sql);
-            // if($stmt){
-            //     if($stmt->rowCount() > 0){
-            //         while($row = $stmt->fetch()){
-            //             $medicineName = $row['medicineName'];
-            //         }
-            //     }
-            // }
+        //validate coop number and only accept numeric input
+        // if (!preg_match ("/^[0-9]*$/", trim($coopNumber)) ) {  
+        //    $coopNumber_err = "Only alphabets and whitespace are allowed.";
         // }
-        
-        //statement to get the in stock in the medicines using medicine id
-        $sql = "SELECT medicineName, inStock FROM medicines WHERE medicine_ID = '$medicine_ID'";
+        // else if (empty(trim($coopNumber))) {  
+        //     $coopNumber_err = "Please enter coop number.";
+        // }
+
+        //statement to get the in stock
+        $sql = "SELECT inStock FROM chickenproduction WHERE chickenBatch_ID = '$chickenBatch_ID'";
         $stmt = $conn->query($sql);
 
         if($stmt){
             if($stmt->rowCount() > 0){
                 while($row = $stmt->fetch()){
-                $inStock = $row['inStock'];
-                // $medicineName = $row['medicineName'];
+                    $inStock = $row['inStock'];
                 }
                 // Free result set
                 unset($result);
@@ -87,13 +78,12 @@ try{
         } else{
             echo "Oops! Something went wrong. Please try again later.";
         }
-
-        //validate updateQuantity if empty and only allows number
+        
+        //validate update quantity
         if (!preg_match ("/^[0-9]*$/", $updateQuantity) ){  
             $updateQuantity_err = "Please enter a valid quantity."; 
-        }else if(empty($updateQuantity)){
-            $updateQuantity_err = "Please enter a quantity";
-        }else if(!empty($updateQuantity)){
+        }else if(!empty($updateQuantity) && $updateQuantity >= 0){
+
             
             if($updateQuantity == $oldQuantity){
                 $newQuantity = $inStock;
@@ -103,69 +93,54 @@ try{
 
                 if($diff > $inStock){
                     $updateQuantity_err = "Quantity is greater than the stock available. Stock available is only " . $inStock . ".";
-                }
-                else{
+                }else{
                     $newQuantity = $inStock - $diff;
                 }
-            }
-            else if($updateQuantity < $oldQuantity){
+
+            }else if($updateQuantity < $oldQuantity){
                 $diff = $oldQuantity - $updateQuantity;
 
                 $newQuantity = $inStock + $diff;
-
             }
-        }else if($updateQuantity < 1){
-            $updateQuantity_err = "Please enter a valid quantity.";
+        }else if($updateQuantity < 0){
+            $updateQuantity_err = "Please enter a valid quantity";
         }
 
-        //validate reduction type if empty
+        //validate starting quantity if empty
+        if (empty($dateReduced) ){  
+            $dateReduced_err = "Please enter date acquired."; 
+        }
+
+        //validate acquisitionType
         if (empty($reductionType)){
-            $reductionType_err = "Please select a reduction type";
+            $reductionType_err = "Please select batch purpose";
         }
 
-        //validate expiration date if empty
-        if (empty($dateReduced)){
-            $dateReduced_err = "Please select a date";
-        }
 
-        if(empty($medicine_ID_err) && empty($medicineName_err) && empty($updateQuantity_err) && empty($reductionType_err) && empty($dateReduced_err)){
-            $sql = "SELECT * FROM medicines WHERE medicine_ID = $medicine_ID";
-            $stmt = $conn->query($sql);
-            if($stmt){
-                if($stmt->rowCount() > 0){
-                    while($row = $stmt->fetch()){
-                        $medicineName = $row['medicineName'];
-                    }
-                }
-            }
-            unset($stmt);
-            
+        if(empty($coopNumber_err) && empty($updateQuantity_err) && empty($dateReduced_err) && empty($reductionType_err)){
+
            // Prepare an insert statement
-           $sql = "UPDATE medicinetransaction SET medicine_ID=:medicine_ID, medicineName=:medicineName, quantity=:updateQuantity, reductionType=:reductionType, transactionDate=:dateReduced, user_ID=:user_ID WHERE transaction_ID = '$id'";
+           $sql = "UPDATE chickentransaction SET quantity=:updateQuantity, dispositionType=:reductionType, transactionDate=:dateReduced WHERE transaction_ID = '$id'";
          
            if($stmt = $conn->prepare($sql))
            {
                // Bind variables to the prepared statement as parameters
-               $stmt->bindParam(":medicine_ID", $param_medicine_ID, PDO::PARAM_STR);
-               $stmt->bindParam(":medicineName", $param_medicineName, PDO::PARAM_STR);
+            //    $stmt->bindParam(":coopNumber", $param_coopNumber, PDO::PARAM_STR);
                $stmt->bindParam(":updateQuantity", $param_updateQuantity, PDO::PARAM_STR);
                $stmt->bindParam(":reductionType", $param_reductionType, PDO::PARAM_STR);
                $stmt->bindParam(":dateReduced", $param_dateReduced, PDO::PARAM_STR);
-               $stmt->bindParam(":user_ID", $param_user_ID, PDO::PARAM_STR);
 
                // Set parameters
-               $param_medicine_ID = $medicine_ID;
-               $param_medicineName = $medicineName;
-               $param_updateQuantity = $updateQuantity;
+            //    $param_coopNumber = $coopNumber;
+                $param_updateQuantity = $updateQuantity;
                $param_reductionType = $reductionType;
                $param_dateReduced = $dateReduced;
-               $param_user_ID = $user_ID;
                // Attempt to execute the prepared statement
                if($stmt->execute())
                {
                     // Prepare an update statement to update inStock
-                    $sql = "UPDATE medicines SET inStock=:newQuantity WHERE medicine_ID = '$medicine_ID'";
-    
+                    $sql = "UPDATE chickenproduction SET inStock=:newQuantity WHERE chickenBatch_ID = '$chickenBatch_ID'";
+                    
                     if($stmt = $conn->prepare($sql))
                     {
                         // Bind variables to the prepared statement as parameters
@@ -179,8 +154,8 @@ try{
                         // Close statement
                         unset($stmt);
                     }
-                $_SESSION['status'] = "Medicine Reduction Details Successfully Updated." . $medicine_ID;
-                header("Location: medicine_reduction.php");
+                $_SESSION['status'] = "Chicken Reduction Details Successfully Updated.";
+                header("Location: chicken_reduction.php");
                } 
                else
                {

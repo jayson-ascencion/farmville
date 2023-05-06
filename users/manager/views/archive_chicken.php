@@ -10,32 +10,41 @@
 
     $id = $_REQUEST['id'];
     
-    //statement to select the specific chicken to update
-    $sql = "SELECT * FROM chickenproduction WHERE chickenBatch_ID = '$id'";
+    //this will hold the quantity before update
+    $eggBatch_ID = $eggSize = $quantity = $collectionType = $collectionDate = $note = "";
+
+    //statement to get the old quantity
+    $sql = "SELECT * FROM chickentransaction WHERE transaction_ID = '$id'";
     $stmt = $conn->query($sql);
+
     if($stmt){
         if($stmt->rowCount() > 0){
             while($row = $stmt->fetch()){
-                $age = $row['age'];
+                //collect data from the form
+                // $age = $row['age'];
                 $coopNumber = $row['coopNumber'];
+                $sex = $row['sex'];
                 $batchName = $row['batchName'];
-                $breedType = $row['breedType'];
-                $batchPurpose = $row['batchPurpose'];
-                $startingQuantity = $row['startingQuantity'];
-                $inStock = $row['inStock'];
-                $dateAcquired = $row['dateAcquired'];
-                $acquisitionType = $row['acquisitionType'];
+                // $breedType = $row['breedType'];
+                // $batchPurpose = $row['batchPurpose'];
+                // $startingQuantity = $row['startingQuantity'];
+                $quantity = $row['quantity'];
+
+                $dateString = strtotime($row['transactionDate']);
+                $dateAcquired = date('F d, Y',$dateString);
+                // $acquisitionType = $row['acquisitionType'];
                 $note = $row['note'];
             }
             // Free result set
-            unset($result);
+            unset($stmt);
         } else{
             echo '<div class="alert alert-danger"><em>No records were found.</em></div>';
         }
     } else{
         echo "Oops! Something went wrong. Please try again later.";
     }
-    unset($pdo);
+    
+    unset($stmt);
 
     try{
         
@@ -47,11 +56,9 @@
             // Prepare an insert statement
             // $sql = "UPDATE chickenproduction, schedules SET archive=:archived WHERE chickenBatch_ID = '$id'";
             // $sql = "UPDATE chickenproduction c, schedules s SET c.archive = :archived, s.archive = :archived WHERE c.chickenBatch_ID = s.chickenBatch_ID AND c.chickenBatch_ID = '$id'";
-            $sql = "UPDATE chickenproduction c
-            LEFT JOIN schedules s ON c.chickenBatch_ID = s.chickenBatch_ID
-            LEFT JOIN chickenreduction cr ON c.chickenBatch_ID = cr.chickenBatch_ID
-            SET c.archive = :archived, s.archive = :archived, cr.archive = :archived
-            WHERE c.chickenBatch_ID = '$id'";
+            $sql = "UPDATE chickentransaction
+            SET archive = :archived
+            WHERE transaction_ID = '$id'";
 
             if($stmt = $conn->prepare($sql))
             {
@@ -114,40 +121,19 @@
                                 <p class="fw-bold">Coop Number: <span class="fw-normal ps-2"><?php echo $coopNumber; ?></span></p>
                             </div>
 
-                            <!-- egg batch id -->
-                            <div class="mb-3">
-                                <p class="fw-bold">Age: <span class="fw-normal ps-2"><?php echo $age; ?></span></p>
-                            </div>
-
                             <!-- egg Size -->
                             <div class="mb-3">
                                 <p class="fw-bold">Batch Name: <span class="fw-normal ps-2"><?php echo $batchName; ?></span></p>
                             </div>
-                    
-                            <!-- Quantity -->
-                            <div class="mb-3">
-                                <p class="fw-bold">Breed Type: <span class="fw-normal ps-2"><?php echo $breedType; ?></span></p>
-                            </div>
 
-                            <!-- Collection Type -->
-                            <div class="mb-3">
-                                <p class="fw-bold">Starting Quantity: <span class="fw-normal ps-2"><?php echo $startingQuantity; ?></span></p>
-                            </div>
-
-                            
                             <!-- Collection Date -->
                             <div class="mb-3">
-                                <p class="fw-bold">In Stock: <span class="fw-normal ps-2"><?php echo $inStock; ?></span></p>
+                                <p class="fw-bold">Quantity: <span class="fw-normal ps-2"><?php echo $quantity; ?></span></p>
                             </div>
 
                             <!-- Collection Date -->
                             <div class="mb-3">
                                 <p class="fw-bold">Date Acquired: <span class="fw-normal ps-2"><?php echo $dateAcquired; ?></span></p>
-                            </div>
-
-                            <!-- Collection Date -->
-                            <div class="mb-3">
-                                <p class="fw-bold">Acquisition Type: <span class="fw-normal ps-2"><?php echo $acquisitionType; ?></span></p>
                             </div>
                                
                             <!-- Note -->

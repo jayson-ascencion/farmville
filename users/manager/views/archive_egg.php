@@ -101,7 +101,7 @@
                             <!-- <div class="card-title mb-3 fw-bold">Are you sure you want to delete this record?</div> -->
                             <!-- egg batch id -->
                             <!-- <div class="mb-3">
-                                <p class="fw-bold">Egg Batch ID: <span class="fw-normal ps-2"><?php echo $eggBatch_ID; ?></span></p>
+                                <p class="fw-bold">Collection ID: <span class="fw-normal ps-2"><?php echo $eggBatch_ID; ?></span></p>
                             </div> -->
 
                             <!-- egg Size -->

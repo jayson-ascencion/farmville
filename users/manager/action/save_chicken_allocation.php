@@ -5,35 +5,36 @@ include('../../../config/database_connection.php');
 try{
 
     //define variables
-    $age = $coopNumber = $batchName = $breedType = $male = $female = $batchPurpose = $inStock = $dateAcquired =  $acquisitionType = $note = "";
+    $age = $coopNumber = $batchName = $breedType = $sex = $quantity = $batchPurpose = $inStock = $dateAcquired =  $acquisitionType = $note = "";
 
     //variables to store error message
-    $age_err = $coopNumber_err = $batchName_err = $breedType_err = $male_err = $female_err = $batchPurpose_err = $startingQuantity_err = $inStock_err = $dateAcquired_err = $acquisitionType_err = $note_err = "";
+    $age_err = $coopNumber_err = $batchName_err = $breedType_err = $sex_err = $quantity_err = $batchPurpose_err = $startingQuantity_err = $inStock_err = $dateAcquired_err = $acquisitionType_err = $note_err = "";
     
     //processing the data from the form submitted
     if(isset($_POST['submit'])){
 
         //collect data from the form
-        $age = $_POST['age'];
+        // $age = $_POST['age'];
         $coopNumber = $_POST['coopNumber'];
-        $batchName = $_POST['batchName'];
-        $breedType = $_POST['breedType'];
-        $male = $_POST['male'];
-        $female = $_POST['female'];
-        $batchPurpose = $_POST['batchPurpose'];
+        // $batchName = $_POST['batchName'];
+        // $breedType = $_POST['breedType'];
+        $sex = $_POST['sex'];
+        $quantity = $_POST['quantity'];
+        $dispositionType = 'allocation';
+        // $batchPurpose = $_POST['batchPurpose'];
         // $startingQuantity = $_POST['startingQuantity'];
         $dateAcquired = $_POST['dateAcquired'];
-        $acquisitionType = $_POST['acquisitionType'];
+        // $acquisitionType = $_POST['acquisitionType'];
         $note = $_POST['note'];
         $user_ID = $_SESSION['user_ID'];
 
         //validate age if empty
-        if (!preg_match("/^[0-9]+$/", $age) ){  
-            $age_err = "Please enter a valid age."; 
-        }
-        else if(empty($age)){
-            $age_err = "Please enter age";
-        }
+        // if (!preg_match("/^[0-9]+$/", $age) ){  
+        //     $age_err = "Please enter a valid age."; 
+        // }
+        // else if(empty($age)){
+        //     $age_err = "Please enter age";
+        // }
  
         //validate coop number and only accept numeric input
         if (!preg_match ("/^[0-9]*$/", trim($coopNumber)) ) {  
@@ -44,61 +45,77 @@ try{
         }
         else if (!empty($coopNumber)) {
             // Prepare a select statement to check if coopNumber already exists
-            $sql = "SELECT coopNumber FROM chickenproduction WHERE coopNumber = :coopNumber";
-            $stmt = $conn->prepare($sql);
-            $stmt->bindParam(":coopNumber", $coopNumber, PDO::PARAM_STR);
+            // $sql = "SELECT coopNumber FROM chickenproduction WHERE coopNumber = :coopNumber";
+            // $stmt = $conn->prepare($sql);
+            // $stmt->bindParam(":coopNumber", $coopNumber, PDO::PARAM_STR);
           
-            // Attempt to execute the prepared statement
-            if ($stmt->execute()) {
-              if ($stmt->rowCount() > 0) {
-                $coopNumber_err = "This coopNumber already exists.";
-              }
-            } else {
-              echo "Oops! Something went wrong. Please try again later.";
+            // // Attempt to execute the prepared statement
+            // if ($stmt->execute()) {
+            //   if ($stmt->rowCount() > 0) {
+            //     $coopNumber_err = "This coopNumber already exists.";
+            //   }
+            // } else {
+            //   echo "Oops! Something went wrong. Please try again later.";
+            // }
+
+            $sql = "SELECT batchName, chickenBatch_ID FROM chickenproduction WHERE coopNumber = $coopNumber";
+            $stmt = $conn->query($sql);
+            if($stmt){
+                if($stmt->rowCount() > 0){
+                    while($row = $stmt->fetch()){
+                        $batchName = $row['batchName'];
+                        $chickenBatch_ID = $row['chickenBatch_ID'];
+                    }
+                }
             }
-          }
+        }
         //---------------------------------------
         //validate medicine name if empty and allows only alphabets and white spaces
-        if (empty(trim($batchName))) {  
-            $batchName_err = "Please enter batch name.";
-        }
+        // if (empty(trim($batchName))) {  
+        //     $batchName_err = "Please enter batch name.";
+        // }
 
         //validate breed type if empty and allows only alphabets and white spaces
-        if (empty(trim($breedType))) {  
-            $breedType_err = "Please select breed type.";
-        }
+        // if (empty(trim($breedType))) {  
+        //     $breedType_err = "Please select breed type.";
+        // }
 
         //validate batchPurpose
-        if (empty($batchPurpose)){
-            $batchPurpose_err = "Please select batch purpose";
-        }
+        // if (empty($batchPurpose)){
+        //     $batchPurpose_err = "Please select batch purpose";
+        // }
 
         //validate smale if empty
-        if (!preg_match ("/^[0-9]+$/", $male) ){  
-            $male_err = "Please enter a valid quantity."; 
-        }
-        else if(empty($male)){
-            $male_err = "Please enter a quantity";
-        }
+        // if (!preg_match ("/^[0-9]+$/", $sex) ){  
+        //     $sex_err = "Please enter a valid quantity."; 
+        // }
+        // else if(empty($sex)){
+        //     $sex_err = "Please enter a quantity";
+        // }
 
         //validate sfemale  if empty
-        if (!preg_match ("/^[0-9]+$/", $female) ){  
-            $female_err = "Please enter a valid quantity."; 
+        if (!preg_match ("/^[0-9]+$/", $quantity) ){  
+            $quantity_err = "Please enter a valid quantity."; 
         }
-        else if(empty($female)){
-            $female_err = "Please enter a quantity";
+        else if(empty($quantity)){
+            $quantity_err = "Please enter a quantity";
         }
         
-        $inStock = $male + $female;
+        // $inStock = $sex + $quantity;
         
         //validate starting quantity if empty
         if (empty($dateAcquired) ){  
             $dateAcquired_err = "Please enter date acquired."; 
         }
-        //validate acquisitionType
-        if (empty($acquisitionType)){
-            $acquisitionType_err = "Please select acquisition type";
+        
+        //validate starting quantity if empty
+        if (empty($sex) ){  
+            $sex_err = "Please select a sex."; 
         }
+        //validate acquisitionType
+        // if (empty($acquisitionType)){
+        //     $acquisitionType_err = "Please select acquisition type";
+        // }
 
         //validate note
         if(empty($note)){
@@ -108,42 +125,48 @@ try{
         }
 
 
-        if(empty($age_err) && empty($coopNumber_err) && empty($batchName_err) && empty($breedType_err) && empty($batchPurpose_err) && empty($male_err) && empty($female_err) && empty($inStock_err) && empty($dateAcquired_err) && empty($acquisitionType_err) && empty($note_err)){
+        if(empty($coopNumber_err) && empty($batchName_err) && empty($sex_err) && empty($quantity_err) && empty($dateAcquired_err) && empty($note_err)){
 
            // Prepare an insert statement
-           $sql = "INSERT INTO chickenproduction (age, coopNumber, batchName, breedType, batchPurpose, male, female, inStock, dateAcquired, acquisitionType, note, user_ID) VALUES (:age, :coopNumber, :batchName, :breedType, :batchPurpose, :male, :female, :inStock, :dateAcquired, :acquisitionType, :note, :user_ID)";
+           $sql = "INSERT INTO chickentransaction (coopNumber, batchName, sex, quantity, dispositionType, transactionDate, note, user_ID, chickenBatch_ID) VALUES (:coopNumber, :batchName, :sex, :quantity, :dispositionType, :dateAcquired, :note, :user_ID, :chickenBatch_ID)";
          
            if($stmt = $conn->prepare($sql))
            {
                // Bind variables to the prepared statement as parameters
-               $stmt->bindParam(":age", $param_age, PDO::PARAM_STR);
+            //    $stmt->bindParam(":age", $param_age, PDO::PARAM_STR);
                $stmt->bindParam(":coopNumber", $param_coopNumber, PDO::PARAM_STR);
                $stmt->bindParam(":batchName", $param_batchName, PDO::PARAM_STR);
-               $stmt->bindParam(":breedType", $param_breedType, PDO::PARAM_STR);
-               $stmt->bindParam(":batchPurpose", $param_batchPurpose, PDO::PARAM_STR);
-               $stmt->bindParam(":male", $param_male, PDO::PARAM_STR);
-               $stmt->bindParam(":female", $param_female, PDO::PARAM_STR);
+               $stmt->bindParam(":sex", $param_sex, PDO::PARAM_STR);
+            //    $stmt->bindParam(":breedType", $param_breedType, PDO::PARAM_STR);
+            //    $stmt->bindParam(":batchPurpose", $param_batchPurpose, PDO::PARAM_STR);
+            //    $stmt->bindParam(":sex", $param_male, PDO::PARAM_STR);
+               $stmt->bindParam(":quantity", $param_quantity, PDO::PARAM_STR);
+               $stmt->bindParam(":dispositionType", $param_dispositionType, PDO::PARAM_STR);
             //    $stmt->bindParam(":startingQuantity", $param_startingQuantity, PDO::PARAM_STR);
-               $stmt->bindParam(":inStock", $param_inStock, PDO::PARAM_STR);
+            //    $stmt->bindParam(":inStock", $param_inStock, PDO::PARAM_STR);
                $stmt->bindParam(":dateAcquired", $param_dateAcquired, PDO::PARAM_STR);
-               $stmt->bindParam(":acquisitionType", $param_acquisitionType, PDO::PARAM_STR);
+            //    $stmt->bindParam(":acquisitionType", $param_acquisitionType, PDO::PARAM_STR);
                $stmt->bindParam(":note", $param_note, PDO::PARAM_STR);
                $stmt->bindParam(":user_ID", $param_user_ID, PDO::PARAM_STR);
+               $stmt->bindParam(":chickenBatch_ID", $param_chickenBatch_ID, PDO::PARAM_STR);
 
                // Set parameters
-               $param_age = $age;
+            //    $param_age = $age;
                $param_coopNumber = $coopNumber;
                $param_batchName = $batchName;
-               $param_breedType = $breedType;
-               $param_batchPurpose = $batchPurpose;
-               $param_male = $male;
-               $param_female = $female;
+               $param_sex = $sex;
+            //    $param_breedType = $breedType;
+            //    $param_batchPurpose = $batchPurpose;
+            //    $param_male = $sex;
+               $param_quantity = $quantity;
+               $param_dispositionType = $dispositionType;
             //    $param_startingQuantity = $startingQuantity;
-               $param_inStock = $inStock;
+            //    $param_inStock = $inStock;
                $param_dateAcquired = $dateAcquired;
-               $param_acquisitionType = $acquisitionType;
+            //    $param_acquisitionType = $acquisitionType;
                $param_note = $note;
                $param_user_ID = $user_ID;
+               $param_chickenBatch_ID = $chickenBatch_ID;
                // Attempt to execute the prepared statement
                if($stmt->execute())
                {    
@@ -278,7 +301,44 @@ try{
                     // }
 
                     // Close the connection
-                    $conn = null;
+                    // $conn = null;
+
+                    if($sex == 'Male'){
+                        // Prepare an update statement to update inStock
+                        $sql = "UPDATE chickenproduction SET male = male + :quantity, inStock = inStock + :quantity WHERE coopNumber = '$coopNumber'";
+                    
+                        if($stmt = $conn->prepare($sql))
+                        {
+                            // Bind variables to the prepared statement as parameters
+                            $stmt->bindParam(":quantity", $param_quantity, PDO::PARAM_STR);
+
+                            // Set parameters
+                            $param_quantity = $quantity;
+                            // Attempt to execute the prepared statement
+                            $stmt->execute();
+
+                            // Close statement
+                            unset($stmt);
+                        }
+                    }else{
+                        // Prepare an update statement to update inStock
+                        $sql = "UPDATE chickenproduction SET female = female + :quantity, inStock = inStock + :quantity WHERE coopNumber = '$coopNumber'";
+                                        
+                        if($stmt = $conn->prepare($sql))
+                        {
+                            // Bind variables to the prepared statement as parameters
+                            $stmt->bindParam(":quantity", $param_quantity, PDO::PARAM_STR);
+
+                            // Set parameters
+                            $param_quantity = $quantity;
+                            // Attempt to execute the prepared statement
+                            $stmt->execute();
+
+                            // Close statement
+                            unset($stmt);
+                        }
+                    }
+                    
 
                     $_SESSION['status'] = "Chicken Batch Added Successfully."; 
                     // Redirect the user to the success page

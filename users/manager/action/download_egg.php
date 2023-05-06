@@ -43,24 +43,26 @@ $pdf->Ln(5);
 
 // -----------------------------------EGG TABLE AND SQL QUERY-------------------------------------//
 $main_query = "
-SELECT DATE_FORMAT(ep.collectionDate,'%M %d, %Y') AS collectionDate, ep.eggSize, SUM(COALESCE(ep.quantity,0)) as totalQuantity, SUM(COALESCE(er.quantity,0)) as totalReductions 
-FROM eggproduction ep 
-LEFT JOIN eggreduction er ON ep.eggBatch_ID = er.eggBatch_ID 
-WHERE ep.archive = 'not archived' ";
+SELECT eggSize, inStock 
+FROM eggproduction
+ ";
+// SELECT DATE_FORMAT(ep.collectionDate,'%M %d, %Y') AS collectionDate, ep.eggSize, SUM(COALESCE(ep.quantity,0)) as totalQuantity, SUM(COALESCE(er.quantity,0)) as totalReductions 
+// FROM eggproduction ep 
+// LEFT JOIN eggreduction er ON ep.eggBatch_ID = er.eggBatch_ID 
+// WHERE ep.archive = 'not archived'
+// if(isset($_POST["start_date"], $_POST["end_date"]) && $_POST["start_date"] != '' && $_POST["end_date"] != '')
+// {
+//     $main_query .= ' AND ep.collectionDate >= "'.$_POST["start_date"].'" AND ep.collectionDate <= "'.$_POST["end_date"].'"';
+// }
 
-if(isset($_POST["start_date"], $_POST["end_date"]) && $_POST["start_date"] != '' && $_POST["end_date"] != '')
-{
-    $main_query .= ' AND ep.collectionDate >= "'.$_POST["start_date"].'" AND ep.collectionDate <= "'.$_POST["end_date"].'"';
-}
+// if(isset($_POST["search"]["value"]))
+// {
+//     $main_query .= ' AND (ep.eggBatch_ID LIKE "%'.$_POST["search"]["value"].'%" OR ep.eggSize LIKE "%'.$_POST["search"]["value"].'%" OR ep.collectionDate LIKE "%'.$_POST["search"]["value"].'%")';
+// }
 
-if(isset($_POST["search"]["value"]))
-{
-    $main_query .= ' AND (ep.eggBatch_ID LIKE "%'.$_POST["search"]["value"].'%" OR ep.eggSize LIKE "%'.$_POST["search"]["value"].'%" OR ep.collectionDate LIKE "%'.$_POST["search"]["value"].'%")';
-}
+// $main_query .= " GROUP BY eggSize_ID ";
 
-$main_query .= " GROUP BY ep.collectionDate, ep.eggSize ";
-
-$main_query .= ' ORDER BY ep.collectionDate DESC ';
+// $main_query .= ' ORDER BY ep.collectionDate DESC ';
 
 $statement = $conn->prepare($main_query);
 $statement->execute();
@@ -73,13 +75,13 @@ foreach($result as $row)
 {
     $sub_array = array();
 
-    $sub_array[] = $row['collectionDate'];
+    // $sub_array[] = $row['collectionDate'];
 
     $sub_array[] = $row['eggSize'];
 
-    $sub_array[] = $row['totalQuantity'];
+    $sub_array[] = $row['inStock'];
 
-    $sub_array[] = $row['totalReductions'];
+    // $sub_array[] = $row['totalReductions'];
 
     $data[] = $sub_array;
 }
@@ -93,10 +95,8 @@ $html = "
 <h3> Egg Inventory </h3>
 	<table>
 		<tr>
-			<th>Collection Date</th>
 			<th>Egg Size</th>
-			<th>Total Quantity</th>
-			<th>Reductions</th>
+			<th>Total In Stock</th>
 		</tr>
 		";
 //load the json data
@@ -112,8 +112,6 @@ foreach($output['data'] as $egg){
 			<tr>
 				<td>". $egg[0] ."</td>
 				<td>". $egg[1] ."</td>
-				<td>". $egg[2] ."</td>
-				<td>". $egg[3] ."</td>
 			</tr>
 			";
 }		
@@ -141,23 +139,24 @@ $pdf->Ln();
 $pdf->Ln(10);
 
 //--------------------------------------SUMMARY BY REDUCTION TYPE------------------------------//
-$main_query = "SELECT reductionType, SUM(COALESCE(quantity, 0)) as reductions
-FROM eggreduction
-WHERE archive = 'not archived'";
+$main_query = "SELECT dispositionType, SUM(COALESCE(quantity, 0)) as reductions
+FROM eggtransaction
+WHERE archive = 'not archived' AND dispositionType IN ('Distributed to Customer', 'Personal Consumption', 'Spoiled')
+";
 
 if(isset($_POST["start_date"], $_POST["end_date"]) && $_POST["start_date"] != '' && $_POST["end_date"] != '')
 {
-    $main_query .= ' AND dateReduced >= "'.$_POST["start_date"].'" AND dateReduced <= "'.$_POST["end_date"].'"';
+    $main_query .= ' AND transactionDate >= "'.$_POST["start_date"].'" AND transactionDate <= "'.$_POST["end_date"].'"';
 }
 
 if(isset($_POST["search"]["value"]))
 {
-    $main_query .= ' AND (dateReduced LIKE "%'.$_POST["search"]["value"].'%")';
+    $main_query .= ' AND (transactionDate LIKE "%'.$_POST["search"]["value"].'%")';
 }
 
-$main_query .= " GROUP BY reductionType ";
+$main_query .= " GROUP BY dispositionType ";
 
-$main_query .= ' ORDER BY dateReduced DESC ';
+$main_query .= ' ORDER BY transactionDate DESC ';
 
 $statement = $conn->prepare($main_query);
 $statement->execute();
@@ -171,7 +170,7 @@ foreach($result as $row)
 {
     $sub_array = array();
 
-    $sub_array[] = $row['reductionType'];
+    $sub_array[] = $row['dispositionType'];
 
     $sub_array[] = $row['reductions'];
 
@@ -231,94 +230,94 @@ $pdf->Ln();
 $pdf->Ln(10);
 
 
-//--------------------------------------IN STOCK SUMMARY BY EGG SIZE----------------------------------//
-$main_query = "SELECT eggSize, SUM(COALESCE(quantity, 0)) as instock FROM eggproduction
-WHERE archive = 'not archived'";
+// //--------------------------------------IN STOCK SUMMARY BY EGG SIZE----------------------------------//
+// $main_query = "SELECT eggSize, SUM(COALESCE(quantity, 0)) as instock FROM eggproduction
+// WHERE archive = 'not archived'";
 
-if(isset($_POST["start_date"], $_POST["end_date"]) && $_POST["start_date"] != '' && $_POST["end_date"] != '')
-{
-    $main_query .= ' AND collectionDate >= "'.$_POST["start_date"].'" AND collectionDate <= "'.$_POST["end_date"].'"';
-}
+// if(isset($_POST["start_date"], $_POST["end_date"]) && $_POST["start_date"] != '' && $_POST["end_date"] != '')
+// {
+//     $main_query .= ' AND collectionDate >= "'.$_POST["start_date"].'" AND collectionDate <= "'.$_POST["end_date"].'"';
+// }
 
-if(isset($_POST["search"]["value"]))
-{
-    $main_query .= ' AND (collectionDate LIKE "%'.$_POST["search"]["value"].'%")';
-}
+// if(isset($_POST["search"]["value"]))
+// {
+//     $main_query .= ' AND (collectionDate LIKE "%'.$_POST["search"]["value"].'%")';
+// }
 
-$main_query .= " GROUP BY eggSize ";
+// $main_query .= " GROUP BY eggSize ";
 
-$main_query .= ' ORDER BY collectionDate DESC ';
+// $main_query .= ' ORDER BY collectionDate DESC ';
 
-$statement = $conn->prepare($main_query);
-$statement->execute();
+// $statement = $conn->prepare($main_query);
+// $statement->execute();
 
-$result = $conn->query($main_query, PDO::FETCH_ASSOC);
-// $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+// $result = $conn->query($main_query, PDO::FETCH_ASSOC);
+// // $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-$data = array();
+// $data = array();
 
-foreach($result as $row)
-{
-    $sub_array = array();
+// foreach($result as $row)
+// {
+//     $sub_array = array();
 
-    $sub_array[] = $row['eggSize'];
+//     $sub_array[] = $row['eggSize'];
 
-    $sub_array[] = $row['instock'];
+//     $sub_array[] = $row['instock'];
 
-    $data[] = $sub_array;
-}
+//     $data[] = $sub_array;
+// }
 
-$output = array(
-    "data"			=>	$data
-);
+// $output = array(
+//     "data"			=>	$data
+// );
 
-//make the table
-$html3 = "
-<h3>In Stock Summary By Egg Size</h3>
-	<table>
-		<tr>
-			<th>Egg Size</th>
-			<th>Total In Stock</th>
-		</tr>
-		";
-//load the json data
-// $file = file_get_contents('MOCK_DATA-100.json');
-// $data = json_decode($file);
+// //make the table
+// $html3 = "
+// <h3>In Stock Summary By Egg Size</h3>
+// 	<table>
+// 		<tr>
+// 			<th>Egg Size</th>
+// 			<th>Total In Stock</th>
+// 		</tr>
+// 		";
+// //load the json data
+// // $file = file_get_contents('MOCK_DATA-100.json');
+// // $data = json_decode($file);
 
-//loop the data
-if(empty($output['data'])){
-    $html3 .= '<tr><td colspan="5" style="text-align:center;">No records</td></tr>';
-} else {
-foreach($output['data'] as $eggInstock){	
-	$html3 .= "
-			<tr>
-				<td>". $eggInstock[0] ."</td>
-				<td>". $eggInstock[1] ."</td>
-			</tr>
-			";
-}		
-}
-$html3 .= "
-	</table>
-	<style>
-	table {
-		border-collapse:collapse;
-		text-align: center;
-	}
-	th,td {
-		border:1px solid #888;
-	}
-	table tr th {
-		background-color:#888;
-		color:#fff;
-		font-weight:bold;
-	}
-	</style>
-";
-//WriteHTMLCell
-$pdf->WriteHTMLCell(192,0,9,'',$html3,0);	
-$pdf->Ln();
-$pdf->Ln(10);
+// //loop the data
+// if(empty($output['data'])){
+//     $html3 .= '<tr><td colspan="5" style="text-align:center;">No records</td></tr>';
+// } else {
+// foreach($output['data'] as $eggInstock){	
+// 	$html3 .= "
+// 			<tr>
+// 				<td>". $eggInstock[0] ."</td>
+// 				<td>". $eggInstock[1] ."</td>
+// 			</tr>
+// 			";
+// }		
+// }
+// $html3 .= "
+// 	</table>
+// 	<style>
+// 	table {
+// 		border-collapse:collapse;
+// 		text-align: center;
+// 	}
+// 	th,td {
+// 		border:1px solid #888;
+// 	}
+// 	table tr th {
+// 		background-color:#888;
+// 		color:#fff;
+// 		font-weight:bold;
+// 	}
+// 	</style>
+// ";
+// //WriteHTMLCell
+// $pdf->WriteHTMLCell(192,0,9,'',$html3,0);	
+// $pdf->Ln();
+// $pdf->Ln(10);
 
 //output
 // $pdf->Output();

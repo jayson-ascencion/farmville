@@ -12,19 +12,21 @@
     $chickenBatch_ID = $coopNumber = $batchName = $quantity = $reductionType = $dateReduced = "";
 
     //statement to get the old quantity
-    $sql = "SELECT * FROM chickenreduction WHERE reduction_ID = '$id'";
+    $sql = "SELECT * FROM chickentransaction WHERE transaction_ID = '$id'";
     $stmt = $conn->query($sql);
 
     if($stmt){
         if($stmt->rowCount() > 0){
             while($row = $stmt->fetch()){
                 //collect data from the form
-                $chickenBatch_ID = $row['chickenBatch_ID'];
+                // $chickenBatch_ID = $row['chickenBatch_ID'];
                 $coopNumber = $row['coopNumber'];
                 $batchName = $row['batchName'];
                 $quantity = $row['quantity'];
-                $reductionType = $row['reductionType'];
-                $dateString = strtotime($row['dateReduced']);
+                $reductionType = $row['dispositionType'];
+                $note = $row['note'];
+                $sex = $row['sex'];
+                $dateString = strtotime($row['transactionDate']);
                 $dateReduced = date('F d, Y',$dateString); //$row['dateReduced'];
             }
             // Free result set
@@ -58,10 +60,6 @@
                             </a> 
                         </div></div>
                         <div class="card-body p-4">
-                            <!-- egg batch id -->
-                            <div class="mb-3">
-                                <p class="fw-bold">Chicken Batch ID: <span class="fw-normal ps-2"><?php echo $chickenBatch_ID; ?></span></p>
-                            </div>
 
                             <!-- egg Size -->
                             <div class="mb-3">
@@ -71,6 +69,11 @@
                             <!-- Batch Name -->
                             <div class="mb-3">
                                 <p class="fw-bold">Batch Name: <span class="fw-normal ps-2"><?php echo $batchName; ?></span></p>
+                            </div>
+                    
+                            <!-- Quantity -->
+                            <div class="mb-3">
+                                <p class="fw-bold">Sex: <span class="fw-normal ps-2"><?php echo $sex; ?></span></p>
                             </div>
                     
                             <!-- Quantity -->
@@ -87,6 +90,11 @@
                             <!-- Collection Date -->
                             <div class="mb-3">
                                 <p class="fw-bold">Date Reduced: <span class="fw-normal ps-2"><?php echo $dateReduced; ?></span></p>
+                            </div>
+
+                            <!-- Collection Date -->
+                            <div class="mb-3">
+                                <p class="fw-bold">Note: <span class="fw-normal ps-2"><?php echo $note; ?></span></p>
                             </div>
 
 

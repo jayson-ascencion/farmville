@@ -173,6 +173,14 @@
                 });
 
                 //this will reset the filter
+                $('#reset-btn-allocation').click(function() {
+                if (!pageReloading) {
+                    $('#filterAllocation select').val('');
+                    $('#chickenAllocation').DataTable().columns().search('').draw();
+                }
+                });
+
+                //this will reset the filter
                 $('#reset-btn').click(function() {
                 if (!pageReloading) {
                     $('#filtertable select').val('');
@@ -196,11 +204,54 @@
                     ],
                     //this code if for the filter buttons
                     initComplete: function () {
-                        this.api().columns([3,4,8]).every( function (d) {
+                        this.api().columns([2,3,6]).every( function (d) {
                             var column = this;
                             var theadname = $('#chickenProduction th').eq([d]).text();
                             var select = $('<select class="mx-1 p-1 rounded rounded-3 col-md-2 col-sm-4 m-1"><option value="">'+theadname+': All</option></select>')
                                 .appendTo( '#filtertable' )
+                                .on( 'change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex(
+                                        $(this).val()
+                                    );
+
+                                    if (val === '') {
+                                        column.search('').draw();
+                                    } else {
+                                        column
+                                            .search( '^'+val+'$', true, false )
+                                            .draw();
+                                    }
+                                } );
+                            select.find('option[value=""]').attr("selected", true);
+                            column.data().unique().sort().each( function ( d, j ) {
+                                var val = $('<div/>').html(d).text();
+                                select.append( '<option value="'+val+'">'+val+'</option>' )
+                            } );
+                        } );
+                    }
+                });
+
+                //table initialization
+                $('#chickenAllocation').DataTable({
+                    columns: [ //this will define what columns are orderable
+                        { orderable: ['asc'] }, //1
+                        null, //2
+                        null,//3
+                        null,//4
+                        null,//5
+                        null,//6
+                        // null,//7
+                        // null,//8
+                        // null,//9
+                        { orderable: false, width: 100}, //action buttons are not orderable 10
+                    ],
+                    //this code if for the filter buttons
+                    initComplete: function () {
+                        this.api().columns([1,3]).every( function (d) {
+                            var column = this;
+                            var theadname = $('#chickenAllocation th').eq([d]).text();
+                            var select = $('<select class="mx-1 p-1 rounded rounded-3 col-md-2 col-sm-4 m-1"><option value="">'+theadname+': All</option></select>')
+                                .appendTo( '#filterAllocation' )
                                 .on( 'change', function () {
                                     var val = $.fn.dataTable.util.escapeRegex(
                                         $(this).val()
@@ -302,7 +353,7 @@
                     ],
                     //this code is for the filter buttons
                     initComplete: function () {
-                        this.api().columns([5]).every( function (d) {
+                        this.api().columns([1,3,5]).every( function (d) {
                             var column = this;
                             var theadname = $('#chickenReduction th').eq([d]).text();
                             var select = $('<select class="mx-1 p-1 rounded rounded-3 col-md-2 col-sm-4 m-1"><option value="">'+theadname+': All</option></select>')
@@ -555,6 +606,14 @@
                 });
 
                 //this will reset the filter
+                $('#reset-btn-filter').click(function() {
+                if (!pageReloading) {
+                    $('#filterReplenishment select').val('');
+                    $('#medicine_replenishment').DataTable().columns().search('').draw();
+                }
+                });
+
+                //this will reset the filter
                 $('#reset-btn').click(function() {
                 if (!pageReloading) {
                     $('#filtertable select').val('');
@@ -570,19 +629,63 @@
                         null,
                         null,
                         null,
-                        { orderable: null, width: 100},
-                        null,
-                        null,
+                        // { orderable: null, width: 100},
+                        // null,
+                        // null,
                         { orderable: ['asc','desc'] },
                         { orderable: false, width: 100}, //action buttons are not orderable
                     ],
                     //for filter buttons
                     initComplete: function () {
-                        this.api().columns([1,3,4]).every( function (d) {
+                        this.api().columns([1,3]).every( function (d) {
                             var column = this;
                             var theadname = $('#medicineRecords th').eq([d]).text();
                             var select = $('<select class="mx-1 p-1 rounded rounded-3 col-md-2 col-sm-4 m-1"><option value="">'+theadname+': All</option></select>')
                                 .appendTo( '#filtertable' )
+                                .on( 'change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex(
+                                        $(this).val()
+                                    );
+
+                                    if (val === '') {
+                                        column.search('').draw();
+                                    } else {
+                                        column
+                                            .search( '^'+val+'$', true, false )
+                                            .draw();
+                                    }
+                                } );
+                            select.find('option[value=""]').attr("selected", true);
+                            column.data().unique().sort().each( function ( d, j ) {
+                                var val = $('<div/>').html(d).text();
+                                select.append( '<option value="'+val+'">'+val+'</option>' )
+                            } );
+                        } );
+                    }
+                });
+
+                //table initialization
+                $('#medicine_replenishment').DataTable({
+                    columns: [ //this will define what columns are orderable
+                        { orderable: ['asc'] },
+                        null,
+                        // null,
+                        // null,
+                        null,
+                        // { orderable: null, width: 100},
+                        // null,
+                        // null,
+                        { orderable: ['asc','desc'] },
+                        { orderable: ['asc','desc'] },
+                        { orderable: false, width: 100}, //action buttons are not orderable
+                    ],
+                    //for filter buttons
+                    initComplete: function () {
+                        this.api().columns([1,3]).every( function (d) {
+                            var column = this;
+                            var theadname = $('#medicine_replenishment th').eq([d]).text();
+                            var select = $('<select class="mx-1 p-1 rounded rounded-3 col-md-2 col-sm-4 m-1"><option value="">'+theadname+': All</option></select>')
+                                .appendTo( '#filterReplenishment' )
                                 .on( 'change', function () {
                                     var val = $.fn.dataTable.util.escapeRegex(
                                         $(this).val()
@@ -677,11 +780,11 @@
                         null,
                         null,
                         null,
-                        null,
+                        // null,
                     ],
                     //for filter buttons
                     initComplete: function () {
-                        this.api().columns([4]).every( function (d) {
+                        this.api().columns([1,3]).every( function (d) {
                             var column = this;
                             var theadname = $('#medicineReduction th').eq([d]).text();
                             var select = $('<select class="mx-1 p-1 rounded rounded-3 col-md-2 col-sm-4 m-1"><option value="">'+theadname+': All</option></select>')
@@ -733,8 +836,55 @@
                 }
                 });
 
+                //this will reset the filter
+                $('#reset-btn-replenishment').click(function() {
+                if (!pageReloading) {
+                    $('#filtertable_replenishment select').val('');
+                    $('#feedReplenishment').DataTable().columns().search('').draw();
+                }
+                });
+
                 //table initialization
                 $('#feedRecords').DataTable({
+                    columns: [ //this will define what columns are orderable
+                        { orderable: ['asc'] },
+                        { orderable: ['asc'] },
+                        // { orderable: ['asc'] },
+                        null,
+                        // null,
+                        { orderable: false },
+                    ],
+                    //table initialization
+                    initComplete: function () {
+                        this.api().columns([1,2]).every( function (d) {
+                            var column = this;
+                            var theadname = $('#feedRecords th').eq([d]).text();
+                            var select = $('<select class="mx-1 p-1 rounded rounded-3 col-md-2 col-sm-4 m-1"><option value="">'+theadname+': All</option></select>')
+                                .appendTo( '#filtertable' )
+                                .on( 'change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex(
+                                        $(this).val()
+                                    );
+
+                                    if (val === '') {
+                                        column.search('').draw();
+                                    } else {
+                                        column
+                                            .search( '^'+val+'$', true, false )
+                                            .draw();
+                                    }
+                                } );
+                            select.find('option[value=""]').attr("selected", true);
+                            column.data().unique().sort().each( function ( d, j ) {
+                                var val = $('<div/>').html(d).text();
+                                select.append( '<option value="'+val+'">'+val+'</option>' )
+                            } );
+                        } );
+                    }
+                });
+
+                //table initialization
+                $('#feedReplenishment').DataTable({
                     columns: [ //this will define what columns are orderable
                         { orderable: ['asc'] },
                         { orderable: ['asc'] },
@@ -747,9 +897,9 @@
                     initComplete: function () {
                         this.api().columns([1,2]).every( function (d) {
                             var column = this;
-                            var theadname = $('#feedRecords th').eq([d]).text();
+                            var theadname = $('#feedReplenishment th').eq([d]).text();
                             var select = $('<select class="mx-1 p-1 rounded rounded-3 col-md-2 col-sm-4 m-1"><option value="">'+theadname+': All</option></select>')
-                                .appendTo( '#filtertable' )
+                                .appendTo( '#filtertable_replenishment' )
                                 .on( 'change', function () {
                                     var val = $.fn.dataTable.util.escapeRegex(
                                         $(this).val()
@@ -836,6 +986,7 @@
                 //table initialization
                 $('#feedReductions').DataTable({
                     columns: [ //this will define what columns are orderable
+                        { orderable: ['asc'] },
                         { orderable: ['asc'] },
                         null,
                         null,
@@ -1290,7 +1441,7 @@
                     columns: [ //this will define what columns are orderable
                         { orderable: ['asc'] },
                         null,
-                        null,
+                        // null,
                     ],
                     dom: 'Bfrtip', // this will remove the export buttons
                     buttons: [], // this will remove the export buttons,
@@ -1314,13 +1465,30 @@
             // Call the closeAlert function when the page is loaded
             closeAlert();
 
-            //for loader
+            // //for loader
+            // window.onload = function() {
+            //     // Hide the loading icon when the page finishes loading
+            //     document.querySelector('.loader-container').style.display = 'none';
+            //     // Show the content when the page finishes loading
+            //     document.querySelector('.displayTable').style.display = 'block';
+            // };
+
             window.onload = function() {
-                // Hide the loading icon when the page finishes loading
-                document.querySelector('.loader-container').style.display = 'none';
-                // Show the content when the page finishes loading
-                document.querySelector('.displayTable').style.display = 'block';
+            // Hide the loading icon when the page finishes loading
+            // document.querySelector('.loader-container').style.display = 'none';
+            var loaderContainers = document.querySelectorAll('.loader-container');
+            for (var i = 0; i < loaderContainers.length; i++) {
+                loaderContainers[i].style.display = 'none';
+            }
+            // };
+
+            // Show the content when the page finishes loading
+            var displayTables = document.querySelectorAll('.displayTable');
+            for (var i = 0; i < displayTables.length; i++) {
+                displayTables[i].style.display = 'block';
+            }
             };
+
 
         </script>
 

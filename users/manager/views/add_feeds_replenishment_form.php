@@ -6,7 +6,7 @@
     include('../../includes/header.php');
 
     //save feed action
-    include('../action/add_feed_replenishment.php'); 
+    include('../action/save_feed_replenishment.php'); 
     
  
 ?>
@@ -29,45 +29,45 @@
                         <div class="card-body p-4">
 
                             <div class="form-group mb-3">
-                                    <label for="feed_ID" class="mb-2 text-dark">Feed Name</label>
-                                    <select class="form-select" name="feed_ID" required>
-                                        <option value="<?php echo $feed_ID; ?>">
-                                            <?php
-                                            if(!empty($feed_ID)){
-                                                echo $feed_ID;
-                                            }else{
-                                                echo "- select a batch id -";
-                                            }
-                                            ?>
-                                        </option>
+                                <label for="feed_ID" class="mb-2 text-dark">Feed Name</label>
+                                <select class="form-select" name="feed_ID" required>
+                                    <option value="<?php echo $feed_ID; ?>">
                                         <?php
-
-                                            //connect to the database
-                                            include('../../../config/database_connection.php');
-                                            $selectedID = "";
-                                            //statement to select the all the medicine names
-                                            $sql = "SELECT feedName, feed_ID FROM feeds";
-                                            $stmt = $conn->query($sql);
-                                            if($stmt){
-                                                if($stmt->rowCount() > 0){
-                                                    while($row = $stmt->fetch()){?>
-                                                    <option value="<?php echo $row['feed_ID']; ?>"> <?php echo $row["feedName"];?> </option>
-                                                <?php }
-                                                    // Free result set
-                                                    unset($result);
-                                                } else{
-
-                                                    echo '<div class="alert alert-danger"><em>No records were found.</em></div>';
-                                                }
-                                            } else{
-                                                echo "Oops! Something went wrong. Please try again later.";
-                                            }
-                                            unset($pdo);
-
+                                        if(!empty($feed_ID)){
+                                            echo $feedName;
+                                        }else{
+                                            echo "- select a batch id -";
+                                        }
                                         ?>
-                                    </select>
-                                    <span class="text-danger" style="font-size: small;"> <?php echo $feed_ID_err; ?> </span>
-                                </div>
+                                    </option>
+                                    <?php
+
+                                        //connect to the database
+                                        include('../../../config/database_connection.php');
+                                        $selectedID = "";
+                                        //statement to select the all the medicine names
+                                        $sql = "SELECT feedName, feed_ID FROM feeds";
+                                        $stmt = $conn->query($sql);
+                                        if($stmt){
+                                            if($stmt->rowCount() > 0){
+                                                while($row = $stmt->fetch()){?>
+                                                <option value="<?php echo $row['feed_ID']; ?>"> <?php echo $row["feedName"];?> </option>
+                                            <?php }
+                                                // Free result set
+                                                unset($result);
+                                            } else{
+
+                                                echo '<div class="alert alert-danger"><em>No records were found.</em></div>';
+                                            }
+                                        } else{
+                                            echo "Oops! Something went wrong. Please try again later.";
+                                        }
+                                        unset($pdo);
+
+                                    ?>
+                                </select>
+                                <span class="text-danger" style="font-size: small;"> <?php echo $feed_ID_err; ?> </span>
+                            </div>
 
                                 <!-- Feed Name
                                 <div class="form-group mb-3">

@@ -13,17 +13,17 @@
     $id = $_REQUEST['id'];
     
     //statement to select the specific schedule to update
-    $sql = "SELECT * FROM medicinereduction WHERE reduction_ID = '$id'";
+    $sql = "SELECT * FROM medicinetransaction WHERE transaction_ID = '$id'";
     $stmt = $conn->query($sql);
     if($stmt){
         if($stmt->rowCount() > 0){
             while($row = $stmt->fetch()){
-                $reduction_ID = $row['reduction_ID'];
+                $transaction_ID = $row['transaction_ID'];
                 $medicine_ID = $row['medicine_ID'];
                 $medicineName = $row['medicineName'];
                 $quantity = $row['quantity'];
                 $reductionType = $row['reductionType'];
-                $dateReduced = $row['dateReduced'];
+                $transactionDate = $row['transactionDate'];
             }
             // Free result set
             unset($result);
@@ -42,10 +42,10 @@
             $id = $_POST['id'];
                 // $archived = 'archived';
 
-            // Prepare an insert statementUPDATE medicinereduction SET archive=:archived WHERE reduction_ID = '$id'
+            // Prepare an insert statementUPDATE medicinereduction SET archive=:archived WHERE transaction_ID = '$id'
             $sql = "BEGIN;
             UPDATE medicines SET inStock = inStock + $quantity WHERE medicine_ID = '$medicine_ID';
-            DELETE FROM medicinereduction WHERE reduction_ID = '$id';
+            DELETE FROM medicinetransaction WHERE transaction_ID = '$id';
             COMMIT;";
             
             if($stmt = $conn->prepare($sql))
@@ -98,7 +98,7 @@
                         <div class="card-body p-4">
                             <!-- egg batch id -->
                             <div class="mb-3">
-                                <p class="fw-bold">Reduction ID: <span class="fw-normal ps-2"><?php echo $reduction_ID; ?></span></p>
+                                <p class="fw-bold">Reduction ID: <span class="fw-normal ps-2"><?php echo $transaction_ID; ?></span></p>
                             </div>
 
                             <!-- egg Size -->
@@ -124,7 +124,7 @@
                                
                             <!-- Note -->
                             <div class="mb-3">
-                                <p class="fw-bold">Date Reduced: <span class="fw-normal ps-2"><?php echo $dateReduced; ?></span></p>
+                                <p class="fw-bold">Date Reduced: <span class="fw-normal ps-2"><?php echo $transactionDate; ?></span></p>
                             </div>
 
                         </div>

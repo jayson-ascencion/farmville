@@ -43,9 +43,9 @@
                                         $medicineName = $row['medicineName'];
                                         $medicineBrand = $row['medicineBrand'];
                                         $medicineFor = $row['medicineFor'];
-                                        $startingQuantity = $row['startingQuantity'];
+                                        $inStock = $row['inStock'];
                                         // $inStock = $row['inStock'];
-                                        $dateAdded = $row['dateAdded'];
+                                        // $dateAdded = $row['dateAdded'];
                                         $expirationDate = $row['expirationDate'];
                                     }
                                     // Free result set
@@ -73,11 +73,11 @@
                                     <!-- </option> -->
                                     <!-- <option value="Medication">Medication</option>
                                     <option value="Vaccination">Vaccination</option> -->
-                                    <?php if($medicineType != "Medication") { ?>
-                                        <option value="Medication">Medication</option>
+                                    <?php if($medicineType != "Medicine") { ?>
+                                        <option value="Medicine">Medicine</option>
                                     <?php } ?>
-                                    <?php if($medicineType != "Vaccination") { ?>
-                                        <option value="Vaccination">Vaccination</option>
+                                    <?php if($medicineType != "Vaccine") { ?>
+                                        <option value="Vaccine">Vaccine</option>
                                     <?php } ?>
                                 </select>
                                 <span class="text-danger" style="font-size: 13px;">  <?php echo $medicineType_err; ?> </span>
@@ -156,11 +156,11 @@
                             </div>
 
                             <!-- Starting Quantity -->
-                            <div class="form-group mb-3">
+                            <!-- <div class="form-group mb-3">
                                 <label for="startingQuantity" class="mb-2 text-dark">Starting Quantity <span style="font-size: 13px;">(without reductions)</span></label>
                                 <input type="number" name="startingQuantity" class="form-control" value="<?php echo $startingQuantity; ?>" required>
                                 <span class="text-danger" style="font-size: 13px;">  <?php echo $startingQuantity_err; ?> </span>
-                            </div>
+                            </div> -->
                             
                             <!-- inStock Quantity
                             <div class="form-group mb-3">
@@ -169,21 +169,29 @@
                                 <span class="text-danger" style="font-size: 13px;">  echo $inStock_err; ?> </span>
                             </div> -->
 
-                            <div class="d-flex flex-column flex-sm-column flex-lg-row gap-2">
-                                <!-- Date Added -->
+                              
+                            <!-- Expiration Date -->
+                            <div class="form-group w-100 mb-3">
+                                <label for="expirationDate" class="mb-2 text-dark">Expiration Date</label>
+                                <input type="date" name="expirationDate" min="<?php echo date('Y-m-d'); ?>" class="form-control" value="<?php echo $expirationDate; ?>" required>
+                                <span class="text-danger" style="font-size: 13px;"> <?php echo $expirationDate_err; ?> </span>
+                            </div>
+
+                            <!-- <div class="d-flex flex-column flex-sm-column flex-lg-row gap-2">
+                                Date Added
                                 <div class="form-group w-100 mb-3">
                                     <label for="dateAdded" class="mb-2 text-dark">Date Added </label>
                                     <input type="date" min="2022-01-01" max="<?php echo date('Y-m-d'); ?>" name="dateAdded" class="form-control" value="<?php echo $dateAdded; ?>" required>
                                     <span class="text-danger" style="font-size: 13px;"> <?php echo $dateAdded_err; ?> </span>
                                 </div>
                                     
-                                <!-- Expiration Date -->
+                                Expiration Date
                                 <div class="form-group w-100 mb-3">
                                     <label for="expirationDate" class="mb-2 text-dark">Expiration Date</label>
                                     <input type="date" name="expirationDate" min="<?php echo date('Y-m-d'); ?>" class="form-control" value="<?php echo $expirationDate; ?>" required>
                                     <span class="text-danger" style="font-size: 13px;"> <?php echo $expirationDate_err; ?> </span>
                                 </div>
-                            </div>
+                            </div> -->
                                
                         </div>
                         <input type="hidden" name="id" value="<?php echo $id; ?>"/>

@@ -27,7 +27,7 @@
                         <div class="card-body p-4">
                             <!-- Medicine ID -->
                             <div class="form-group mb-3">
-                                <label for="medicine_ID" class="mb-2 text-dark">Medicine ID</label>
+                                <label for="medicine_ID" class="mb-2 text-dark">Medicine Name</label>
                                 <select class="form-select" name="medicine_ID" required>
                                     <?php
 
@@ -35,19 +35,19 @@
                                         include('../../../config/database_connection.php');
 
                                         //statement to select the all the medicine names
-                                        $sql = "SELECT medicine_ID, medicineName FROM medicines WHERE archive='not archived'";
+                                        $sql = "SELECT medicine_ID, medicineName FROM medicines WHERE inStock <> 0";
                                         $stmt = $conn->query($sql);
                                         if($stmt){
                                             // if($stmt->rowCount() > 0){
                                                 if(empty($medicine_ID)){
-                                                    echo '<option value="">- select a medicine id -</option>';
+                                                    echo '<option value="">- select a medicine -</option>';
                                                 }else{
                                                     ?>
                                                     <option value="<?php echo $medicine_ID; ?>"><?php echo $medicine_ID; ?></option>';
                                                     <?php
                                                 }
                                                 while($row = $stmt->fetch()){?>
-                                                <option value="<?php echo $row['medicine_ID']; ?>"> <?php echo $row['medicine_ID'] . " - " . $row['medicineName']; ?> </option>
+                                                <option value="<?php echo $row['medicine_ID']; ?>"> <?php echo $row['medicineName']; ?> </option>
                                             <?php }
                                                 // Free result set
                                                 unset($result);
@@ -57,7 +57,7 @@
                                         } else{
                                             echo "Oops! Something went wrong. Please try again later.";
                                         }
-                                        unset($pdo);
+                                        unset($stmt);
 
                                     ?>
                                 </select>
@@ -146,13 +146,13 @@
 <script>
 
     $(document).ready(function() {
-        $('select[name="coopNumber"]').on('change', function() {
-            var coopNumber = $(this).val();
-            // Make an AJAX request to fetch the quantity for the selected coopNumber
+        $('select[name="medicine_ID"]').on('change', function() {
+            var medicine_ID = $(this).val();
+            // Make an AJAX request to fetch the quantity for the selected medicine_ID
             $.ajax({
                 url: '../action/get_quantity.php', // Replace with the URL of your PHP script
                 type: 'POST',
-                data: { coopNumber: coopNumber },
+                data: { medicine_ID: medicine_ID },
                 dataType: 'json',
                 success: function(response) {
                     if (response.status == 'success') {
@@ -168,7 +168,7 @@
             });
         });
         // Trigger the event handler when the page is loaded or refreshed
-        $('select[name="coopNumber"]').trigger('change');
+        $('select[name="medicine_ID"]').trigger('change');
     });
 
 </script>

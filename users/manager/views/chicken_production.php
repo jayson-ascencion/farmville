@@ -57,7 +57,7 @@
                                 <div class="col-xl-2 col-md-2 align-content-end">
                                     <div class="w-100 d-flex justify-content-end">
                                         <div class="m-1 w-100 float-end">
-                                            <a href="add_chicken_form.php" class="btn btn-success shadow-sm w-100 fw-bold">Add Chicken Batch</a>
+                                            <a href="add_chicken_form.php" class="btn btn-primary shadow-sm w-100 fw-bold">Add New Coop</a>
                                         </div>
                                         <!-- <div class="m-1 w-100">
                                             <a href="#" class="btn btn-outline-danger shadow-sm w-100 fw-bold">Archives</a>                                 
@@ -74,6 +74,48 @@
                                 <?php
                                     //this will display all the chicken production data
                                     include('./query/chicken_production_records.php');
+                                ?>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card bg-light shadow-lg mt-5">
+                        <div class="card-header" style="background-color: #FFAF1A">
+
+                            <!-- <div class="w-100 d-flex justify-content-between p-2">
+                                <div>
+                                    <h4 class="pt-2 fw-bold fs-5">Chicken Production</h4>
+                                </div>
+
+                                <div>
+                                    <a href="add_chicken_form.php" class="btn btn-primary pt-2">Add Chicken</a>
+                                </div>
+                            </div> -->
+                            <div class="row justify-content-between">
+                                <div class="col-xl-3 col-md-6">
+                                    <h4 class="pt-2 fs-5 fw-bold"  style="background-color: #FFAF1A; color: #91452c">Chicken Production</h4>
+                                </div>
+
+                                <div class="col-xl-2 col-md-2 align-content-end">
+                                    <div class="w-100 d-flex justify-content-end">
+                                        <div class="m-1 w-100 float-end">
+                                            <a href="add_chicken_allocation.php" class="btn btn-success shadow-sm w-100 fw-bold">Chicken Allocation</a>
+                                        </div>
+                                        <!-- <div class="m-1 w-100">
+                                            <a href="#" class="btn btn-outline-danger shadow-sm w-100 fw-bold">Archives</a>                                 
+                                        </div> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <?php include("../../includes/loader.php"); ?>
+                        </div>
+                        <div class="card-body displayTable">
+                            <div class="table-responsive m-1">
+                                <?php
+                                    //this will display all the chicken production data
+                                    include('./query/chicken_allocation_records.php');
                                 ?>
                             </div>
                         </div>

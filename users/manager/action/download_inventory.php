@@ -43,22 +43,20 @@ $pdf->Ln(5);
 
 // -----------------------------------MEDICINE TABLE AND SQL QUERY-------------------------------------//
 $main_query = "
-SELECT DATE_FORMAT(m.dateAdded,'%M %d, %Y') AS dateAdded, m.medicineName, m.medicineName, DATE_FORMAT(m.expirationDate,'%M %d, %Y') AS expirationDate, m.startingQuantity, m.inStock, SUM(COALESCE(mr.quantity,0)) AS reductions
-FROM medicines m
-LEFT JOIN medicinereduction mr ON m.medicine_ID = mr.medicine_ID
-WHERE m.archive = 'not archived' ";
+SELECT reductionType, SUM(COALESCE(quantity,0)) as quantity FROM medicinetransaction
+WHERE archive = 'not archived' ";
 
 if(isset($_POST["start_date"], $_POST["end_date"]) && $_POST["start_date"] != '' && $_POST["end_date"] != '')
 {
-	$main_query .= "AND m.dateAdded >= '".$_POST["start_date"]."' AND m.dateAdded <= '".$_POST["end_date"]."' ";
+	$main_query .= "AND transactionDate >= '".$_POST["start_date"]."' AND transactionDate <= '".$_POST["end_date"]."' ";
 }
 
-if(isset($_POST["search"]["value"]))
-{
-	$main_query .= "AND (m.medicineName LIKE '%".$_POST["search"]["value"]."%' OR m.inStock LIKE '%".$_POST["search"]["value"]."%' OR m.dateAdded LIKE '%".$_POST["search"]["value"]."%') ";
-}
+// if(isset($_POST["search"]["value"]))
+// {
+// 	$main_query .= "AND (medicineName LIKE '%".$_POST["search"]["value"]."%' OR inStock LIKE '%".$_POST["search"]["value"]."%' OR transactionDate LIKE '%".$_POST["search"]["value"]."%') ";
+// }
 
-$main_query .= "GROUP BY m.medicine_ID";
+$main_query .= "GROUP BY reductionType";
 
 $statement = $conn->prepare($main_query);// . $search_query . $group_by_query
 
@@ -72,15 +70,15 @@ foreach($result as $row)
 {
 	$sub_array = array();
 
-	$sub_array[] = $row['dateAdded'];
+	// $sub_array[] = $row['transactionDate'];
 
-	$sub_array[] = $row['medicineName'];
+	$sub_array[] = $row['reductionType'];
 
-	$sub_array[] = $row['startingQuantity'];
+	// $sub_array[] = $row['startingQuantity'];
 
-	$sub_array[] = $row['inStock'];
+	// $sub_array[] = $row['inStock'];
 
-	$sub_array[] = $row['reductions'];
+	$sub_array[] = $row['quantity'];
 
 	$data[] = $sub_array;
 }
@@ -91,13 +89,10 @@ $output = array(
 
 //make the table
 $html = "
-<h3>Medicine Inventory </h3>
+<h3>Summary By Medicine Reduction Type </h3>
 	<table>
 		<tr>
-			<th>Medicine ID</th>
-			<th>Medicine Name</th>
-			<th>Starting Quantity</th>
-			<th>In Stock</th>
+			<th>Reduction Type</th>
 			<th>Reductions</th>
 		</tr>
 		";
@@ -114,9 +109,6 @@ foreach($output['data'] as $medicine){
 			<tr>
 				<td>". $medicine[0] ."</td>
 				<td>". $medicine[1] ."</td>
-				<td>". $medicine[2] ."</td>
-				<td>". $medicine[3] ."</td>
-				<td>". $medicine[4] ."</td>
 			</tr>
 			";
 }		
@@ -145,11 +137,11 @@ $pdf->Ln(10);
 
 //--------------------------------------MEDICINES ABOUT TO EXPIRE TABLE AND QUERY------------------------------//
 $main_query = "
-SELECT DATE_FORMAT(dateAdded,'%M %d, %Y') AS dateAdded, medicineName, DATE_FORMAT(expirationDate,'%M %d, %Y') AS expirationDate, startingQuantity, inStock
+SELECT medicineName, DATE_FORMAT(expirationDate,'%M %d, %Y') AS expirationDate, inStock
 FROM medicines
 ";
 
-$search_query = ' WHERE archive = "not archived" AND DATEDIFF(expirationDate, NOW()) <=60 ';
+$search_query = ' WHERE DATEDIFF(expirationDate, NOW()) <=60 ';
 
 $statement = $conn->prepare($main_query . $search_query ); 
 
@@ -167,13 +159,13 @@ foreach($result as $row)
 {
 	$sub_array = array();
 
-	$sub_array[] = $row['dateAdded'];
+	// $sub_array[] = $row['dateAdded'];
 
 	$sub_array[] = $row['medicineName'];
 
 	$sub_array[] = $row['expirationDate'];
 
-	$sub_array[] = $row['startingQuantity'];
+	// $sub_array[] = $row['startingQuantity'];
 
 	$sub_array[] = $row['inStock'];
 
@@ -189,10 +181,8 @@ $html2 = "
 <h3>Medicines About To Expire </h3>
 	<table>
 		<tr>
-			<th>Date Added</th>
 			<th>Medicine Name</th>
 			<th>Expiration Date</th>
-			<th>Starting Quantity</th>
 			<th>In Stock</th>
 		</tr>
 		";
@@ -207,8 +197,6 @@ foreach($output['data'] as $toexpire){
 				<td>". $toexpire[0] ."</td>
 				<td>". $toexpire[1] ."</td>
 				<td>". $toexpire[2] ."</td>
-				<td>". $toexpire[3] ."</td>
-				<td>". $toexpire[4] ."</td>
 			</tr>
 			";
 }		
@@ -237,11 +225,11 @@ $pdf->Ln(10);
 
 //----------------------------MEDICINE LOW IN STOCK----------------------------//
 $main_query = "
-SELECT DATE_FORMAT(dateAdded,'%M %d, %Y') AS dateAdded, medicineName, DATE_FORMAT(expirationDate,'%M %d, %Y') AS expirationDate, startingQuantity, inStock
+SELECT medicineName, DATE_FORMAT(expirationDate,'%M %d, %Y') AS expirationDate, inStock
 FROM medicines
 ";
 
-$search_query = ' WHERE archive = "not archived" AND inStock <=10 ';
+$search_query = ' WHERE	 inStock <=10 ';
 
 $statement = $conn->prepare($main_query . $search_query );
 
@@ -259,13 +247,13 @@ foreach($result as $row)
 {
 	$sub_array = array();
 
-	$sub_array[] = $row['dateAdded'];
+	// $sub_array[] = $row['dateAdded'];
 
 	$sub_array[] = $row['medicineName'];
 
 	$sub_array[] = $row['expirationDate'];
 
-	$sub_array[] = $row['startingQuantity'];
+	// $sub_array[] = $row['startingQuantity'];
 
 	$sub_array[] = $row['inStock'];
 
@@ -280,10 +268,8 @@ $html3 = "
 <h3>Medicines Low In Stock </h3>
 	<table>
 		<tr>
-			<th>Date Added</th>
 			<th>Medicine Name</th>
 			<th>Expiration Date</th>
-			<th>Starting Quantity</th>
 			<th>In Stock</th>
 		</tr>
 		";
@@ -298,8 +284,6 @@ foreach($output['data'] as $lowinstock){
 				<td>". $lowinstock[0] ."</td>
 				<td>". $lowinstock[1] ."</td>
 				<td>". $lowinstock[2] ."</td>
-				<td>". $lowinstock[3] ."</td>
-				<td>". $lowinstock[4] ."</td>
 			</tr>
 			";
 }		
@@ -327,28 +311,23 @@ $pdf->Ln();
 $pdf->Ln(10);
 
 //------------------FEEDS TBALE AND QUERY--------//
+//low in stock
 $main_query = "
-SELECT DATE_FORMAT(f.datePurchased,'%M %d, %Y') as datePurchased, f.feedName, f.brand, f.startingQuantity, f.inStock, SUM(COALESCE(fr.quantity,0)) AS reductions
-FROM feeds f
-LEFT JOIN feedreduction fr ON f.feed_ID = fr.feed_ID
-WHERE f.archive = 'not archived' ";
-if(isset($_POST["start_date"], $_POST["end_date"]) && $_POST["start_date"] != '' && $_POST["end_date"] != '')
-{
-	$main_query .= "AND f.datePurchased >= '".$_POST["start_date"]."' AND f.datePurchased <= '".$_POST["end_date"]."' ";
-}
+SELECT feedName, inStock
+FROM feeds
+";
 
-if(isset($_POST["search"]["value"]))
-{
-	$main_query .= "AND (f.feedName LIKE '%".$_POST["search"]["value"]."%' OR f.inStock LIKE '%".$_POST["search"]["value"]."%' OR f.datePurchased LIKE '%".$_POST["search"]["value"]."%') ";
-}
+$search_query = ' WHERE inStock <=10 ';
 
-$main_query .= "GROUP BY f.feed_ID";
-
-$statement = $conn->prepare($main_query);// . $search_query . $group_by_query
+$statement = $conn->prepare($main_query . $search_query );
 
 $statement->execute();
 
-$result = $conn->query($main_query, PDO::FETCH_ASSOC);// . $search_query . $group_by_query
+$filtered_rows = $statement->rowCount();
+
+$total_rows = $statement->rowCount();
+
+$result = $conn->query($main_query . $search_query , PDO::FETCH_ASSOC); 
 
 $data = array();
 
@@ -356,15 +335,15 @@ foreach($result as $row)
 {
 	$sub_array = array();
 
-	$sub_array[] = $row['datePurchased'];
+	// $sub_array[] = $row['dateAdded'];
 
 	$sub_array[] = $row['feedName'];
 
-	$sub_array[] = $row['startingQuantity'];
+	// $sub_array[] = $row['expirationDate'];
+
+	// $sub_array[] = $row['startingQuantity'];
 
 	$sub_array[] = $row['inStock'];
-
-	$sub_array[] = $row['reductions'];
 
 	$data[] = $sub_array;
 }
@@ -374,14 +353,11 @@ $output = array(
 );
 //make the table
 $html4 = "
-<h3>Feeds Inventory </h3>
+<h3>Feeds Low In Stock </h3>
 	<table>
 		<tr>
-			<th>Date Added</th>
 			<th>Feed Name</th>
-			<th>Starting Quantity</th>
 			<th>In Stock</th>
-			<th>Reductions</th>
 		</tr>
 		";
 
@@ -389,14 +365,11 @@ $html4 = "
 if(empty($output['data'])){
     $html4 .= '<tr><td colspan="5" style="text-align:center;">No records</td></tr>';
 } else {
-foreach($output['data'] as $feeds){	
+foreach($output['data'] as $lowinstock){	
 	$html4 .= "
 			<tr>
-				<td>". $feeds[0] ."</td>
-				<td>". $feeds[1] ."</td>
-				<td>". $feeds[2] ."</td>
-				<td>". $feeds[3] ."</td>
-				<td>". $feeds[4] ."</td>
+				<td>". $lowinstock[0] ."</td>
+				<td>". $lowinstock[1] ."</td>
 			</tr>
 			";
 }		
@@ -422,6 +395,196 @@ $html4 .= "
 $pdf->WriteHTMLCell(192,0,9,'',$html4,0);	
 $pdf->Ln();
 $pdf->Ln(10);
+
+//reduction type
+$main_query = "
+SELECT reductionType, SUM(COALESCE(quantity,0)) as quantity FROM feedtransaction
+WHERE archive = 'not archived' ";
+
+if(isset($_POST["start_date"], $_POST["end_date"]) && $_POST["start_date"] != '' && $_POST["end_date"] != '')
+{
+	$main_query .= "AND transactionDate >= '".$_POST["start_date"]."' AND transactionDate <= '".$_POST["end_date"]."' ";
+}
+
+// if(isset($_POST["search"]["value"]))
+// {
+// 	$main_query .= "AND (medicineName LIKE '%".$_POST["search"]["value"]."%' OR inStock LIKE '%".$_POST["search"]["value"]."%' OR transactionDate LIKE '%".$_POST["search"]["value"]."%') ";
+// }
+
+$main_query .= "GROUP BY reductionType";
+
+$statement = $conn->prepare($main_query);// . $search_query . $group_by_query
+
+$statement->execute();
+
+$result = $conn->query($main_query, PDO::FETCH_ASSOC);// . $search_query . $group_by_query
+
+$data = array();
+
+foreach($result as $row)
+{
+	$sub_array = array();
+
+	// $sub_array[] = $row['transactionDate'];
+
+	$sub_array[] = $row['reductionType'];
+
+	// $sub_array[] = $row['startingQuantity'];
+
+	// $sub_array[] = $row['inStock'];
+
+	$sub_array[] = $row['quantity'];
+
+	$data[] = $sub_array;
+}
+
+$output = array(
+	"data"			=>	$data
+);
+
+//make the table
+$html5 = "
+<h3>Summary By Feed Reduction Type </h3>
+	<table>
+		<tr>
+			<th>Reduction Type</th>
+			<th>Reductions</th>
+		</tr>
+		";
+//load the json data
+// $file = file_get_contents('MOCK_DATA-100.json');
+// $data = json_decode($file);
+
+//loop the data
+if(empty($output['data'])){
+    $html5 .= '<tr><td colspan="5" style="text-align:center;">No records</td></tr>';
+} else {
+foreach($output['data'] as $feeds){	
+	$html5 .= "
+			<tr>
+				<td>". $feeds[0] ."</td>
+				<td>". $feeds[1] ."</td>
+			</tr>
+			";
+}		
+}
+$html5 .= "
+	</table>
+	<style>
+	table {
+		border-collapse:collapse;
+		text-align: center;
+	}
+	th,td {
+		border:1px solid #888;
+	}
+	table tr th {
+		background-color:#888;
+		color:#fff;
+		font-weight:bold;
+	}
+	</style>
+";
+//WriteHTMLCell
+$pdf->WriteHTMLCell(192,0,9,'',$html5,0);	
+$pdf->Ln();
+$pdf->Ln(10);
+
+// $main_query = "
+// SELECT DATE_FORMAT(f.datePurchased,'%M %d, %Y') as datePurchased, f.feedName, f.brand, f.startingQuantity, f.inStock, SUM(COALESCE(fr.quantity,0)) AS reductions
+// FROM feeds f
+// LEFT JOIN feedreduction fr ON f.feed_ID = fr.feed_ID
+// WHERE f.archive = 'not archived' ";
+// if(isset($_POST["start_date"], $_POST["end_date"]) && $_POST["start_date"] != '' && $_POST["end_date"] != '')
+// {
+// 	$main_query .= "AND f.datePurchased >= '".$_POST["start_date"]."' AND f.datePurchased <= '".$_POST["end_date"]."' ";
+// }
+
+// if(isset($_POST["search"]["value"]))
+// {
+// 	$main_query .= "AND (f.feedName LIKE '%".$_POST["search"]["value"]."%' OR f.inStock LIKE '%".$_POST["search"]["value"]."%' OR f.datePurchased LIKE '%".$_POST["search"]["value"]."%') ";
+// }
+
+// $main_query .= "GROUP BY f.feed_ID";
+
+// $statement = $conn->prepare($main_query);// . $search_query . $group_by_query
+
+// $statement->execute();
+
+// $result = $conn->query($main_query, PDO::FETCH_ASSOC);// . $search_query . $group_by_query
+
+// $data = array();
+
+// foreach($result as $row)
+// {
+// 	$sub_array = array();
+
+// 	$sub_array[] = $row['datePurchased'];
+
+// 	$sub_array[] = $row['feedName'];
+
+// 	$sub_array[] = $row['startingQuantity'];
+
+// 	$sub_array[] = $row['inStock'];
+
+// 	$sub_array[] = $row['reductions'];
+
+// 	$data[] = $sub_array;
+// }
+
+// $output = array(
+// 	"data"			=>	$data
+// );
+// //make the table
+// $html4 = "
+// <h3>Feeds Inventory </h3>
+// 	<table>
+// 		<tr>
+// 			<th>Date Added</th>
+// 			<th>Feed Name</th>
+// 			<th>Starting Quantity</th>
+// 			<th>In Stock</th>
+// 			<th>Reductions</th>
+// 		</tr>
+// 		";
+
+// //loop the data
+// if(empty($output['data'])){
+//     $html4 .= '<tr><td colspan="5" style="text-align:center;">No records</td></tr>';
+// } else {
+// foreach($output['data'] as $feeds){	
+// 	$html4 .= "
+// 			<tr>
+// 				<td>". $feeds[0] ."</td>
+// 				<td>". $feeds[1] ."</td>
+// 				<td>". $feeds[2] ."</td>
+// 				<td>". $feeds[3] ."</td>
+// 				<td>". $feeds[4] ."</td>
+// 			</tr>
+// 			";
+// }		
+// }
+// $html4 .= "
+// 	</table>
+// 	<style>
+// 	table {
+// 		border-collapse:collapse;
+// 		text-align: center;
+// 	}
+// 	th,td {
+// 		border:1px solid #888;
+// 	}
+// 	table tr th {
+// 		background-color:#888;
+// 		color:#fff;
+// 		font-weight:bold;
+// 	}
+// 	</style>
+// ";
+// //WriteHTMLCell
+// $pdf->WriteHTMLCell(192,0,9,'',$html4,0);	
+// $pdf->Ln();
+// $pdf->Ln(10);
 //output
 // $pdf->Output();
 

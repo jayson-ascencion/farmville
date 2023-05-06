@@ -7,7 +7,7 @@ include('../../../config/database_connection.php');
     $oldQuantity = "";
 
     //statement to get the old quantity
-    $sql = "SELECT quantity FROM chickenreduction WHERE reduction_ID = '$id'";
+    $sql = "SELECT quantity FROM chickentransaction WHERE transaction_ID = '$id'";
     $stmt = $conn->query($sql);
 
     if($stmt){
@@ -48,6 +48,7 @@ try{
         //collect data from the form
         $chickenBatch_ID = $_POST['chickenBatch_ID'];
         $coopNumber = $_POST['coopNumber'];
+        $sex = $_POST['sex'];
         $updateQuantity = $_POST['quantity'];
         $reductionType = $_POST['reductionType'];
         $dateReduced = $_POST['dateReduced'];
@@ -62,13 +63,15 @@ try{
         // }
 
         //statement to get the in stock
-        $sql = "SELECT inStock FROM chickenproduction WHERE chickenBatch_ID = '$chickenBatch_ID'";
+        $sql = "SELECT inStock, male, female FROM chickenproduction WHERE chickenBatch_ID = '$chickenBatch_ID'";
         $stmt = $conn->query($sql);
 
         if($stmt){
             if($stmt->rowCount() > 0){
                 while($row = $stmt->fetch()){
                     $inStock = $row['inStock'];
+                    $male = $row['male'];
+                    $female = $row['female'];
                 }
                 // Free result set
                 unset($result);
@@ -101,6 +104,7 @@ try{
                 $diff = $oldQuantity - $updateQuantity;
 
                 $newQuantity = $inStock + $diff;
+
             }
         }else if($updateQuantity < 0){
             $updateQuantity_err = "Please enter a valid quantity";
@@ -120,7 +124,7 @@ try{
         if(empty($coopNumber_err) && empty($updateQuantity_err) && empty($dateReduced_err) && empty($reductionType_err)){
 
            // Prepare an insert statement
-           $sql = "UPDATE chickenreduction SET quantity=:updateQuantity, reductionType=:reductionType, dateReduced=:dateReduced WHERE reduction_ID = '$id'";
+           $sql = "UPDATE chickentransaction SET quantity=:updateQuantity, dispositionType=:reductionType, transactionDate=:dateReduced WHERE transaction_ID = '$id'";
          
            if($stmt = $conn->prepare($sql))
            {
@@ -138,22 +142,94 @@ try{
                // Attempt to execute the prepared statement
                if($stmt->execute())
                {
-                    // Prepare an update statement to update inStock
-                    $sql = "UPDATE chickenproduction SET inStock=:newQuantity WHERE chickenBatch_ID = '$chickenBatch_ID'";
-                    
-                    if($stmt = $conn->prepare($sql))
-                    {
-                        // Bind variables to the prepared statement as parameters
-                        $stmt->bindParam(":newQuantity", $param_newQuantity, PDO::PARAM_STR);
+                    if($sex == 'Male'){
+                        if($updateQuantity > $oldQuantity){
+                            $newdiff = $updateQuantity - $oldQuantity;
+                            // Prepare an update statement to update inStock
+                            $sql = "UPDATE chickenproduction SET inStock=:newQuantity, male = male - :newdiff WHERE chickenBatch_ID = '$chickenBatch_ID'";
+                            
+                            if($stmt = $conn->prepare($sql))
+                            {
+                                // Bind variables to the prepared statement as parameters
+                                $stmt->bindParam(":newQuantity", $param_newQuantity, PDO::PARAM_STR);
+                                $stmt->bindParam(":newdiff", $param_diff, PDO::PARAM_STR);
 
-                        // Set parameters
-                        $param_newQuantity = $newQuantity;
-                        // Attempt to execute the prepared statement
-                        $stmt->execute();
+                                // Set parameters
+                                $param_newQuantity = $newQuantity;
+                                $param_newdiff = $newdiff;
+                                // Attempt to execute the prepared statement
+                                $stmt->execute();
 
-                        // Close statement
-                        unset($stmt);
+                                // Close statement
+                                unset($stmt);
+                            }
+                        }else if($updateQuantity < $oldQuantity){
+                            $newdiff = $oldQuantity - $updateQuantity;
+                            // Prepare an update statement to update inStock
+                            $sql = "UPDATE chickenproduction SET inStock=:newQuantity, male = male + :newdiff WHERE chickenBatch_ID = '$chickenBatch_ID'";
+                            
+                            if($stmt = $conn->prepare($sql))
+                            {
+                                // Bind variables to the prepared statement as parameters
+                                $stmt->bindParam(":newQuantity", $param_newQuantity, PDO::PARAM_STR);
+                                $stmt->bindParam(":newdiff", $param_newdiff, PDO::PARAM_STR);
+
+                                // Set parameters
+                                $param_newQuantity = $newQuantity;
+                                $param_newdiff = $newdiff;
+                                // Attempt to execute the prepared statement
+                                $stmt->execute();
+
+                                // Close statement
+                                unset($stmt);
+                            }
+                        }
+                    }else if($sex == 'Female'){
+                        if($updateQuantity > $oldQuantity){
+                            $newdiff = $updateQuantity - $oldQuantity;
+
+                            // Prepare an update statement to update inStock
+                            $sql = "UPDATE chickenproduction SET inStock=:newQuantity, female = female - :newdiff WHERE chickenBatch_ID = '$chickenBatch_ID'";
+                            
+                            if($stmt = $conn->prepare($sql))
+                            {
+                                // Bind variables to the prepared statement as parameters
+                                $stmt->bindParam(":newQuantity", $param_newQuantity, PDO::PARAM_STR);
+                                $stmt->bindParam(":newdiff", $param_newdiff, PDO::PARAM_STR);
+
+                                // Set parameters
+                                $param_newQuantity = $newQuantity;
+                                $param_newdiff = $newdiff;
+                                // Attempt to execute the prepared statement
+                                $stmt->execute();
+
+                                // Close statement
+                                unset($stmt);
+                            }
+                        }else if($updateQuantity < $oldQuantity){
+                            $newdiff = $oldQuantity - $updateQuantity;
+
+                            // Prepare an update statement to update inStock
+                            $sql = "UPDATE chickenproduction SET inStock=:newQuantity, female = female + :newdiff WHERE chickenBatch_ID = '$chickenBatch_ID'";
+                            
+                            if($stmt = $conn->prepare($sql))
+                            {
+                                // Bind variables to the prepared statement as parameters
+                                $stmt->bindParam(":newQuantity", $param_newQuantity, PDO::PARAM_STR);
+                                $stmt->bindParam(":newdiff", $param_newdiff, PDO::PARAM_STR);
+
+                                // Set parameters
+                                $param_newQuantity = $newQuantity;
+                                $param_newdiff = $newdiff;
+                                // Attempt to execute the prepared statement
+                                $stmt->execute();
+
+                                // Close statement
+                                unset($stmt);
+                            }
+                        }
                     }
+                    
                 $_SESSION['status'] = "Chicken Reduction Details Successfully Updated.";
                 header("Location: chicken_reduction.php");
                } 

@@ -58,14 +58,14 @@
                         </div></div>
                         <div class="card-body p-4">
                             <!-- egg batch id -->
-                            <div class="mb-3">
+                            <!-- <div class="mb-3">
                                 <p class="fw-bold">Egg Reduction ID: <span class="fw-normal ps-2"><?php echo $collection_ID; ?></span></p>
-                            </div>
+                            </div> -->
 
                             <!-- egg Size -->
-                            <div class="mb-3">
-                                <p class="fw-bold">Egg Batch ID: <span class="fw-normal ps-2"><?php echo $eggBatch_ID; ?></span></p>
-                            </div>
+                            <!-- <div class="mb-3">
+                                <p class="fw-bold">Collection ID: <span class="fw-normal ps-2"><?php echo $eggBatch_ID; ?></span></p>
+                            </div> -->
                     
                             <!-- Size -->
                             <div class="mb-3">

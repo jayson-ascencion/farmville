@@ -95,9 +95,9 @@
                     <div class="card-body p-4">
 
                             <!-- egg Size -->
-                            <div class="mb-3">
-                                <p class="fw-bold">Egg Batch ID: <span class="fw-normal ps-2"><?php echo $eggSize_ID; ?></span></p>
-                            </div>
+                            <!-- <div class="mb-3">
+                                <p class="fw-bold">Collection ID: <span class="fw-normal ps-2"><?php echo $eggSize_ID; ?></span></p>
+                            </div> -->
                     
                             <!-- Quantity -->
                             <div class="mb-3">

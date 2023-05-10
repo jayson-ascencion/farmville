@@ -73,6 +73,31 @@
                                         <option>Rhode Island Reds</option>
                                         <option>Plymouth</option>
                                         <option>Leghorns</option>
+                                        <?php
+
+                                        //connect to the database
+                                        include('../../../config/database_connection.php');
+
+                                        //statement to select the all the medicine names
+                                        $sql = "SELECT DISTINCT breedType FROM chickenproduction WHERE breedType NOT IN ('Sussex', 'Rhode Island Reds', 'Plymouth', 'Leghorns')";
+                                        $stmt = $conn->query($sql);
+                                        if($stmt){
+                                            if($stmt->rowCount() > 0){
+                                                while($row = $stmt->fetch()){?>
+                                                <option> <?php echo $row["breedType"];?> </option>
+                                            <?php }
+                                                // Free result set
+                                                unset($result);
+                                            } else{
+
+                                                echo '<div class="alert alert-danger"><em>No records were found.</em></div>';
+                                            }
+                                        } else{
+                                            echo "Oops! Something went wrong. Please try again later.";
+                                        }
+                                        unset($stmt);
+
+                                        ?>
                                         <option value="customOption">Other</option>
                                 </select><input name="breedType" class="form-control" style="display:none;" disabled="disabled" 
                                     onblur="if(this.value==''){toggleField(this,this.previousSibling);}">

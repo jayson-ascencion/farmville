@@ -88,14 +88,14 @@
         <li class="breadcrumb-item">
             <a href="./medicines.php" style="text-decoration: none">Medicine Inventory</a>
         </li>
-        <li class="breadcrumb-item active">Medicine Details</li>
+        <li class="breadcrumb-item active">Archive Medicine</li>
     </ol>
 
     <div class="row justify-content-center mt-2">
         <div class="col-sm-4">
             <div class="card bg-light shadow-lg mb-4 ">
                 <div class="card-header text-center fw-bold p-3" style="background-color: #FFAF1A; color: #91452c">
-                    <div class="text-center">Are you sure you want to delete this record?</div>
+                    <div class="text-center">Are you sure you want to archive this record?</div>
                 </div>
 
                 <div class="card-body p-4">

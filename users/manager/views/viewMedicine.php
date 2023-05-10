@@ -65,7 +65,7 @@
 
                             <!-- Note -->
                             <div class="mb-3">
-                                <p class="fw-bold">In Stock: <span class="fw-normal ps-2"><?php echo $quantity; ?></span></p>
+                                <p class="fw-bold">Quantity: <span class="fw-normal ps-2"><?php echo $quantity; ?></span></p>
                             </div>
 
                              <!-- Note -->

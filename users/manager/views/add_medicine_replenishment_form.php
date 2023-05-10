@@ -18,7 +18,7 @@
         <li class="breadcrumb-item">
             <a href="./medicines.php" style="text-decoration: none">Medicines Inventory</a>
         </li>
-        <li class="breadcrumb-item active">Add New Medicine</li>
+        <li class="breadcrumb-item active">Medicine Replenishment</li>
     </ol>
 
     <div class="row justify-content-center mt-2">

@@ -85,7 +85,7 @@
         <li class="breadcrumb-item">
             <a href="./egg_reduction.php" style="text-decoration: none">Egg Reduction</a>
         </li>
-        <li class="breadcrumb-item active">Archive Egg Reduction</li>
+        <li class="breadcrumb-item active">Restore Egg</li>
     </ol>
 
     <div class="row justify-content-center mt-2">

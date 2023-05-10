@@ -89,13 +89,13 @@
         <li class="breadcrumb-item">
             <a href="./egg_reduction.php" style="text-decoration: none">Egg Reduction</a>
         </li>
-        <li class="breadcrumb-item active">Delete Egg Reduction</li>
+        <li class="breadcrumb-item active">Archive Egg Collection</li>
     </ol>
 
     <div class="row justify-content-center mt-2">
         <div class="col-sm-4">
             <div class="card bg-light shadow-lg mb-4 ">
-                <div class="card-header text-center fw-bold p-3" style="background-color: #FFAF1A; color: #91452c">Are you sure you want to delete this record?</div>
+                <div class="card-header text-center fw-bold p-3" style="background-color: #FFAF1A; color: #91452c">Are you sure you want to archive this record?</div>
                     <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST">
                         <div class="card-body p-4">
                             <!-- <div class="card-title mb-3 fw-bold">Are you sure you want to delete this record?</div> -->

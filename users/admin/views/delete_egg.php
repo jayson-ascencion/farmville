@@ -86,20 +86,20 @@
         <li class="breadcrumb-item">
             <a href="./egg_reduction.php" style="text-decoration: none">Egg Reduction</a>
         </li>
-        <li class="breadcrumb-item active">Delete Egg Reduction</li>
+        <li class="breadcrumb-item active">Delete Egg</li>
     </ol>
 
     <div class="row justify-content-center mt-2">
         <div class="col-sm-4">
             <div class="card bg-light shadow-lg mb-4 ">
-                <div class="card-header text-center fw-bold p-3" style="background-color: #FFAF1A; color: #91452c">Are you sure you want to restore this record?</div>
+                <div class="card-header text-center fw-bold p-3" style="background-color: #FFAF1A; color: #91452c">Are you sure you want to delete this record?</div>
                     <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST">
                         <div class="card-body p-4">
                             <!-- <div class="card-title mb-3 fw-bold">Are you sure you want to delete this record?</div> -->
                             <!-- egg batch id -->
-                            <div class="mb-3">
-                                <p class="fw-bold">Egg Batch ID: <span class="fw-normal ps-2"><?php echo $collection_ID; ?></span></p>
-                            </div>
+                            <!-- <div class="mb-3">
+                                <p class="fw-bold">Egg Collection ID: <span class="fw-normal ps-2"><?php echo $collection_ID; ?></span></p>
+                            </div> -->
 
                             <!-- egg Size -->
                             <div class="mb-3">

@@ -17,13 +17,13 @@
         <li class="breadcrumb-item">
             <a href="./egg_production.php" style="text-decoration: none">Egg Production</a>
         </li>
-        <li class="breadcrumb-item active">Update Egg Production</li>
+        <li class="breadcrumb-item active">Update Egg Collection</li>
     </ol>
 
     <div class="row justify-content-center mt-2">
         <div class="col-xl-6 col-md-6">
             <div class="card bg-light shadow-lg mb-4 ">
-                <div class="card-header text-center fw-bold p-3" style="background-color: #FFAF1A; color: #91452c">UPDATE EGG PRODUCTION DETAILS</div>
+                <div class="card-header text-center fw-bold p-3" style="background-color: #FFAF1A; color: #91452c">UPDATE EGG COLLECTION DETAILS</div>
                     <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST" novalidate>
 
                         <!-- retrieves the data from the database based on the id -->

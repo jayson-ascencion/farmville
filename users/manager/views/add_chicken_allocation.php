@@ -18,13 +18,13 @@
         <li class="breadcrumb-item">
             <a href="./chicken_production.php" style="text-decoration: none">Chicken Production</a>
         </li>
-        <li class="breadcrumb-item active">Add New Chicken Batch</li>
+        <li class="breadcrumb-item active">Add Chicken Allocation</li>
     </ol>
 
     <div class="row justify-content-center mt-2">
         <div class="col-xl-6 col-md-6">
             <div class="card bg-light shadow-lg mb-4 ">
-                <div class="card-header text-center fw-bold p-3" style="background-color: #FFAF1A; color: #91452c">ADD CHICKEN BATCH</div>
+                <div class="card-header text-center fw-bold p-3" style="background-color: #FFAF1A; color: #91452c">ADD CHICKEN ALLOCATION</div>
                     <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST" novalidate>
                         <div class="card-body p-4">
                              <!-- Age -->

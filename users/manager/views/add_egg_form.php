@@ -18,7 +18,7 @@
         <li class="breadcrumb-item">
             <a href="./egg_production.php" style="text-decoration: none">Egg Production</a>
         </li>
-        <li class="breadcrumb-item active">Add New Egg</li>
+        <li class="breadcrumb-item active">Add New Collection</li>
     </ol>
 
     <div class="row justify-content-center mt-2">

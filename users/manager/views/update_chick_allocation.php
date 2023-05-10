@@ -17,13 +17,13 @@
         <li class="breadcrumb-item">
             <a href="./chicken_production.php" class="text-decoration-none">Chicken Production</a>
         </li>
-        <li class="breadcrumb-item active">Update Chicken Production</li>
+        <li class="breadcrumb-item active">Update Chicken Allocation</li>
     </ol>
 
     <div class="row justify-content-center mt-2">
         <div class="col-xl-6 col-md-6">
             <div class="card bg-light shadow-lg mb-4 ">
-                <div class="card-header text-center p-3 fw-bold" style="background-color: #FFAF1A; color: #91452c">UPDATE CHICKEN BATCH</div>
+                <div class="card-header text-center p-3 fw-bold" style="background-color: #FFAF1A; color: #91452c">UPDATE CHICKEN ALLOCATION</div>
                     <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST" novalidate>
                         <?php
                                 //connect to the database

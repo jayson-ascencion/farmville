@@ -103,18 +103,6 @@
                                 <div class="chart-container pie-chart">
                                     <canvas id="bar_chart" height="100"> </canvas>
                                 </div>
-                                <!-- <table class="table table-sm responsive border table-hover text-center rounde rounded-3 overflow-hidden" style="width: 100%" id="production_table">
-                                    <thead class="text-white" style="background-color: #DC143C">
-                                        <tr>
-                                            <th>Coop Number</th>
-                                            <th>Male</th>
-                                            <th>Female</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                    </tbody>
-                                </table> -->
                             </div>
                         </div>
                     </div>
@@ -148,17 +136,6 @@
                                 <div class="chart-container pie-chart">
                                     <canvas id="third_chart" height="100"> </canvas>
                                 </div>
-                                <!-- <table class="table table-sm responsive border table-hover text-center rounde rounded-3 overflow-hidden" style="width: 100%" id="third_table">
-                                    <thead class="text-white" style="background-color: #DC143C">
-                                        <tr>
-                                            <th>Breed Type</th>
-                                            <th>In Stock</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                    </tbody>
-                                </table> -->
                             </div>
                         </div>
                     </div>
@@ -398,125 +375,6 @@
             document.getElementById("start_date_input").value = start_date;
             document.getElementById("end_date_input").value = end_date;
             //creates the table
-            //production table
-            // var dataTable = $('#production_table').DataTable({
-            //     "columnDefs": [
-            //         {
-            //             "targets": 0,
-            //             "render": function (data, type, row) {
-            //                 var date = new Date(data);
-            //                 var options = {year: 'numeric', month: 'short', day: 'numeric' };
-            //                 return date.toLocaleDateString('en-US', options);
-            //             }
-            //         },
-            //         {"className": "dt-center", "targets": "_all"}
-            //     ],
-            //     "processing" : true,
-            //     "serverSide" : true, //serverside
-            //     "order" : [], //enables table ordering
-            //     "ajax" : {
-            //         url:"../action/reports_action.php",
-            //         type:"POST",
-            //         data:{action:'fetch', start_date:start_date, end_date:end_date}
-            //     },
-            //     "drawCallback" : function(settings)
-            //     {
-            //         var acquired_Date = [];
-            //         var instock = [];
-            //         var totalQuantity = [];
-            //         var reductions = [];
-
-            //         for(var count = 0; count < settings.aoData.length; count++)
-            //         {
-            //             var date = new Date(settings.aoData[count]._aData[0]);
-            //             var options = {year: 'numeric', month: 'short', day: 'numeric' };
-            //             acquired_Date.push(date.toLocaleDateString('en-US', options));
-
-            //             // acquired_Date.push(settings.aoData[count]._aData[0]);
-            //             instock.push(parseFloat(settings.aoData[count]._aData[2]));
-            //             totalQuantity.push(parseFloat(settings.aoData[count]._aData[1]));
-            //             reductions.push(parseFloat(settings.aoData[count]._aData[3]));
-            //         }
-            //         // console.log(acquired_Date)
-            //         var chart_data = {
-            //             labels:acquired_Date,
-            //             datasets:[
-            //                 {
-            //                     label : 'Total Quantity',
-            //                     backgroundColor : 'rgb(65,105,225)',
-            //                     color : '#fff',
-            //                     data:totalQuantity
-            //                 },
-            //                 {
-            //                     label : 'In Stock',
-            //                     backgroundColor : 'rgb(34, 139, 134)',
-            //                     color : '#fff',
-            //                     data:instock
-            //                 },
-            //                 {
-            //                     label : 'Quantity Reduced',
-            //                     backgroundColor : 'rgb(205,92,92)',
-            //                     color : '#fff',
-            //                     data:reductions
-            //                 }
-            //             ]   
-            //         };
-
-            //         var group_chart3 = $('#bar_chart');
-
-            //         if(production_chart)
-            //         {
-            //             production_chart.destroy();
-            //         }
-
-            //         production_chart = new Chart(group_chart3, {
-            //             type:'bar',
-            //             data:chart_data,
-            //             options: {
-            //                 maintainAspectRatio: true,
-            //                 responsive: true,
-            //                 plugins: {
-            //                     datalabels: { // This code is used to display data values
-            //                         color: 'black',
-            //                         anchor: 'auto',
-            //                         align: 'top',
-            //                         formatter: Math.round,
-            //                         //                                     formatter: function(value, context) {
-            //                         //   return context.dataset.label + ': ' + value + '%';
-            //                         // },
-            //                         font: {
-            //                             weight: 'normal',
-            //                             size: 12
-            //                         },
-            //                         minRotation: 0,
-            //                         maxRotation: 90,
-            //                     }
-            //                 }
-            //             },
-            //             plugins: [{
-            //                 afterDatasetsDraw: ((chart, args, plugins) => {
-            //                     const {ctx, data, chartArea: {top, bottom, left, right, width, height}} = chart;
-            //                         // console.log(data)
-            //                     ctx.save();
-                                
-            //                     if (totalQuantity.length === 0 && instock.length === 0 && reductions.length === 0) {
-            //                         // console.log('ahah')
-            //                         chart.options.scales.y.display = false;
-            //                         ctx.fillStyle = 'rgba(255, 255, 255, 1)';
-            //                         ctx.fillRect(left, top, width, height);
-
-            //                         ctx.font = '20px sans-serif';
-            //                         ctx.fillStyle = 'black';
-            //                         ctx.textAlign = 'center';
-            //                         ctx.fillText('No Data Available', left + width / 2, top + height / 2);
-            //                     }
-
-            //                 }),
-                            
-            //             }] 
-            //         });
-            //     }
-            // });
 
             //second table
             var dataTable = $('#second_table').DataTable({
@@ -617,106 +475,8 @@
                     });
                 }
             });
+     
 
-            // //third table
-            // var dataTable = $('#third_table').DataTable({
-            //     info: false,
-            //     paging: false,
-            //     filter: false,
-            //     stateSave: true,
-            //     "processing" : true,
-            //     "serverSide" : true, //serverside
-            //     "order" : [], //enables table ordering
-            //     "ajax" : {
-            //         url:"../action/reports_action.php",
-            //         type:"POST",
-            //         data:{action:'breed', start_date:start_date, end_date:end_date}
-            //     },
-            //     "drawCallback" : function(settings)
-            //     {
-                    
-            //         var breedType = [];
-            //         var instock = [];
-                    
-            //         for(var count = 0; count < settings.aoData.length; count++)
-            //         {
-            //             breedType.push(settings.aoData[count]._aData[0]);
-            //             instock.push(parseFloat(settings.aoData[count]._aData[1]));
-            //         }
-
-            //         var chart_data = {
-            //             labels: breedType,
-            //             datasets: [
-            //                 {
-            //                     label: 'Breed In Stock',
-            //                     backgroundColor: [
-            //                         'rgba(153, 102, 255)', 
-            //                         'rgba(255, 99, 132)', 
-            //                         'rgba(255, 159, 64)', 
-            //                         'rgba(255, 205, 86)', 
-            //                         'rgba(75, 192, 192)'
-            //                     ],
-            //                     color: '#fff',
-            //                     data: instock
-            //                 }
-            //             ],
-
-            //         };
-                    
-            //         var group_chart3 = $('#third_chart');
-
-            //         if(third_chart)
-            //         {
-            //             third_chart.destroy();
-            //         }
-
-            //         third_chart = new Chart(group_chart3, {
-            //             type:'bar',
-            //             data:chart_data,
-            //             options: {
-            //                 maintainAspectRatio: true,
-            //                 responsive: true,
-            //                 plugins: {
-            //                     datalabels: { // This code is used to display data values
-            //                         color: 'black',
-            //                         anchor: 'auto',
-            //                         align: 'top',
-            //                         formatter: Math.round,
-            //                         //                                     formatter: function(value, context) {
-            //                         //   return context.dataset.label + ': ' + value + '%';
-            //                         // },
-            //                         font: {
-            //                             weight: 'normal',
-            //                             size: 12
-            //                         },
-            //                         minRotation: 0,
-            //                         maxRotation: 90,
-            //                     }
-            //                 }
-            //             },
-            //             plugins: [{
-            //                 afterDatasetsDraw: ((chart, args, plugins) => {
-            //                     const {ctx, data, chartArea: {top, bottom, left, right, width, height}} = chart;
-            //                         // console.log(data)
-            //                     ctx.save();
-                                
-            //                     if (instock.length === 0) {
-            //                         // console.log('ahah')
-            //                         chart.options.scales.y.display = false;
-            //                         ctx.fillStyle = 'rgba(255, 255, 255, 1)';
-            //                         ctx.fillRect(left, top, width, height);
-
-            //                         ctx.font = '20px sans-serif';
-            //                         ctx.fillStyle = 'black';
-            //                         ctx.textAlign = 'center';
-            //                         ctx.fillText('No Data Available', left + width / 2, top + height / 2);
-            //                     }
-
-            //                 })
-            //             }] 
-            //         });
-            //     }
-            // });
         }
         
         $('#daterange_textbox').daterangepicker({

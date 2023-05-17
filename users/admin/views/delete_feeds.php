@@ -48,11 +48,6 @@
             
             if($stmt = $conn->prepare($sql))
             {
-                // Bind variables to the prepared statement as parameters
-                // $stmt->bindParam(":archived", $param_archived, PDO::PARAM_STR);
-                
-                // Set parameters
-                // $param_archived = $archived;
 
                 // Attempt to execute the prepared statement
                 if($stmt->execute())
@@ -95,11 +90,6 @@
                     <div class="text-center">Are you sure you want to restore this record?</div>
                 </div>
                 <div class="card-body p-4">
-                    <!-- Feed ID -->
-                    <!-- <div class="mb-3">
-                        <p class="fw-bold">Feed ID: <span class="fw-normal ps-2"><?php echo $transaction_ID; ?></span></p>
-                    </div> -->
-
                     <!-- Feed Name -->
                     <div class="mb-3">
                         <p class="fw-bold">Feed Name: <span class="fw-normal ps-2"><?php echo $feedName; ?></span></p>

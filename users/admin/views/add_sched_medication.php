@@ -195,23 +195,6 @@
                             <span class="text-danger" style="font-size: 13px;">  <?php echo $notes_err; ?> </span>
                         </div>
 
-                        <!-- STATUS
-                        <div class="form-group mb-3">
-                            <label for="status" class="mb-2 text-dark">Status</label>
-                            <select class="form-select" name="status">
-                                <option value=" echo $status; ?>">
-                                    
-                                    if(!empty($status)){
-                                        echo $status;
-                                    }else{
-                                        echo "- select a status  -";
-                                    }
-                                ?>
-                                <option value="completed">completed</option>
-                                <option value="pending">pending</option>
-                            </select>
-                            <span class="text-danger" style="font-size: small;">  echo $status_err; ?> </span>
-                        </div> -->
                         <input type="hidden" value="pending" name="status">
                     </div>   
                     

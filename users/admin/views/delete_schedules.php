@@ -54,11 +54,6 @@
             
             if($stmt = $conn->prepare($sql))
             {
-                // Bind variables to the prepared statement as parameters
-                // $stmt->bindParam(":archived", $param_archived, PDO::PARAM_STR);
-                
-                // Set parameters
-                // $param_archived = $archived;
 
                 // Attempt to execute the prepared statement
                 if($stmt->execute())

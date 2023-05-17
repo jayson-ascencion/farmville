@@ -106,10 +106,6 @@
                                 </div>
                             </div>
                             
-                            <!-- Submit Button
-                            <div class="form-group mb-3">
-                                <button type="submit" name="submit" class="btn btn-primary float-end px-4">Add</button>
-                            </div> -->
                             
                         </div>   
                         

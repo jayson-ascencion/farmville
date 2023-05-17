@@ -95,11 +95,6 @@
                 <div class="card-header text-center fw-bold p-3" style="background-color: #FFAF1A; color: #91452c">Are you sure you want to delete this record?</div>
                     <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST">
                         <div class="card-body p-4">
-                            <!-- <div class="card-title mb-3 fw-bold">Are you sure you want to delete this record?</div> -->
-                            <!-- egg batch id -->
-                            <!-- <div class="mb-3">
-                                <p class="fw-bold">Egg Collection ID: <span class="fw-normal ps-2"><?php echo $collection_ID; ?></span></p>
-                            </div> -->
 
                             <!-- egg Size -->
                             <div class="mb-3">
@@ -171,18 +166,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="card-footer w-100 border d-flex justify-content-between">
-                            <div class="w-100 m-1">
-                                <a class="small btn btn-outline-secondary fw-bold w-100" href="./egg_production.php">
-                                    Cancel
-                                </a> 
-                            </div>
-                            <div class="w-100 m-1">
-                                <button type="submit" name="archiveRecord" class="btn btn-outline-success fw-bold w-100">
-                                Restore
-                                </button>                                    
-                            </div>
-                        </div> -->
                     </form>
             </div>
         </div>

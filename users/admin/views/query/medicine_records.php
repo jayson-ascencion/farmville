@@ -21,10 +21,6 @@
                         // echo "<th>Reduction Type</th>";
                         echo "<th>Date Added</th>";
                         echo "<th>Expiration Date</th>";
-                        // echo "<th>Starting Quantity</th>";
-                        // echo "<th>In Stock</th>";
-                        // echo "<th>Date Added</th>";
-                        // echo "<th>Expiration Date</th>";
                         echo "<th>Action</th>";
                     echo "</tr>";
                 echo "</thead>";
@@ -61,18 +57,6 @@
                         // echo "<td>" . $row['medicineBrand'] . "</td>";
                         echo "<td>" . $row['quantity'] . "</td>";
                         echo "<td>" . $row['transactionDate'] . "</td>";
-                        // echo "<td>" . $row['expirationDate'] . "</td>";
-                        // if($row['inStock'] < 5){
-                        //     echo "<td>" . $row['inStock'] . '<span data-bs-toggle="tooltip" data-bs-placement="left" data-bs-custom-class="tooltip-expired" data-bs-title="Low In Stock"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-arrow-down-short" viewBox="0 0 16 16">
-                        //     <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4z"/>
-                        //   </svg></span>' . "</td>";
-                        // }else{
-                        //     echo "<td>" . $row['inStock'] . '<span data-bs-toggle="tooltip" data-bs-placement="left" data-bs-custom-class="tooltip-expired" data-bs-title="In Stock"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green" class="bi bi-arrow-up-short" viewBox="0 0 16 16">
-                        //     <path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5z"/>
-                        //   </svg></span>' . "</td>";
-                        //     //echo "<td>" . $row['inStock'] . "</td>";
-                        // }
-                        // echo "<td data-sort='". $dateAddedSort ."'>" . $dateAddedFormatted . "</td>"; //display format of date, doesnt affect the database
                         //if days is lesser than or equals to zero, then the medicine is expired
                         if($days < 1){
                             echo "<td data-sort='". $expDateSort ."'>" . $expDateFormatted .
@@ -135,10 +119,6 @@
                         // echo "<th>Reduction Type</th>";
                         echo "<th>Date Added</th>";
                         echo "<th>Expiration Date</th>";
-                        // echo "<th>Starting Quantity</th>";
-                        // echo "<th>In Stock</th>";
-                        // echo "<th>Date Added</th>";
-                        // echo "<th>Expiration Date</th>";
                         echo "<th>Action</th>";
                     echo "</tr>";
                 echo "</thead>";

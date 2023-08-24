@@ -10,18 +10,18 @@
     $id = $_REQUEST['id'];
     
     //statement to select the specific schedule to update
-    $sql = "SELECT * FROM medicines WHERE medicine_ID = '$id'";
+    $sql = "SELECT * FROM medicinetransaction WHERE transaction_ID = '$id'";
     $stmt = $conn->query($sql);
     if($stmt){
         if($stmt->rowCount() > 0){
             while($row = $stmt->fetch()){
-                $medicineType = $row['medicineType'];
+                // $medicineType = $row['medicineType'];
                 $medicineName = $row['medicineName'];
-                $medicineBrand = $row['medicineBrand'];
-                $medicineFor = $row['medicineFor'];
-                $startingQuantity = $row['startingQuantity'];
-                $inStock = $row['inStock'];
-                $dateAdded = $row['dateAdded'];
+                // $medicineBrand = $row['medicineBrand'];
+                // $medicineFor = $row['medicineFor'];
+                // $startingQuantity = $row['startingQuantity'];
+                $quantity = $row['quantity'];
+                $dateAdded = $row['transactionDate'];
                 $expirationDate = $row['expirationDate'];
             }
             // Free result set
@@ -41,11 +41,13 @@
             $id = $_POST['id'];
                 $archived = 'archived';
 
-            // Prepare an insert statement
-            $sql = "UPDATE medicines m
-                    LEFT JOIN medicinereduction mr ON m.medicine_ID = mr.medicine_ID
-                    SET m.archive=:archived, mr.archive=:archived 
-                    WHERE m.medicine_ID = '$id'";
+            // Prepare an insert statement UPDATE medicines m
+                    // LEFT JOIN medicinereduction mr ON m.medicine_ID = mr.medicine_ID
+                    // SET m.archive=:archived, mr.archive=:archived 
+                    // WHERE m.medicine_ID = '$id'
+            $sql = "UPDATE medicinetransaction
+                    SET archive=:archived 
+                    WHERE transaction_ID = '$id'";
             
             if($stmt = $conn->prepare($sql))
             {
@@ -86,14 +88,14 @@
         <li class="breadcrumb-item">
             <a href="./medicines.php" style="text-decoration: none">Medicine Inventory</a>
         </li>
-        <li class="breadcrumb-item active">Medicine Details</li>
+        <li class="breadcrumb-item active">Archive Medicine</li>
     </ol>
 
     <div class="row justify-content-center mt-2">
         <div class="col-sm-4">
             <div class="card bg-light shadow-lg mb-4 ">
                 <div class="card-header text-center fw-bold p-3" style="background-color: #FFAF1A; color: #91452c">
-                    <div class="text-center">Are you sure you want to delete this record?</div>
+                    <div class="text-center">Are you sure you want to archive this record?</div>
                 </div>
 
                 <div class="card-body p-4">
@@ -103,29 +105,29 @@
                     </div>
 
                     <!-- egg Size -->
-                    <div class="mb-3">
+                    <!-- <div class="mb-3">
                         <p class="fw-bold">Medicine Type: <span class="fw-normal ps-2"><?php echo $medicineType; ?></span></p>
-                    </div>
+                    </div> -->
             
                     <!-- Quantity -->
-                    <div class="mb-3">
+                    <!-- <div class="mb-3">
                         <p class="fw-bold">Medicine Brand: <span class="fw-normal ps-2"><?php echo $medicineBrand; ?></span></p>
-                    </div>
+                    </div> -->
 
                     <!-- Collection Type -->
-                    <div class="mb-3">
+                    <!-- <div class="mb-3">
                         <p class="fw-bold">Medicine For: <span class="fw-normal ps-2"><?php echo $medicineFor; ?></span></p>
-                    </div>
+                    </div> -->
 
                     
                     <!-- Collection Date -->
-                    <div class="mb-3">
+                    <!-- <div class="mb-3">
                         <p class="fw-bold">Starting Quantity: <span class="fw-normal ps-2"><?php echo $startingQuantity; ?></span></p>
-                    </div>
+                    </div> -->
                         
                     <!-- Note -->
                     <div class="mb-3">
-                        <p class="fw-bold">In Stock: <span class="fw-normal ps-2"><?php echo $inStock; ?></span></p>
+                        <p class="fw-bold">Quantity: <span class="fw-normal ps-2"><?php echo $quantity; ?></span></p>
                     </div>
 
                         <!-- Note -->

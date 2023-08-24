@@ -18,7 +18,8 @@ try{
         $quantity = $_POST['quantity'];
         $reductionType = $_POST['reductionType'];
         $dateReduced = $_POST['dateReduced'];
-    
+        $user_ID = $_SESSION['user_ID'];
+
         //validate coop number and only accept numeric input
         if (!empty(trim($medicine_ID))) {  
             //statement to select the all the medicine names
@@ -87,7 +88,7 @@ try{
         if(empty($medicine_ID_err) && empty($quantity_err) && empty($reductionType_err) && empty($dateReduced_err)){
 
            // Prepare an insert statement
-           $sql = "INSERT INTO medicinereduction (medicine_ID, medicineName, quantity, reductionType, dateReduced) VALUES (:medicine_ID, :medicineName, :quantity, :reductionType, :dateReduced)";
+           $sql = "INSERT INTO medicinetransaction (medicine_ID, medicineName, quantity, reductionType, transactionDate, user_ID) VALUES (:medicine_ID, :medicineName, :quantity, :reductionType, :dateReduced, :user_ID)";
          
            if($stmt = $conn->prepare($sql))
            {
@@ -97,6 +98,7 @@ try{
                $stmt->bindParam(":quantity", $param_quantity, PDO::PARAM_STR);
                $stmt->bindParam(":reductionType", $param_reductionType, PDO::PARAM_STR);
                $stmt->bindParam(":dateReduced", $param_dateReduced, PDO::PARAM_STR);
+               $stmt->bindParam(":user_ID", $param_user_ID, PDO::PARAM_STR);
 
                // Set parameters
                $param_medicine_ID = $medicine_ID;
@@ -104,6 +106,7 @@ try{
                $param_quantity = $quantity;
                $param_reductionType = $reductionType;
                $param_dateReduced = $dateReduced;
+               $param_user_ID = $user_ID;
                // Attempt to execute the prepared statement
                if($stmt->execute())
                {

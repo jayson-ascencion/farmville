@@ -30,18 +30,23 @@
 
                                 $id = $_REQUEST['id'];
                                 
-                                //statement to select the specific schedule to update
-                                $sql = "SELECT * FROM chickenreduction WHERE reduction_ID = '$id'";
+                                //statement to get the old quantity
+                                $sql = "SELECT * FROM chickentransaction WHERE transaction_ID = '$id'";
                                 $stmt = $conn->query($sql);
+                            
                                 if($stmt){
                                     if($stmt->rowCount() > 0){
                                         while($row = $stmt->fetch()){
+                                            //collect data from the form
                                             $chickenBatch_ID = $row['chickenBatch_ID'];
                                             $coopNumber = $row['coopNumber'];
                                             $batchName = $row['batchName'];
                                             $quantity = $row['quantity'];
-                                            $reductionType = $row['reductionType'];
-                                            $dateReduced = $row['dateReduced'];
+                                            $reductionType = $row['dispositionType'];
+                                            $note = $row['note'];
+                                            $sex = $row['sex'];
+                                            // $dateString = strtotime($row['transactionDate']);
+                                            $dateReduced = $row['transactionDate']; //date('F d, Y',$dateString); //$row['dateReduced'];
                                         }
                                         // Free result set
                                         unset($result);
@@ -132,6 +137,7 @@
 
                         </div> 
                         <input type="hidden" name="coopNumber" value="<?php echo $coopNumber; ?>"/>
+                        <input type="hidden" name="sex" value="<?php echo $sex; ?>"/>
                         <input type="hidden" name="chickenBatch_ID" value="<?php echo $chickenBatch_ID; ?>"/>
                         <input type="hidden" name="id" value="<?php echo $id; ?>"/>
                         <div class="card-footer w-100 border d-flex justify-content-between">

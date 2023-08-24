@@ -6,37 +6,21 @@
     //database connection
     include('../../../config/database_connection.php');
 
-    // $sql = "SELECT cp.chickenBatch_ID, cp.coopNumber, cp.batchName, cp.breedType, cp.startingQuantity, SUM(COALESCE(cp.instock,0)) as instock, DATE_FORMAT(cp.dateAcquired, '%M %d') as acquiredDate, SUM(COALESCE(cr.quantity,0)) as totalReductions FROM chickenproduction cp LEFT JOIN chickenreduction cr ON cp.chickenBatch_ID = cr.chickenBatch_ID WHERE dateAcquired BETWEEN CURDATE() - INTERVAL 6 DAY AND CURDATE() AND cp.archive = 'not archived' GROUP BY acquiredDate";
-    $sql = "SELECT cp.chickenBatch_ID, cp.coopNumber, cp.batchName, cp.breedType, cp.startingQuantity, SUM(COALESCE(cp.instock,0)) as instock, DATE_FORMAT(cp.dateAcquired, '%M %d') as acquiredDate, SUM(COALESCE(cr.quantity,0)) as totalReductions FROM chickenproduction cp LEFT JOIN chickenreduction cr ON cp.chickenBatch_ID = cr.chickenBatch_ID WHERE dateAcquired = CURDATE() AND cp.archive = 'not archived' GROUP BY acquiredDate";
-    // SELECT chickenBatch_ID, coopNumber, batchName, breedType, startingQuantity, SUM(COALESCE(instock,0)) as instock, DATE_FORMAT(dateAcquired, '%M %d') as acquiredDate 
-    // FROM chickenproduction WHERE dateAcquired BETWEEN CURDATE() - INTERVAL 6 DAY AND CURDATE() GROUP BY acquiredDate
-    // SELECT cp.chickenBatch_ID, cp.coopNumber as cpCoop, cp.batchName, cp.breedType, cp.startingQuantity, SUM(COALESCE(cp.inStock, 0)) as instock, DATE_FORMAT(cp.dateAcquired, '%M %d') AS acquiredDate, DATE_FORMAT(COALESCE((cr.dateReduced),'0000-00-00'), '%M %d') as dateReduced, cr.coopNumber as crCoop, COALESCE(SUM(cr.quantity),0) as totalReductions
-    // FROM chickenproduction cp LEFT JOIN chickenreduction cr ON cp.chickenBatch_ID = cr.chickenBatch_ID
-    // WHERE dateAcquired BETWEEN CURDATE() - INTERVAL 6 DAY AND CURDATE()  AND cp.archive = 'not archived' AND cr.archive = 'not archived'
-    // GROUP BY acquiredDate
-    //- INTERVAL 6 DAY AND CURDATE() AND cp.archive = 'not archived' AND cr.archive = 'not archived' AND CURDATE()
-    //"SELECT SUM(COALESCE(inStock, 0)) as instock, batchName, DATE_FORMAT(dateAcquired, '%M-%d-%Y') AS acquiredDate FROM chickenproduction WHERE dateAcquired BETWEEN CURDATE() - INTERVAL 7 DAY AND CURDATE() GROUP BY acquiredDate";
+    //statement get the last 7 days
+    $sql = "SELECT SUM(COALESCE(inStock,0)) as inStock, breedType FROM chickenproduction GROUP BY breedType";
     $stmt = $conn->query($sql);
-     if($stmt){
-            $oneweek = array();
-            $oneweekDataset = array();
-            $oneweekDatasetReduction = array();
-            $lastdaysBatch = array();
-         if($stmt->rowCount() > 0){
+    if($stmt){
+        if($stmt->rowCount() > 0){
+            $breedTypes = array();
+            $inStock = array();
+            // $females = array();
             while($row = $stmt->fetch()){
-                $oneweek[] = $row['acquiredDate'];
-                $oneweekDataset[] = $row['instock'];
-                $oneweekDatasetReduction[] = $row['totalReductions'];
-                $lastdaysBatch[] = $row['batchName'];
-                // $startingQ[] = $row['startingQuantity'];
+                // $breedTypes[] = $row['acquiredDate'];
+                $breedTypes[] = $row['breedType'];
+                $inStock[] = $row['inStock'];
+                // $females[] = $row['female'];
             }
         }
-        // else{
-        //         $oneweek[] = date('M d');
-        //         $oneweekDataset[] = 0;
-        //         $oneweekDatasetReduction[] = 0;
-        //         $lastdaysBatch[] = 'no data';
-        // }
             // Free result set
             unset($stmt);
     }
@@ -44,104 +28,8 @@
         echo "Oops! Something went wrong. Please try again later.";
     }
 
-    $sql = "WITH all_breedTypes AS ( SELECT 'Sussex' as breedType UNION SELECT 'Rhode Island Reds' UNION SELECT 'Leghorns' UNION SELECT 'Plymouth') 
-            SELECT all_breedTypes.breedType, SUM(COALESCE(chickenproduction.inStock, 0)) as instock 
-            FROM all_breedTypes LEFT JOIN chickenproduction ON all_breedTypes.breedType = chickenproduction.breedType 
-            AND dateAcquired = CURDATE() AND chickenproduction.archive = 'not archived' GROUP BY all_breedTypes.breedType";
-    // $sql = "WITH all_breedTypes AS ( SELECT 'Sussex' as breedType UNION SELECT 'Rhode Island Reds' UNION SELECT 'Leghorns' UNION SELECT 'Plymouth') 
-    //         SELECT all_breedTypes.breedType, SUM(COALESCE(chickenproduction.inStock, 0)) as instock 
-    //         FROM all_breedTypes LEFT JOIN chickenproduction ON all_breedTypes.breedType = chickenproduction.breedType 
-    //         AND dateAcquired BETWEEN CURDATE() - INTERVAL 6 DAY AND CURDATE() AND chickenproduction.archive = 'not archived' GROUP BY all_breedTypes.breedType";
-            //- INTERVAL 6 DAY AND CURDATE() AND chickenproduction.archive = 'not archived' AND CURDATE()
-        // SELECT breedType, SUM(COALESCE(inStock, 0)) as instock
-		// FROM chickenproduction 
-        // WHERE dateAcquired BETWEEN CURDATE() - INTERVAL 6 DAY AND CURDATE()
-        // GROUP BY breedType
-    //"SELECT SUM(COALESCE(inStock, 0)) as instock, batchName, DATE_FORMAT(dateAcquired, '%M-%d-%Y') AS acquiredDate FROM chickenproduction WHERE dateAcquired BETWEEN CURDATE() - INTERVAL 7 DAY AND CURDATE() GROUP BY acquiredDate";
+    $sql = "SELECT eggSize, SUM(COALESCE(inStock, 0)) as instock FROM eggproduction GROUP BY eggSize";
     $stmt = $conn->query($sql);
-     if($stmt){
-         if($stmt->rowCount() > 0){
-            $breed = array();
-            // $instock = array();
-            $sussex = 0;
-            $rhode = 0;
-            $plymouth = 0;
-            $leghorns = 0;
-            while($row = $stmt->fetch()){
-                if($row['breedType'] == 'Sussex'){
-                    $sussex = $row['instock'];
-                    $breed['Sussex'] = $sussex;
-                }
-                else if($row['breedType'] == 'Rhode Island Reds'){
-                    $rhode = $row['instock'];
-                    $breed['Rhode Island Reds'] = $rhode;
-                }
-                else if($row['breedType'] == 'Plymouth'){
-                    $plymouth = $row['instock'];
-                    $breed['Plymouth'] = $plymouth;
-                }
-                else if($row['breedType'] == 'Leghorns'){
-                    $leghorns = $row['instock'];
-                    $breed['Leghorns'] = $leghorns;
-                }
-            }
-        }
-        // else{
-        //     $sussex = 0;
-        //     $rhode = 0;
-        //     $leghorns = 0;
-        //     $plymouth = 0;
-        // }
-            // Free result set
-            unset($stmt);
-            // print_r($breed);
-    }
-    else{
-        echo "Oops! Something went wrong. Please try again later.";
-    }
-
-    // $sql = "SELECT eggSize, SUM(COALESCE(quantity, 0)) as instock FROM eggproduction
-    // WHERE collectionDate BETWEEN CURDATE() - INTERVAL 6 DAY AND CURDATE()
-    // GROUP BY eggSize";
-    $sql = "WITH all_egg_sizes AS ( SELECT 'XS' as eggSize UNION SELECT 'S' UNION SELECT 'M' UNION SELECT 'L' UNION SELECT 'XL' )
-SELECT all_egg_sizes.eggSize, SUM(COALESCE(eggproduction.quantity, 0)) as instock FROM all_egg_sizes
-LEFT JOIN eggproduction ON all_egg_sizes.eggSize = eggproduction.eggSize
-AND collectionDate = CURDATE() AND eggproduction.archive = 'not archived'
-GROUP BY all_egg_sizes.eggSize";
-//     $sql = "WITH all_egg_sizes AS ( SELECT 'XS' as eggSize UNION SELECT 'S' UNION SELECT 'M' UNION SELECT 'L' UNION SELECT 'XL' )
-// SELECT all_egg_sizes.eggSize, SUM(COALESCE(eggproduction.quantity, 0)) as instock FROM all_egg_sizes
-// LEFT JOIN eggproduction ON all_egg_sizes.eggSize = eggproduction.eggSize
-// AND collectionDate BETWEEN CURDATE() - INTERVAL 6 DAY AND CURDATE() AND eggproduction.archive = 'not archived'
-// GROUP BY all_egg_sizes.eggSize";
-//- INTERVAL 6 DAY AND CURDATE() AND eggproduction.archive = 'not archived' AND CURDATE()
-    //"SELECT SUM(COALESCE(inStock, 0)) as instock, batchName, DATE_FORMAT(dateAcquired, '%M-%d-%Y') AS acquiredDate FROM chickenproduction WHERE dateAcquired BETWEEN CURDATE() - INTERVAL 7 DAY AND CURDATE() GROUP BY acquiredDate";
-    $stmt = $conn->query($sql);
-    // if($stmt){
-    //     if($stmt->rowCount() > 0){
-    //         $size = array();
-    //         // $quantity = array();
-    //         while($row = $stmt->fetch()){
-    //             if($row['eggSize'] == 'XS'){
-    //                 $xsmall = $row['instock'];
-    //                 $size['XS'] = $xsmall;
-    //             }else if($row['eggSize'] == 'S'){
-    //                 $small = $row['instock'];
-    //                 $size['S'] = $small;
-    //             }else if($row['eggSize'] == 'M'){
-    //                 $medium = $row['instock'];
-    //                 $size['M'] = $medium;
-    //             }else if($row['eggSize'] == 'L'){
-    //                 $large = $row['instock'];
-    //                 $size['L'] = $large;
-    //             }else if($row['eggSize'] == 'XL'){
-    //                 $xlarge = $row['instock'];
-    //                 $size['XL'] = $xlarge;
-    //             }
-    //         }
-    //     }
-    //         // Free result set
-    //         unset($stmt);
-    // }
     $size = array();
     if($stmt && $stmt->rowCount() > 0){
         while($row = $stmt->fetch()){
@@ -167,34 +55,27 @@ GROUP BY all_egg_sizes.eggSize";
         echo "Oops! Something went wrong. Please try again later.";
     }
 
-    $sql = "SELECT DATE_FORMAT(ep.collectionDate, '%M %d') AS collectionDate, ep.eggSize, SUM(COALESCE(ep.quantity,0)) as totalQuantity, SUM(COALESCE(er.quantity,0)) as totalReductions 
-		FROM eggproduction ep 
-		LEFT JOIN eggreduction er ON ep.eggBatch_ID = er.eggBatch_ID 
-        WHERE collectionDate = CURDATE() AND ep.archive = 'not archived'
-        GROUP BY ep.eggBatch_ID, ep.collectionDate";
-    // $sql = "SELECT DATE_FORMAT(ep.collectionDate, '%M %d') AS collectionDate, ep.eggSize, SUM(COALESCE(ep.quantity,0)) as totalQuantity, SUM(COALESCE(er.quantity,0)) as totalReductions 
-	// 	FROM eggproduction ep 
-	// 	LEFT JOIN eggreduction er ON ep.eggBatch_ID = er.eggBatch_ID 
-    //     WHERE collectionDate BETWEEN CURDATE() - INTERVAL 6 DAY AND CURDATE() AND ep.archive = 'not archived'
-    //     GROUP BY ep.eggBatch_ID, ep.collectionDate";
-        //- INTERVAL 6 DAY AND CURDATE() AND ep.archive = 'not archived' AND er.archive = 'not archived' AND CURDATE()
-    //"SELECT SUM(COALESCE(inStock, 0)) as instock, batchName, DATE_FORMAT(dateAcquired, '%M-%d-%Y') AS acquiredDate FROM chickenproduction WHERE dateAcquired BETWEEN CURDATE() - INTERVAL 7 DAY AND CURDATE() GROUP BY acquiredDate";
+    $sql = "SELECT eggSize, inStock 
+    FROM eggproduction
+    ";
     $stmt = $conn->query($sql);
     if($stmt){
         if($stmt->rowCount() > 0){
-            $collectionDate = array();
-            $totalQuantity = array();
-            $totalReductions = array();
+            $eggSize = array();
             while($row = $stmt->fetch()){
-                $collectionDate[] = $row['collectionDate'];
-                $totalQuantity[] = $row['totalQuantity'];
-                $totalReductions[] = $row['totalReductions'];
+                $eggSize[] = $row['eggSize'];
+                if($row['eggSize'] == 'XS'){
+                    $extraS = $row['inStock'];
+                }else if($row['eggSize'] == 'S'){
+                    $small = $row['inStock'];
+                }else if($row['eggSize'] == 'M'){
+                    $medium = $row['inStock'];
+                }else if($row['eggSize'] == 'L'){
+                    $large = $row['inStock'];
+                }else if($row['eggSize'] == 'XL'){
+                    $extraL = $row['inStock'];
+                }
             }
-        }
-        else{
-            $collectionDate[] = '';
-                $totalQuantity[] = '';
-                $totalReductions[] = '';
         }
             // Free result set
             unset($stmt);
@@ -202,7 +83,6 @@ GROUP BY all_egg_sizes.eggSize";
     else{
         echo "Oops! Something went wrong. Please try again later.";
     }
-
 ?>
 
 <!-- content --> 
@@ -213,14 +93,17 @@ GROUP BY all_egg_sizes.eggSize";
     </ol>
     <!-- CHICKEN DASHBOARD -->
     <div class="row mb-2">
+        <?php 
+        for ($i = 0; $i < count($breedTypes); $i++) {
+        ?>
         <div class="col-xl-3 col-md-6 col-sm-6 mb-2">
             <div class="card bg-white rounded h-100 rounded-3 border-2 shadow" style="border-color: #DC143C">
                 <div class="card-body m-2">
                     <div class="fs-3 fw-bold float-end">
-                        <?php echo $sussex?>
+                        <?php echo $inStock[$i]?>
                     </div>
                     <div>
-                        <h5 class="card-subtitle text-muted">Sussex</h5>
+                        <h5 class="card-subtitle text-muted"><?php echo $breedTypes[$i]?></h5>
                     </div>
                     <a href="./reports_chicken.php" class="card-link text-decoration-none pt-5 opacity-75" style="font-size: 15px">View More In Report
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
@@ -230,60 +113,20 @@ GROUP BY all_egg_sizes.eggSize";
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6 col-sm-6 mb-2">
-            <div class="card bg-white h-100  rounded rounded-3  border-2 shadow" style="border-color: #DC143C">
-                <div class="card-body m-2 ">
-                    <div class="fs-3 fw-bold float-end">
-                        <?php echo $rhode?>
-                    </div>
-                    <div>
-                        <h5 class="card-subtitle text-muted">Rhode Island Reds</h5>
-                    </div>
-                    <a href="./reports_chicken.php" class="card-link text-decoration-none pt-5 opacity-75" style="font-size: 15px">View More In Report
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-md-6 col-sm-6 mb-2">
-            <div class="card bg-white h-100  rounded rounded-3 border-2 shadow " style="border-color: #DC143C">
-                <div class="card-body m-2">
-                    <div class="fs-3 fw-bold float-end">
-                        <?php echo $leghorns?>
-                    </div>
-                    <div>
-                        <h5 class="card-subtitle text-muted">Leghorns</h5>
-                    </div>
-                    <a href="./reports_chicken.php" class="card-link text-decoration-none pt-5 opacity-75" style="font-size: 15px">View More In Report
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-md-6 col-sm-6 mb-2">
-            <div class="card bg-white  h-100 rounded rounded-3 border-2 shadow " style="border-color: #DC143C">
-                <div class="card-body m-2">
-                    <div class="fs-3 fw-bold float-end">
-                        <?php echo $plymouth?>
-                    </div>
-                    <div>
-                        <h5 class="card-subtitle text-muted">Plymouth</h5> 
-                    </div>
-                    <a href="./reports_chicken.php" class="card-link text-decoration-none pt-5 opacity-75" style="font-size: 15px">View More In Report
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
-                        </svg>
-                    </a>
-                </div>
-                
-            </div>
-        </div>
+        <?php } ?>
     </div>
-    <div class="row mb-2">
+
+    <!-- <div class="card mt-3 shadow-lg">
+                        <div class="card-body">
+                            <div class="table-responsive m-1">
+                                <h5 class="text-center" style="color: rgb(100, 100, 100)">Quantity By Egg Size</h5>
+                                <div class="chart-container bar-chart">
+                                    <canvas id="bar_chart" height="100"> </canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+    <!-- <div class="row mb-2">
         <div class="col">
             <div class="card bg-white shadow border-2 rounded rounded-3"  style="border-color: #DC143C">
                 <div class="card-body text-center">
@@ -305,29 +148,23 @@ GROUP BY all_egg_sizes.eggSize";
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- EGG EGG EGG EGG -->
     <div class="row mb-2 mt-3">
-        <div class="col-xl-4 col-md-6 mb-2">
+        <div class="col mb-2">
             <div class="card border-warning bg-white shadow rounded border-2 rounded-3">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Eggs In Stock By Size</h5>
-                    <h6 class="card-subtitle mb-2 text-muted"> Current Day: <?php echo date("F d") ?> </h6>
-                    <div class="mb-2">
-                        <canvas id="eggSize_chart" height="200"></canvas>
-                    </div>
-                    <div class="float-center p-0 mt-1">
-                        <a href="./reports_egg.php" class="card-link text-decoration-none p-0 opacity-75" style="font-size: 15px">View More In Report
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
+            <div class="card-body">
+                            <div class="table-responsive m-1">
+                                <h5 class="text-center" style="color: rgb(100, 100, 100)">Quantity By Egg Size</h5>
+                                <div class="chart-container bar-chart">
+                                    <canvas id="bar_chart" height="100"> </canvas>
+                                </div>
+                            </div>
+                        </div>
             </div>
         </div>
         
-        <div class="col-xl-8 col-md-6 mb-2">
+        <!-- <div class="col-xl-8 col-md-6 mb-2">
             <div class="card border-warning bg-white shadow rounded border-2 rounded-3">
                 <div class="card-body text-center">
                     <h5 class="card-title">Egg Production and Reduction</h5>
@@ -344,7 +181,7 @@ GROUP BY all_egg_sizes.eggSize";
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 
     <div class="row mt-2 mb-2">
@@ -356,7 +193,7 @@ GROUP BY all_egg_sizes.eggSize";
                     </h5>
                     <?php
                     // Select all medicine administration schedules where status is pending and order by ascending
-                        $sql = "SELECT * FROM medicines WHERE archive='not archived' AND inStock < 10 ORDER BY medicine_ID ASC";
+                        $sql = "SELECT * FROM medicines WHERE inStock < 10 ORDER BY medicine_ID ASC";
                         $stmt = $conn->query($sql);
                         if($stmt){
                             if($stmt->rowCount() > 0){
@@ -428,7 +265,7 @@ GROUP BY all_egg_sizes.eggSize";
                     </h5>
                     <?php
                     // Select all medicine administration schedules where status is pending and order by ascending
-                        $sql = "SELECT * FROM medicines WHERE archive='not archived' AND DATEDIFF(expirationDate, NOW()) <=60 ORDER BY medicine_ID ASC";
+                        $sql = "SELECT * FROM medicines WHERE DATEDIFF(expirationDate, NOW()) <=60 ORDER BY medicine_ID ASC";
                         $stmt = $conn->query($sql);
                         if($stmt){
                             if($stmt->rowCount() > 0){
@@ -444,15 +281,15 @@ GROUP BY all_egg_sizes.eggSize";
                                     echo "<tbody>";
                                     while($row = $stmt->fetch()){
                                         //get dates from the row
-                                        $dateAdded = $row['dateAdded'];
+                                        // $dateAdded = $row['dateAdded'];
                                         $expirationDate = $row['expirationDate'];
 
                                         //store the expiration date inside another variable and user strotime
                                         $expDateSort = strtotime($row['expirationDate']);
-                                        $dateAddedSort = strtotime($row['dateAdded']);
+                                        // $dateAddedSort = strtotime($row['dateAdded']);
                                         //format the date
                                         $expDateFormatted = date("M. d, Y", $expDateSort);
-                                        $dateAddedFormatted = date("M. d, Y", $dateAddedSort);
+                                        // $dateAddedFormatted = date("M. d, Y", $dateAddedSort);
 
                                         //date_create is used to create DateTime object  https://blog.devgenius.io/how-to-find-the-number-of-days-between-two-dates-in-php-1404748b1e84?gi=f10f685035f3 / https://stackoverflow.com/questions/2040560/finding-the-number-of-days-between-two-dates
                                         $today = date_create(date('Y-m-d')); //generates current date
@@ -549,14 +386,14 @@ GROUP BY all_egg_sizes.eggSize";
                         Feeds Low In Stock
                     </h5>
                     <?php
-                        $sql = "SELECT * FROM feeds WHERE archive='not archived' AND inStock < 10 ORDER BY feed_ID ASC";
+                        $sql = "SELECT * FROM feeds WHERE inStock < 10 ORDER BY feed_ID ASC";
                         $stmt = $conn->query($sql);
                         if($stmt){
                             if($stmt->rowCount() > 0){
                                 echo '<table id="feedDashboard" class="table table-sm responsive border table-hover text-center rounded rounded-3 overflow-hidden" style="width: 100%">';
                                     echo "<thead class='text-white' style='background-color: #DC143C'>";
                                         echo "<tr>";
-                                            echo "<th>Feed ID</th>";
+                                            // echo "<th>Feed ID</th>";
                                             echo "<th>Feed Name</th>";
                                             echo "<th>In Stock</th>";
                                         echo "</tr>";
@@ -564,15 +401,15 @@ GROUP BY all_egg_sizes.eggSize";
                                     echo "<tbody>";
                                     while($row = $stmt->fetch()){
                                         //get dates from the row
-                                        $datePurchased = $row['datePurchased'];
+                                        // $datePurchased = $row['transactionDate'];
 
-                                        //store the expiration date inside another variable and user strotime
-                                        $dataSortExpD = strtotime($row['datePurchased']);
-                                        //format the date
-                                        $expDateFormatted = date("M. d, Y", $dataSortExpD);
+                                        // //store the expiration date inside another variable and user strotime
+                                        // $dataSortExpD = strtotime($row['transactionDate']);
+                                        // //format the date
+                                        // $expDateFormatted = date("M. d, Y", $dataSortExpD);
 
                                         echo "<tr>";
-                                            echo "<td>" . $row['feed_ID'] . "</td>";
+                                            // echo "<td>" . $row['feed_ID'] . "</td>";
                                             echo "<td>" . $row['feedName'] . "</td>";
                                             if($row['inStock'] < 10){
                                                 echo "<td>" . $row['inStock'] . '<span data-bs-toggle="tooltip" data-bs-placement="left" data-bs-custom-class="tooltip-expired" data-bs-title="Low In Stock"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-arrow-down-short" viewBox="0 0 16 16">
@@ -593,7 +430,7 @@ GROUP BY all_egg_sizes.eggSize";
                                 echo '<table id="feedDashboard" class="table table-sm responsive border table-hover text-center rounded rounded-3 overflow-hidden" style="width: 100%">';
                                 echo "<thead class='text-white' style='background-color: #DC143C'>";
                                     echo "<tr>";
-                                        echo "<th>Feed ID</th>";
+                                        // echo "<th>Feed ID</th>";
                                         echo "<th>Feed Name</th>";
                                         echo "<th>In Stock</th>";
                                     echo "</tr>";
@@ -636,16 +473,123 @@ GROUP BY all_egg_sizes.eggSize";
 <script>
     //To register it globally to all charts
     Chart.register(ChartDataLabels);
-    
-    //const last 7 days
-    const { oneweek, lastdaysBatch, oneweekDataset, oneweekDatasetReduction  } = {
-        oneweek: <?php echo json_encode($oneweek);?>,
-        lastdaysBatch: <?php echo json_encode($lastdaysBatch);?>,
-        oneweekDataset: <?php echo json_encode($oneweekDataset);?>,
-        oneweekDatasetReduction: <?php echo json_encode($oneweekDatasetReduction)?>,
-        // startingQ:  echo json_encode($startingQ)?>startingQ
+
+    const {eggSize, extraS, small, medium, large, extraL} = {
+        eggSize: <?php echo json_encode($eggSize);?>,
+        extraS: <?php echo json_encode($extraS);?>,
+        small: <?php echo json_encode($small);?>,
+        medium: <?php echo json_encode($medium);?>,
+        large: <?php echo json_encode($large);?>,
+        extraL: <?php echo json_encode($extraL);?>,
     };
-    const oneweeklabel = lastdaysBatch.map((batch, index) => `${batch} ${oneweek[index]}`);
+
+    const ctx3 = document.getElementById('bar_chart');
+            new Chart(ctx3, {
+                type: 'bar',
+                data: {
+                labels: eggSize,
+                datasets: [{
+                            label: 'Quantity',
+                            data: [extraS,small, medium, large, extraL],
+                            borderWidth: 1,
+                            backgroundColor: [
+                                '#F44336', 
+                                '#E91E63', 
+                                '#9C27B0', 
+                                '#673AB7', 
+                                '#3F51B5'
+                            // 'rgb(34, 139, 134)',
+                            ]
+                        },
+                        // {
+                        //     label: 'S',
+                        //     data: small,
+                        //     borderWidth: 1,
+                        //     backgroundColor: [
+                        //         '#f0d481'
+                        //     // 'rgb(255, 99, 132)',
+                        //     ]
+                        // },
+                        // {
+                        //     label: 'M',
+                        //     data: medium,
+                        //     borderWidth: 1,
+                        //     backgroundColor: [
+                        //         '#f0d481'
+                        //     // 'rgb(255, 99, 132)',
+                        //     ]
+                        // },
+                        // {
+                        //     label: 'L',
+                        //     data: large,
+                        //     borderWidth: 1,
+                        //     backgroundColor: [
+                        //         '#f0d481'
+                        //     // 'rgb(255, 99, 132)',
+                        //     ]
+                        // },
+                        // {
+                        //     label: 'XL',
+                        //     data: extraL,
+                        //     borderWidth: 1,
+                        //     backgroundColor: [
+                        //         '#f0d481'
+                        //     // 'rgb(255, 99, 132)',
+                        //     ]
+                        // }
+                    ]
+                },
+                options: {
+                    scales: {
+                        y: {
+                        beginAtZero: true
+                        }
+                    },
+                    maintainAspectRatio: true,
+                    rotation: 0,
+                    plugins: {
+                        datalabels: { // This code is used to display data values
+                            color: 'black',
+                            anchor: 'auto',
+                            align: 'top',
+                            formatter: Math.round,
+                            //                                     formatter: function(value, context) {
+                            //   return context.dataset.label + ': ' + value + '%';
+                            // },
+                            font: {
+                                weight: 'normal',
+                                size: 12
+                            },
+                            minRotation: 0,
+                            maxRotation: 90,
+                        }
+                    }
+                },
+                plugins: [{
+                    afterDatasetsDraw: ((chart, args, plugins) => {
+                    const {ctx, data, chartArea: {top, bottom, left, right, width, height}} = chart;
+
+                    ctx.save();
+                    
+                    if (data.datasets.length > 0) {
+                        // console.log(data.datasets.length)
+                        // console.log(data.datasets[0].data)
+                    if (data.datasets[0].data.every(item => Number(item) === 0) && data.datasets[1].data.every(item => Number(item) === 0)) {
+                        
+                        chart.options.scales.y.display = false;
+                        ctx.fillStyle = 'rgba(255, 255, 255, 1)';
+                        ctx.fillRect(left, top, width, height);
+
+                        ctx.font = '20px sans-serif';
+                        ctx.fillStyle = 'black';
+                        ctx.textAlign = 'center';
+                        ctx.fillText('No Data Available', left + width / 2, top + height / 2);
+                    }
+                    }
+
+                })
+                }]
+            });
 
     const {size} = {
         size: <?php echo json_encode($size);?>,
@@ -653,280 +597,272 @@ GROUP BY all_egg_sizes.eggSize";
     var eggSizes = Object.keys(size);
     var eggInstock = Object.values(size);
 
-    // console.log(eggInstock)
-    const {collectionDate, totalQuantity, totalReductions} = {
-        collectionDate: <?php echo json_encode($collectionDate);?>,
-        totalQuantity: <?php echo json_encode($totalQuantity);?>,
-        totalReductions: <?php echo json_encode($totalReductions);?>
-    };
-    // console.log(collectionDate)
-    // console.log(oneweeklabel)
-    const ctx = document.getElementById('chicken_chart');
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-        labels: oneweek,
-        datasets: [{
-                    label: 'In Stock',
-                    data: oneweekDataset,
-                    borderWidth: 1,
-                    backgroundColor: [
-                        '#DC143C',
-                    // 'rgb(34, 139, 134)',
-                    ]
-                }]
-        },
-        options: {
-            scales: {
-                y: {
-                beginAtZero: true
-                }
-            },
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                datalabels: { // This code is used to display data values
-                    color: 'black',
-                    anchor: 'auto',
-                    align: 'top',
-                    formatter: Math.round,
-                    //                                     formatter: function(value, context) {
-                    //   return context.dataset.label + ': ' + value + '%';
-                    // },
-                    font: {
-                        weight: 'normal',
-                        size: 12
-                    },
-                    minRotation: 0,
-                    maxRotation: 90,
-                }
-            }
-        },
-        plugins: [{
-            afterDatasetsDraw: ((chart, args, plugins) => {
-            const {ctx, data, chartArea: {top, bottom, left, right, width, height}} = chart;
+    // const ctx = document.getElementById('chicken_chart');
+    // new Chart(ctx, {
+    //     type: 'bar',
+    //     data: {
+    //     labels: oneweek,
+    //     datasets: [{
+    //                 label: 'In Stock',
+    //                 data: oneweekDataset,
+    //                 borderWidth: 1,
+    //                 backgroundColor: [
+    //                     '#DC143C',
+    //                 // 'rgb(34, 139, 134)',
+    //                 ]
+    //             }]
+    //     },
+    //     options: {
+    //         scales: {
+    //             y: {
+    //             beginAtZero: true
+    //             }
+    //         },
+    //         responsive: true,
+    //         maintainAspectRatio: false,
+    //         plugins: {
+    //             datalabels: { // This code is used to display data values
+    //                 color: 'black',
+    //                 anchor: 'auto',
+    //                 align: 'top',
+    //                 formatter: Math.round,
+    //                 //                                     formatter: function(value, context) {
+    //                 //   return context.dataset.label + ': ' + value + '%';
+    //                 // },
+    //                 font: {
+    //                     weight: 'normal',
+    //                     size: 12
+    //                 },
+    //                 minRotation: 0,
+    //                 maxRotation: 90,
+    //             }
+    //         }
+    //     },
+    //     plugins: [{
+    //         afterDatasetsDraw: ((chart, args, plugins) => {
+    //         const {ctx, data, chartArea: {top, bottom, left, right, width, height}} = chart;
 
-            ctx.save();
+    //         ctx.save();
             
-            if (data.datasets.length > 0) {
-                // console.log(data.datasets.length)
-                // console.log(data.datasets[0].data)
-              if (data.datasets[0].data.every(item => Number(item) === 0)) {
-                ctx.fillStyle = 'rgba(255, 255, 255, 1)';
-                ctx.fillRect(left, top, width, height);
+    //         if (data.datasets.length > 0) {
+    //             // console.log(data.datasets.length)
+    //             // console.log(data.datasets[0].data)
+    //           if (data.datasets[0].data.every(item => Number(item) === 0)) {
+    //             ctx.fillStyle = 'rgba(255, 255, 255, 1)';
+    //             ctx.fillRect(left, top, width, height);
 
-                ctx.font = '20px sans-serif';
-                ctx.fillStyle = 'black';
-                ctx.textAlign = 'center';
-                ctx.fillText('No Data Available', left + width / 2, top + height / 2);
-              }
-            }
+    //             ctx.font = '20px sans-serif';
+    //             ctx.fillStyle = 'black';
+    //             ctx.textAlign = 'center';
+    //             ctx.fillText('No Data Available', left + width / 2, top + height / 2);
+    //           }
+    //         }
 
-            })
-        }]
-    });
+    //         })
+    //     }]
+    // });
 
-    const ctx4 = document.getElementById('chicken_reduction_chart');
-    new Chart(ctx4, {
-        type: 'bar',
-        data: {
-        labels: oneweek,
-        datasets: [{
-                    label: 'Reductions',
-                    data: oneweekDatasetReduction,
-                    borderWidth: 1,
-                    backgroundColor: [
-                        '#d68192'
-                    // 'rgb(255, 99, 132)',
-                    ]
-                }]
-        },
-        options: {
-            scales: {
-                y: {
-                beginAtZero: true
-                }
-            },
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                datalabels: { // This code is used to display data values
-                    color: 'black',
-                    anchor: 'auto',
-                    align: 'top',
-                    formatter: Math.round,
-                    //                                     formatter: function(value, context) {
-                    //   return context.dataset.label + ': ' + value + '%';
-                    // },
-                    font: {
-                        weight: 'normal',
-                        size: 12
-                    },
-                    minRotation: 0,
-                    maxRotation: 90,
-                }
-            }
-        },
-        plugins: [{
-            afterDatasetsDraw: ((chart, args, plugins) => {
-            const {ctx, data, chartArea: {top, bottom, left, right, width, height}} = chart;
+    // const ctx4 = document.getElementById('chicken_reduction_chart');
+    // new Chart(ctx4, {
+    //     type: 'bar',
+    //     data: {
+    //     labels: oneweek,
+    //     datasets: [{
+    //                 label: 'Reductions',
+    //                 data: oneweekDatasetReduction,
+    //                 borderWidth: 1,
+    //                 backgroundColor: [
+    //                     '#d68192'
+    //                 // 'rgb(255, 99, 132)',
+    //                 ]
+    //             }]
+    //     },
+    //     options: {
+    //         scales: {
+    //             y: {
+    //             beginAtZero: true
+    //             }
+    //         },
+    //         responsive: true,
+    //         maintainAspectRatio: false,
+    //         plugins: {
+    //             datalabels: { // This code is used to display data values
+    //                 color: 'black',
+    //                 anchor: 'auto',
+    //                 align: 'top',
+    //                 formatter: Math.round,
+    //                 //                                     formatter: function(value, context) {
+    //                 //   return context.dataset.label + ': ' + value + '%';
+    //                 // },
+    //                 font: {
+    //                     weight: 'normal',
+    //                     size: 12
+    //                 },
+    //                 minRotation: 0,
+    //                 maxRotation: 90,
+    //             }
+    //         }
+    //     },
+    //     plugins: [{
+    //         afterDatasetsDraw: ((chart, args, plugins) => {
+    //         const {ctx, data, chartArea: {top, bottom, left, right, width, height}} = chart;
 
-            ctx.save();
+    //         ctx.save();
             
-            if (data.datasets.length > 0) {
-                // console.log(data.datasets.length)
-                // console.log(data.datasets[0].data)
-              if (data.datasets[0].data.every(item => Number(item) === 0)                                  ) {
-                ctx.fillStyle = 'rgba(255, 255, 255, 1)';
-                ctx.fillRect(left, top, width, height);
+    //         if (data.datasets.length > 0) {
+    //             // console.log(data.datasets.length)
+    //             // console.log(data.datasets[0].data)
+    //           if (data.datasets[0].data.every(item => Number(item) === 0)                                  ) {
+    //             ctx.fillStyle = 'rgba(255, 255, 255, 1)';
+    //             ctx.fillRect(left, top, width, height);
 
-                ctx.font = '20px sans-serif';
-                ctx.fillStyle = 'black';
-                ctx.textAlign = 'center';
-                ctx.fillText('No Data Available', left + width / 2, top + height / 2);
-              }
-            }
+    //             ctx.font = '20px sans-serif';
+    //             ctx.fillStyle = 'black';
+    //             ctx.textAlign = 'center';
+    //             ctx.fillText('No Data Available', left + width / 2, top + height / 2);
+    //           }
+    //         }
 
-            })
-        }]
-    });
+    //         })
+    //     }]
+    // });
 
-    const ctx2 = document.getElementById('eggSize_chart');
-    // ctx2.canvas.width = 200;
-    // ctx2.canvas.height = 200;.getContext("2d"
-    new Chart(ctx2, {
-        type: 'bar',
-        data: {
-        labels: eggSizes,
-        datasets: [{
-                    label: 'In Stock',
-                    data: eggInstock,
-                    borderWidth: 1,
-                    backgroundColor: [
-                        '#ffc107'
-                        // 'rgb(255, 99, 132)',
-                        // 'rgb(54, 162, 235)',
-                        // 'rgb(255, 205, 86)',
-                        // 'rgb(153, 51, 255)',
-                        // 'rgb(153, 255, 255)',
-                    ]
-                }]
-        },
-        options: {
-            maintainAspectRatio: false,
-            responsive: true,
-            plugins: {
-                datalabels: { // This code is used to display data values
-                    color: 'black',
-                    anchor: 'auto',
-                    align: 'top',
-                    formatter: Math.round,
-                    //                                     formatter: function(value, context) {
-                    //   return context.dataset.label + ': ' + value + '%';
-                    // },
-                    font: {
-                        weight: 'normal',
-                        size: 12
-                    },
-                    minRotation: 0,
-                    maxRotation: 90,
-                }
-            }
-        },
-        plugins: [{
-            afterDatasetsDraw: ((chart, args, plugins) => {
-            const {ctx, data, chartArea: {top, bottom, left, right, width, height}} = chart;
+    // const ctx2 = document.getElementById('eggSize_chart');
+    // // ctx2.canvas.width = 200;
+    // // ctx2.canvas.height = 200;.getContext("2d"
+    // new Chart(ctx2, {
+    //     type: 'bar',
+    //     data: {
+    //     labels: eggSizes,
+    //     datasets: [{
+    //                 label: 'In Stock',
+    //                 data: eggInstock,
+    //                 borderWidth: 1,
+    //                 backgroundColor: [
+    //                     '#ffc107'
+    //                     // 'rgb(255, 99, 132)',
+    //                     // 'rgb(54, 162, 235)',
+    //                     // 'rgb(255, 205, 86)',
+    //                     // 'rgb(153, 51, 255)',
+    //                     // 'rgb(153, 255, 255)',
+    //                 ]
+    //             }]
+    //     },
+    //     options: {
+    //         maintainAspectRatio: false,
+    //         responsive: true,
+    //         plugins: {
+    //             datalabels: { // This code is used to display data values
+    //                 color: 'black',
+    //                 anchor: 'auto',
+    //                 align: 'top',
+    //                 formatter: Math.round,
+    //                 //                                     formatter: function(value, context) {
+    //                 //   return context.dataset.label + ': ' + value + '%';
+    //                 // },
+    //                 font: {
+    //                     weight: 'normal',
+    //                     size: 12
+    //                 },
+    //                 minRotation: 0,
+    //                 maxRotation: 90,
+    //             }
+    //         }
+    //     },
+    //     plugins: [{
+    //         afterDatasetsDraw: ((chart, args, plugins) => {
+    //         const {ctx, data, chartArea: {top, bottom, left, right, width, height}} = chart;
 
-            ctx.save();
+    //         ctx.save();
             
-            if (data.datasets.length > 0) {
-                // console.log(data.datasets.length)
-                // console.log(data.datasets[0].data)
-              if (data.datasets[0].data.every(item => Number(item) === 0)) {
-                ctx.fillStyle = 'rgba(255, 255, 255, 1)';
-                ctx.fillRect(left, top, width, height);
+    //         if (data.datasets.length > 0) {
+    //             // console.log(data.datasets.length)
+    //             // console.log(data.datasets[0].data)
+    //           if (data.datasets[0].data.every(item => Number(item) === 0)) {
+    //             ctx.fillStyle = 'rgba(255, 255, 255, 1)';
+    //             ctx.fillRect(left, top, width, height);
 
-                ctx.font = '20px sans-serif';
-                ctx.fillStyle = 'black';
-                ctx.textAlign = 'center';
-                ctx.fillText('No Data Available', left + width / 2, top + height / 2);
-              }
-            }
+    //             ctx.font = '20px sans-serif';
+    //             ctx.fillStyle = 'black';
+    //             ctx.textAlign = 'center';
+    //             ctx.fillText('No Data Available', left + width / 2, top + height / 2);
+    //           }
+    //         }
 
-        })
-        }]
-    });
+    //     })
+    //     }]
+    // });
 
-    const ctx3 = document.getElementById('egg_chart');
-    new Chart(ctx3, {
-        type: 'bar',
-        data: {
-        labels: collectionDate,
-        datasets: [{
-                    label: 'In Stock',
-                    data: totalQuantity,
-                    borderWidth: 1,
-                    backgroundColor: [
-                        '#ffc107'
-                    // 'rgb(34, 139, 134)',
-                    ]
-                },
-                {
-                    label: 'Reductions',
-                    data: totalReductions,
-                    borderWidth: 1,
-                    backgroundColor: [
-                        '#f0d481'
-                    // 'rgb(255, 99, 132)',
-                    ]
-                }]
-        },
-        options: {
-            scales: {
-                y: {
-                beginAtZero: true
-                }
-            },
-            maintainAspectRatio: false,
-            plugins: {
-                datalabels: { // This code is used to display data values
-                    color: 'black',
-                    anchor: 'auto',
-                    align: 'top',
-                    formatter: Math.round,
-                    //                                     formatter: function(value, context) {
-                    //   return context.dataset.label + ': ' + value + '%';
-                    // },
-                    font: {
-                        weight: 'normal',
-                        size: 12
-                    },
-                    minRotation: 0,
-                    maxRotation: 90,
-                }
-            }
-        },
-        plugins: [{
-            afterDatasetsDraw: ((chart, args, plugins) => {
-            const {ctx, data, chartArea: {top, bottom, left, right, width, height}} = chart;
+    // const ctx3 = document.getElementById('egg_chart');
+    // new Chart(ctx3, {
+    //     type: 'bar',
+    //     data: {
+    //     labels: collectionDate,
+    //     datasets: [{
+    //                 label: 'In Stock',
+    //                 data: totalQuantity,
+    //                 borderWidth: 1,
+    //                 backgroundColor: [
+    //                     '#ffc107'
+    //                 // 'rgb(34, 139, 134)',
+    //                 ]
+    //             },
+    //             {
+    //                 label: 'Reductions',
+    //                 data: totalReductions,
+    //                 borderWidth: 1,
+    //                 backgroundColor: [
+    //                     '#f0d481'
+    //                 // 'rgb(255, 99, 132)',
+    //                 ]
+    //             }]
+    //     },
+    //     options: {
+    //         scales: {
+    //             y: {
+    //             beginAtZero: true
+    //             }
+    //         },
+    //         maintainAspectRatio: false,
+    //         plugins: {
+    //             datalabels: { // This code is used to display data values
+    //                 color: 'black',
+    //                 anchor: 'auto',
+    //                 align: 'top',
+    //                 formatter: Math.round,
+    //                 //                                     formatter: function(value, context) {
+    //                 //   return context.dataset.label + ': ' + value + '%';
+    //                 // },
+    //                 font: {
+    //                     weight: 'normal',
+    //                     size: 12
+    //                 },
+    //                 minRotation: 0,
+    //                 maxRotation: 90,
+    //             }
+    //         }
+    //     },
+    //     plugins: [{
+    //         afterDatasetsDraw: ((chart, args, plugins) => {
+    //         const {ctx, data, chartArea: {top, bottom, left, right, width, height}} = chart;
 
-            ctx.save();
+    //         ctx.save();
             
-            if (data.datasets.length > 0) {
-                // console.log(data.datasets.length)
-                // console.log(data.datasets[0].data)
-              if (data.datasets[0].data.every(item => Number(item) === 0) && data.datasets[1].data.every(item => Number(item) === 0)) {
-                ctx.fillStyle = 'rgba(255, 255, 255, 1)';
-                ctx.fillRect(left, top, width, height);
+    //         if (data.datasets.length > 0) {
+    //             // console.log(data.datasets.length)
+    //             // console.log(data.datasets[0].data)
+    //           if (data.datasets[0].data.every(item => Number(item) === 0) && data.datasets[1].data.every(item => Number(item) === 0)) {
+    //             ctx.fillStyle = 'rgba(255, 255, 255, 1)';
+    //             ctx.fillRect(left, top, width, height);
 
-                ctx.font = '20px sans-serif';
-                ctx.fillStyle = 'black';
-                ctx.textAlign = 'center';
-                ctx.fillText('No Data Available', left + width / 2, top + height / 2);
-              }
-            }
+    //             ctx.font = '20px sans-serif';
+    //             ctx.fillStyle = 'black';
+    //             ctx.textAlign = 'center';
+    //             ctx.fillText('No Data Available', left + width / 2, top + height / 2);
+    //           }
+    //         }
 
-        })
-        }]
-    });
+    //     })
+    //     }]
+    // });
 </script>

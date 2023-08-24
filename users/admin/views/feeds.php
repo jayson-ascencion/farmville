@@ -35,31 +35,11 @@
                     <div class="card shadow-lg">
                         <div class="card-header" style="background-color: #FFAF1A; color: #91452c">
 
-                            <!-- <div class="w-100 d-flex justify-content-between p-2">
-                                <div>
-                                    <h4 class="pt-2 fs-5 fw-bold">Feeds</h4>
-                                </div>
-
-                                <div>
-                                    <a href=".php" class="btn btn-primary pt-2">Add New Feeds</a>
-                                    
-                                </div>
-                            </div> -->
                             <div class="row justify-content-between">
                                 <div class="col-xl-3 col-md-6">
                                     <h4 class="pt-2 fs-5 fw-bold">Archived Feed Records</h4>
                                 </div>
 
-                                <!-- <div class="col-xl-2 col-md-2 align-content-end">
-                                    <div class="w-100 d-flex justify-content-end">
-                                        <div class="m-1 w-100 float-end">
-                                            <a href="add_feeds_form.php" class="btn btn-success shadow-sm w-100 fw-bold">Add Feeds</a>
-                                        </div>
-                                        <div class="m-1 w-100">
-                                            <a href="#" class="btn btn-outline-danger shadow-sm w-100 fw-bold">Archives</a>                                 
-                                        </div>
-                                    </div>
-                                </div> -->
                             </div>
                         </div>
                         <div class="card-body">

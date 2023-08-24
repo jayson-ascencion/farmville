@@ -16,7 +16,7 @@
                 echo "<thead class='text-white' style='background-color: #DC143C'>";
                     echo "<tr>";
                         // echo "<th>Reduction ID</th>";
-                        // echo "<th>Feed ID</th>";
+                        echo "<th>Transaction ID</th>";
                         echo "<th>Feed Name</th>";
                         echo "<th>Quantity</th>";
                         echo "<th>Reduction Type</th>";
@@ -36,7 +36,7 @@
 
                     echo "<tr>";
                         // echo "<td>" . $row['feedReduction_ID'] . "</td>";
-                        // echo "<td>" . $row['feed_ID'] . "</td>";
+                        echo "<td>" . $row['transaction_ID'] . "</td>";
                         echo "<td>" . $row['feedName'] . "</td>";
                         echo "<td>" . $row['quantity'] . "</td>";
                         echo "<td>" . $row['reductionType'] . "</td>";
@@ -78,7 +78,7 @@
             echo "<thead class='text-white' style='background-color: #DC143C'>";
                 echo "<tr>";
                     // echo "<th>Reduction ID</th>";
-                    // echo "<th>Feed ID</th>";
+                    echo "<th>Transaction ID</th>";
                     echo "<th>Feed Name</th>";
                     echo "<th>Quantity</th>";
                     echo "<th>Reduction Type</th>";

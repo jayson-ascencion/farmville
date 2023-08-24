@@ -37,11 +37,13 @@
                                 if($stmt){
                                     if($stmt->rowCount() > 0){
                                         while($row = $stmt->fetch()){
+                                            $age = $row['age'];
                                             $coopNumber = $row['coopNumber'];
                                             $batchName = $row['batchName'];
                                             $breedType = $row['breedType'];
                                             $batchPurpose = $row['batchPurpose'];
-                                            $startingQuantity = $row['startingQuantity'];
+                                            $male = $row['male'];
+                                            $female = $row['female'];
                                             // $inStock = $row['inStock'];
                                             $dateAcquired = $row['dateAcquired'];
                                             $acquisitionType = $row['acquisitionType'];
@@ -58,10 +60,17 @@
                                 unset($pdo);
                             ?>
                         <div class="card-body p-4">
+                             <!-- Age -->
+                             <div class="form-group mb-3">
+                                <label for="age" class="mb-2 text-dark">Age</label>
+                                <input type="number" name="age" class="form-control" value="<?php echo $age; ?>">
+                                <span class="text-danger" style="font-size: 13px;">  <?php echo $age_err; ?> </span>
+                            </div>
+
                             <!-- Coop Number -->
                             <div class="form-group mb-3">
                                 <label for="coopNumber" class="mb-2 text-dark">Coop Number</label>
-                                <input type="number" name="coopNumber" class="form-control"value="<?php echo $coopNumber; ?>" required>
+                                <input type="number" name="coopNumber" class="form-control" value="<?php echo $coopNumber; ?>" required>
                                 <span class="text-danger" style="font-size: 13px;">  <?php echo $coopNumber_err; ?> </span>
                             </div>
 
@@ -70,80 +79,114 @@
                                 <label for="batchName" class="mb-2 text-dark">Batch Name</label>
                                 <input type="text" name="batchName" class="form-control"value="<?php echo $batchName; ?>" required>
                                 <span class="text-danger" style="font-size: 13px;">  <?php echo $batchName_err; ?> </span>
-                            </div>        
-                                                
-                            <!-- Breed Type -->
+                            </div>       
+                            
+                            <!-- <div class="form-group mb-3">
+                                <label for="breedType" class="mb-2 text-dark">BREED PLEASE</label>
+                                    
+                                <input type="text" list="cars" name="breedType" class="form-control" />
+                                <datalist id="cars">
+                                <option>Volvo</option>
+                                <option>Saab</option>
+                                <option>Mercedes</option>
+                                <option>Audi</option>
+                                </datalist>
+                            </div> -->
+
+                            <!-- BREED TYPE -->
+                            <div class="form-group mb-3">
+                                <label for="breedType" class="mb-2 text-dark">Breed Type</label>
+                                <select name="breedType" class="form-control"
+                                    onchange="if(this.options[this.selectedIndex].value=='customOption'){
+                                        toggleField(this,this.nextSibling);
+                                        this.selectedIndex='0';
+                                    }">
+                                        <?php 
+                                        if(!empty($breedType)){
+                                            echo '<option value="'. $breedType . ' "> ' . $breedType . '</option>';
+                                        }?>
+                                        <option>Sussex</option>
+                                        <option>Rhode Island Reds</option>
+                                        <option>Plymouth</option>
+                                        <option>Leghorns</option>
+                                        <option value="customOption">Other</option>
+                                </select><input name="breedType" class="form-control" style="display:none;" disabled="disabled" 
+                                    onblur="if(this.value==''){toggleField(this,this.previousSibling);}">
+                            </div>  
+                            <!-- <div id="billdesc" class="form-group mb-3">
+                                <select id="test" class="form-select">
+                                <option class="non" value="option1">Option1</option>
+                                <option class="non" value="option2">Option2</option>
+                                <option class="editable" value="other">Other</option>
+                                </select>
+                                <input class="editOption" style="display:none;" placeholder="Text juaj"></input>
+                            </div> -->
+
+                            <!-- Breed Type
                             <div class="form-group mb-3">
                                 <label for="breedType" class="mb-2 text-dark">Breed Type</label>
                                 <select class="form-select" name="breedType">
-                                    <option value="<?php echo $breedType; ?>"> <?php if(!empty($breedType)){
-                                        echo $breedType;
-                                    }else{
-                                        echo "- select a breed type - ";
-                                    } ?></option><!--
+                                    <?php
+                                        if(empty($breedType)){
+                                            echo '<option value="" selected>- select a breed type -</option>';
+                                        }else{
+                                            ?>
+                                                <option value="<?php echo $breedType; ?>"selected><?php echo $breedType; ?></option>';
+                                            <?php
+                                        }
+                                    ?>
                                     <option value="Leghorns">Leghorns</option>
                                     <option value="Rhode Island Reds">Rhode Island Reds</option>
                                     <option value="Sussex">Sussex</option>
                                     <option value="Plymouth">Plymouth</option>
-                                      -->
-                                    <?php if($breedType != "Leghorns") { ?>
-                                        <option value="Leghorns">Leghorns</option>
-                                    <?php } ?>
-                                    <?php if($breedType != "Rhode Island Reds") { ?>
-                                        <option value="Rhode Island Reds">Rhode Island Reds</option>
-                                    <?php } ?>
-                                    <?php if($breedType != "Sussex") { ?>
-                                        <option value="Sussex">Sussex</option>
-                                    <?php } ?>
-                                    <?php if($breedType != "Plymouth") { ?>
-                                        <option value="Plymouth">Plymouth</option>
-                                    <?php } ?>
-                                    <!--  -->
-                                </select>
-                                <span class="text-danger" style="font-size: 13px;"> <?php echo $breedType_err; ?> </span>
-                            </div>
-                    
+                                <option value="Other">Other</option>
+                                                        </select>
+                                                        <span class="text-danger" style="font-size: 13px;"> <?php echo $breedType_err; ?> </span>
+                                                    </div> -->
+                                            <!-- Other Breed Type -->
+                            <!-- <div class="form-group mb-3" id="otherBreedType" style="display: none;">
+                                <label for="otherBreedType" class="mb-2 text-dark">Other Breed Type</label>
+                                <input type="text" class="form-control" name="otherBreedType">
+                            </div> -->
                             <!-- Batch Purpose -->
                             <div class="form-group mb-3">
                                 <label for="batchPurpose" class="mb-2 text-dark">Batch Purpose</label>
                                 <select class="form-select" name="batchPurpose">
-                                    <option value="<?php echo $batchPurpose; ?>"> <?php if(!empty($batchPurpose)){
-                                        echo $batchPurpose;
-                                    }else{
-                                        echo "- select a purpose - ";
-                                    } ?></option><!-- 
+                                    <?php
+                                        if(empty($batchPurpose)){
+                                            echo '<option value="" selected>- select a batch purpose -</option>';
+                                        }else{
+                                            ?>
+                                                <option value="<?php echo $batchPurpose; ?>"selected><?php echo $batchPurpose; ?></option>';
+                                            <?php
+                                        }
+                                    ?>
                                     <option value="Meat">Meat</option>
                                     <option value="Layers">Layers</option>
                                     <option value="Breeding">Breeding</option>
-                                     -->
-                                    <?php if($batchPurpose != "Meat") { ?>
-                                        <option value="Meat">Meat</option>
-                                    <?php } ?>
-                                    <?php if($batchPurpose != "Layers") { ?>
-                                        <option value="Layers">Layers</option>
-                                    <?php } ?>
-                                    <?php if($batchPurpose != "Breeding") { ?>
-                                        <option value="Breeding">Breeding</option>
-                                    <?php } ?>
-                                    <!--  -->
                                 </select>
                                 <span class="text-danger" style="font-size: 13px;"> <?php echo $batchPurpose_err; ?> </span>
                             </div>
+ 
+                            <!-- quantity -->
 
-                            <!-- Starting Quantity -->
-                            <div class="form-group mb-3">
-                                <label for="startingQuantity" class="mb-2 text-dark">Starting Quantity</label>
-                                <input type="number" name="startingQuantity" class="form-control" value="<?php echo $startingQuantity; ?>" required>
-                                <span class="text-danger" style="font-size: 13px;">  <?php echo $startingQuantity_err; ?> </span>
+                            <div class="d-flex flex-column flex-sm-column flex-lg-row gap-2">
+                                <!-- Available Quantity -->
+                                <div class="form-group w-100 mb-3">
+                                    <label for="male" class="mb-2 text-dark">Number of males:</label>
+                                    <input type="number" name="male" class="form-control" value="<?php echo $male; ?>" required>
+                                    <span class="text-danger" style="font-size: 13px;"> <?php echo $male_err; ?> </span>
+                                </div>
+                                
+                                <!-- Reduction Quantity -->
+                                <div class="form-group w-100 mb-3">
+                                    <label for="female" class="mb-2 text-dark">Number of females: </label>
+                                    <!-- <input type="date" min="2022-01-01" name="expirationDate" class="form-control" value=" echo $expirationDate; ?>" required> -->
+                                    <input type="number" name="female" class="form-control" value="<?php echo $female; ?>" required>
+                                    <span class="text-danger" style="font-size: 13px;"> <?php echo $female_err; ?> </span>
+                                </div>
                             </div>
                             
-                            <!-- inStock Quantity -->
-                            <!-- <div class="form-group mb-3">
-                                <label for="inStock" class="mb-2 text-dark">In Stock Quantity</label>
-                                <input type="number" name="inStock" class="form-control" value="echo $inStock; ?>" required>
-                                <span class="text-danger" style="font-size: 13px;">  echo $inStock_err; ?> </span>
-                            </div> -->
-
                             <!-- Date Acquired -->
                             <div class="form-group mb-3">
                                 <label for="dateAcquired" class="mb-2 text-dark">Date Acquired</label>
@@ -155,21 +198,17 @@
                             <div class="form-group mb-3">
                                 <label for="acquisitionType" class="mb-2 text-dark">Acquisition Type</label>
                                 <select class="form-select" name="acquisitionType">
-                                    <option value="<?php echo $acquisitionType; ?>"> <?php if(!empty($acquisitionType)){
-                                        echo $acquisitionType;
-                                    }else{
-                                        echo "- select a unit - ";
-                                    } ?></option>
-                                    <!--
+                                    <?php
+                                        if(empty($acquisitionType)){
+                                            echo '<option value="" selected>- select an acquisition type -</option>';
+                                        }else{
+                                            ?>
+                                                <option value="<?php echo $acquisitionType; ?>"selected><?php echo $acquisitionType; ?></option>';
+                                            <?php
+                                        }
+                                    ?>
                                     <option value="Hatched on Farm">Hatched on Farm</option>
                                     <option value="Purchased">Purchased</option>
-                                      -->
-                                    <?php if($acquisitionType != "Hatched on Farm") { ?>
-                                        <option value="Hatched on Farm">Hatched on Farm</option>
-                                    <?php } ?>
-                                    <?php if($acquisitionType != "Purchased") { ?>
-                                        <option value="Purchased">Purchased</option>
-                                    <?php } ?>
                                 </select>
                                 <span class="text-danger" style="font-size: 13px;"> <?php echo $acquisitionType_err; ?> </span>
                             </div>

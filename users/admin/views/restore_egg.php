@@ -11,17 +11,17 @@
     $id = $_REQUEST['id'];
     
     //statement to get the old quantity
-    $sql = "SELECT * FROM eggproduction WHERE eggBatch_ID = '$id'";
+    $sql = "SELECT * FROM eggtransaction WHERE collection_ID = '$id'";
     $stmt = $conn->query($sql);
 
     if($stmt){
         if($stmt->rowCount() > 0){
             while($row = $stmt->fetch()){
-                $eggBatch_ID = $row['eggBatch_ID'];
+                // $eggBatch_ID = $row['eggBatch_ID'];
                 $eggSize = $row['eggSize'];
                 $quantity = $row['quantity'];
-                $collectionType = $row['collectionType'];
-                $collectionDate = $row['collectionDate'];
+                $collectionType = $row['dispositionType'];
+                $collectionDate = $row['transactionDate'];
                 $note = $row['note']; 
             }
             // Free result set
@@ -42,10 +42,9 @@
             $archived = 'not archived';
 
             // Prepare an insert statement
-            $sql = "UPDATE eggproduction ep 
-                    LEFT JOIN eggreduction er ON ep.eggBatch_ID = er.eggBatch_ID
-                    SET ep.archive=:archived, er.archive=:archived
-                    WHERE ep.eggBatch_ID = '$id'";
+            $sql = "UPDATE eggtransaction
+                    SET archive=:archived
+                    WHERE collection_ID = '$id'";
             
             if($stmt = $conn->prepare($sql))
             {
@@ -86,7 +85,7 @@
         <li class="breadcrumb-item">
             <a href="./egg_reduction.php" style="text-decoration: none">Egg Reduction</a>
         </li>
-        <li class="breadcrumb-item active">Archive Egg Reduction</li>
+        <li class="breadcrumb-item active">Restore Egg</li>
     </ol>
 
     <div class="row justify-content-center mt-2">
@@ -97,9 +96,9 @@
                         <div class="card-body p-4">
                             <!-- <div class="card-title mb-3 fw-bold">Are you sure you want to Archive this record?</div> -->
                             <!-- egg batch id -->
-                            <div class="mb-3">
+                            <!-- <div class="mb-3">
                                 <p class="fw-bold">Egg Batch ID: <span class="fw-normal ps-2"><?php echo $eggBatch_ID; ?></span></p>
-                            </div>
+                            </div> -->
 
                             <!-- egg Size -->
                             <div class="mb-3">

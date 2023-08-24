@@ -49,24 +49,42 @@
                         
                     </div>
                     <!-- MEDICINES -->
-                    <div class="card mt-3 shadow-lg">
+                    <!-- <div class="card mt-3 shadow-lg">
                         <div class="card-header fw-bold fs-5" style="background-color: #FFAF1A; color: #91452c">
                             Medicine Inventory
                         </div>
                         <div class="card-body">
                             <div class="table-responsive m-1">
-                                <h5 class="text-center" style="color: rgb(100, 100, 100)">Medicines Inventory Report</h5>
+                                <h5 class="text-center" style="color: rgb(100, 100, 100)">Summary By Reduction Type</h5>
                                 <div class="chart-container bar-chart">
                                     <canvas id="bar_chart" height="100"> </canvas>
                                 </div>
                                 <table class="table table-sm responsive border table-hover text-center rounde rounded-3 overflow-hidden" style="width: 100%" id="medicine_table">
                                     <thead class="text-white" style="background-color: #DC143C">
                                         <tr>
-                                            <th>Date Added</th>
-                                            <th>Medicine Name</th>
-                                            <th>Expiration Date</th>
-                                            <th>Starting Quantity</th>
-                                            <th>In Stock</th>
+                                            <th>Reduction Type</th>
+                                            <th>Reductions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div> -->
+
+                    <div class="card mt-3 shadow-lg">
+                        <div class="card-body">
+                            <div class="table-responsive m-1">
+                                <h5 class="text-center" style="color: rgb(100, 100, 100)">Summary By Medicine Reduction Type</h5>
+                                <div class="chart-container pie-chart">
+                                    <canvas id="second_chart" height="100"> </canvas>
+                                </div>
+                                <table class="table table-sm responsive border table-hover text-center rounde rounded-3 overflow-hidden" style="width: 100%" id="second_table">
+                                    <thead class="text-white" style="background-color: #DC143C">
+                                        <tr>
+                                            <th>Reduction Type</th>
                                             <th>Reductions</th>
                                         </tr>
                                     </thead>
@@ -85,10 +103,10 @@
                                 <table class="table table-sm responsive border table-hover text-center rounde rounded-3 overflow-hidden" style="width: 100%" id="list_medicines">
                                     <thead class="text-white" style="background-color: #DC143C">
                                         <tr>
-                                            <th>Date Added</th>
+                                            <!-- <th>Date Added</th> -->
                                             <th>Medicine Name</th>
                                             <th>Expiration Date</th>
-                                            <th>Starting Quantity</th>
+                                            <!-- <th>Starting Quantity</th> -->
                                             <th>In Stock</th>
                                         </tr>
                                     </thead>
@@ -99,6 +117,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="card mt-3 shadow-lg">
                         <div class="table-responsive m-1">
                             <div class="card-body">
@@ -106,10 +125,10 @@
                                 <table class="table table-sm responsive border table-hover text-center rounde rounded-3 overflow-hidden" style="width: 100%" id="low_stock">
                                     <thead class="text-white" style="background-color: #DC143C">
                                         <tr>
-                                            <th>Date Added</th>
+                                            <!-- <th>Date Added</th> -->
                                             <th>Medicine Name</th>
                                             <th>Expiration Date</th>
-                                            <th>Starting Quantity</th>
+                                            <!-- <th>Starting Quantity</th> -->
                                             <th>In Stock</th>
                                         </tr>
                                     </thead>
@@ -128,7 +147,7 @@
                         <div class="card-header fw-bold fs-5" style="background-color: #FFAF1A; color: #91452c">
                             Feed Inventory
                         </div>
-                        <div class="card-body">
+                        <!-- <div class="card-body">
                             <div class="table-responsive m-1">
                                 <h5 class="text-center" style="color: rgb(100, 100, 100)">Feeds Report</h5>
                                 <div class="chart-container bar-chart">
@@ -141,6 +160,50 @@
                                             <th>Feed Name</th>
                                             <th>Starting Quantity</th>
                                             <th>In Stock</th>
+                                            <th>Reductions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div> -->
+                    </div>
+
+                    <div class="card mt-3 shadow-lg">
+                        <div class="table-responsive m-1">
+                            <div class="card-body">
+                                <h5 class="text-center" style="color: rgb(100, 100, 100)">List of Feeds Low In Stock</h5>
+                                <table class="table table-sm responsive border table-hover text-center rounde rounded-3 overflow-hidden" style="width: 100%" id="feeds_low_stock">
+                                    <thead class="text-white" style="background-color: #DC143C">
+                                        <tr>
+                                            <!-- <th>Date Added</th> -->
+                                            <th>Feed Name</th>
+                                            <!-- <th>Expiration Date</th> -->
+                                            <!-- <th>Starting Quantity</th> -->
+                                            <th>In Stock</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mt-3 shadow-lg">
+                        <div class="card-body">
+                            <div class="table-responsive m-1">
+                                <h5 class="text-center" style="color: rgb(100, 100, 100)">Summary By Feed Reduction Type</h5>
+                                <div class="chart-container pie-chart">
+                                    <canvas id="feed_chart" height="100"> </canvas>
+                                </div>
+                                <table class="table table-sm responsive border table-hover text-center rounde rounded-3 overflow-hidden" style="width: 100%" id="feed_table">
+                                    <thead class="text-white" style="background-color: #DC143C">
+                                        <tr>
+                                            <th>Reduction Type</th>
                                             <th>Reductions</th>
                                         </tr>
                                     </thead>
@@ -189,6 +252,7 @@
 
 
     var production_chart;
+    var second_chart;
     var feed_chart;
 
     //declare start_date and end_date
@@ -208,19 +272,219 @@
         document.getElementById("start_date_input").value = start_date;
         document.getElementById("end_date_input").value = end_date;
         //creates the table
+         //second table
+         var dataTable = $('#second_table').DataTable({
+                info: false,
+                paging: false,
+                filter: false,
+                stateSave: true,
+                "processing" : true,
+                "serverSide" : true, //serverside
+                "order" : [], //enables table ordering
+                "ajax" : {
+                    url:"../action/reports_action.php",
+                    type:"POST",
+                    data:{action:'medicinereduction', start_date:start_date, end_date:end_date}
+                },
+                "drawCallback" : function(settings)
+                {
+                    
+                    var reductionType = [];
+                    var reductions = [];
+                    
+                    for(var count = 0; count < settings.aoData.length; count++)
+                    {
+                        reductionType.push(settings.aoData[count]._aData[0]);
+                        reductions.push(parseFloat(settings.aoData[count]._aData[1]));
+                    }
+
+                    var chart_data = {
+                        labels: reductionType,
+                        datasets: [
+                            {
+                                label: 'Reduction Type',
+                                backgroundColor: [
+                                    'rgba(153, 102, 255)', 
+                                    'rgba(255, 99, 132)', 
+                                    'rgba(255, 159, 64)', 
+                                    'rgba(255, 205, 86)', 
+                                    'rgba(75, 192, 192)'
+                                ],
+                                color: '#fff',
+                                data: reductions
+                            }
+                        ],
+
+                    };
+                    
+                    var group_chart3 = $('#second_chart');
+
+                    if(second_chart)
+                    {
+                        second_chart.destroy();
+                    }
+
+                    second_chart = new Chart(group_chart3, {
+                        type:'bar',
+                        data:chart_data,
+                        options: {
+                            maintainAspectRatio: true,
+                            responsive: true,
+                            plugins: {
+                                datalabels: { // This code is used to display data values
+                                    color: 'black',
+                                    anchor: 'auto',
+                                    align: 'top',
+                                    formatter: Math.round,
+                                    //                                     formatter: function(value, context) {
+                                    //   return context.dataset.label + ': ' + value + '%';
+                                    // },
+                                    font: {
+                                        weight: 'normal',
+                                        size: 12
+                                    },
+                                    minRotation: 0,
+                                    maxRotation: 90,
+                                }
+                            }
+                        },
+                        plugins: [{
+                            afterDatasetsDraw: ((chart, args, plugins) => {
+                                const {ctx, data, chartArea: {top, bottom, left, right, width, height}} = chart;
+                                    // console.log(data)
+                                ctx.save();
+                                
+                                if (reductions.length === 0) {
+                                    // console.log('ahah')
+                                    chart.options.scales.y.display = false;
+                                    ctx.fillStyle = 'rgba(255, 255, 255, 1)';
+                                    ctx.fillRect(left, top, width, height);
+
+                                    ctx.font = '20px sans-serif';
+                                    ctx.fillStyle = 'black';
+                                    ctx.textAlign = 'center';
+                                    ctx.fillText('No Data Available', left + width / 2, top + height / 2);
+                                }
+
+                            })
+                        }] 
+                    });
+                }
+            });
+
+            //feeed table
+            var dataTable = $('#feed_table').DataTable({
+                info: false,
+                paging: false,
+                filter: false,
+                stateSave: true,
+                "processing" : true,
+                "serverSide" : true, //serverside
+                "order" : [], //enables table ordering
+                "ajax" : {
+                    url:"../action/reports_action.php",
+                    type:"POST",
+                    data:{action:'feedreduction', start_date:start_date, end_date:end_date}
+                },
+                "drawCallback" : function(settings)
+                {
+                    
+                    var reductionType = [];
+                    var reductions = [];
+                    
+                    for(var count = 0; count < settings.aoData.length; count++)
+                    {
+                        reductionType.push(settings.aoData[count]._aData[0]);
+                        reductions.push(parseFloat(settings.aoData[count]._aData[1]));
+                    }
+
+                    var chart_data = {
+                        labels: reductionType,
+                        datasets: [
+                            {
+                                label: 'Reduction Type',
+                                backgroundColor: [
+                                    'rgba(153, 102, 255)', 
+                                    'rgba(255, 99, 132)', 
+                                    'rgba(255, 159, 64)', 
+                                    'rgba(255, 205, 86)', 
+                                    'rgba(75, 192, 192)'
+                                ],
+                                color: '#fff',
+                                data: reductions
+                            }
+                        ],
+
+                    };
+                    
+                    var group_chart3 = $('#feed_chart');
+
+                    if(feed_chart)
+                    {
+                        feed_chart.destroy();
+                    }
+
+                    feed_chart = new Chart(group_chart3, {
+                        type:'bar',
+                        data:chart_data,
+                        options: {
+                            maintainAspectRatio: true,
+                            responsive: true,
+                            plugins: {
+                                datalabels: { // This code is used to display data values
+                                    color: 'black',
+                                    anchor: 'auto',
+                                    align: 'top',
+                                    formatter: Math.round,
+                                    //                                     formatter: function(value, context) {
+                                    //   return context.dataset.label + ': ' + value + '%';
+                                    // },
+                                    font: {
+                                        weight: 'normal',
+                                        size: 12
+                                    },
+                                    minRotation: 0,
+                                    maxRotation: 90,
+                                }
+                            }
+                        },
+                        plugins: [{
+                            afterDatasetsDraw: ((chart, args, plugins) => {
+                                const {ctx, data, chartArea: {top, bottom, left, right, width, height}} = chart;
+                                    // console.log(data)
+                                ctx.save();
+                                
+                                if (reductions.length === 0) {
+                                    // console.log('ahah')
+                                    chart.options.scales.y.display = false;
+                                    ctx.fillStyle = 'rgba(255, 255, 255, 1)';
+                                    ctx.fillRect(left, top, width, height);
+
+                                    ctx.font = '20px sans-serif';
+                                    ctx.fillStyle = 'black';
+                                    ctx.textAlign = 'center';
+                                    ctx.fillText('No Data Available', left + width / 2, top + height / 2);
+                                }
+
+                            })
+                        }] 
+                    });
+                }
+            });
+
         //production table
         var dataTable = $('#medicine_table').DataTable({
             pagingType: 'numbers',
             "columnDefs": [
-                {
-                    "targets": [0,2],
-                    "render": function (data, type, row) {
-                        var date = new Date(data);
-                        var options = {year: 'numeric', month: 'short', day: 'numeric' };
-                        return date.toLocaleDateString('en-US', options);
-                    },
+                // {
+                //     "targets": [0,2],
+                //     "render": function (data, type, row) {
+                //         var date = new Date(data);
+                //         var options = {year: 'numeric', month: 'short', day: 'numeric' };
+                //         return date.toLocaleDateString('en-US', options);
+                //     },
                    
-                },
+                // },
                 {
                     "className": "dt-center", "targets": "_all"
                 }
@@ -235,49 +499,53 @@
             },
             "drawCallback" : function(settings)
             {
-                var dateAdded = [];
-                var expirationDate = [];
-                var instock = [];
-                var reductions = [];
-                var startingQuantity = [];
-                var medicineName = [];
+                // var dateAdded = [];
+                // var expirationDate = [];
+                // var instock = [];
+                // var reductions = [];
+                // var startingQuantity = [];
+                // var medicineName = [];
+                var reductionType = [];
+                var quantity = [];
 
                 for(var count = 0; count < settings.aoData.length; count++)
                 {
                     //$order_column = array('dateAdded','medicineName','expirationDate','startingQuantity','instock','reductions');
-                    var dA = new Date(settings.aoData[count]._aData[0]);
-                    var eD = new Date(settings.aoData[count]._aData[2]);
-                    var options = {year: 'numeric', month: 'short', day: 'numeric' };
-                    dateAdded.push(dA.toLocaleDateString('en-US', options));
-                    expirationDate.push(eD.toLocaleDateString('en-US', options));
-                    // eggSize.push(settings.aoData[count]._aData[1]);
-                    medicineName.push(settings.aoData[count]._aData[1]);
-                    startingQuantity.push(parseFloat(settings.aoData[count]._aData[3]));
-                    instock.push(parseFloat(settings.aoData[count]._aData[4]));
-                    reductions.push(parseFloat(settings.aoData[count]._aData[5]));
+                    // var dA = new Date(settings.aoData[count]._aData[0]);
+                    // var eD = new Date(settings.aoData[count]._aData[2]);
+                    // var options = {year: 'numeric', month: 'short', day: 'numeric' };
+                    // dateAdded.push(dA.toLocaleDateString('en-US', options));
+                    // expirationDate.push(eD.toLocaleDateString('en-US', options));
+                    // // eggSize.push(settings.aoData[count]._aData[1]);
+                    // medicineName.push(settings.aoData[count]._aData[1]);
+                    // startingQuantity.push(parseFloat(settings.aoData[count]._aData[3]));
+                    // instock.push(parseFloat(settings.aoData[count]._aData[4]));
+                    // reductions.push(parseFloat(settings.aoData[count]._aData[5]));
+                    reductionType.push(settings.aoData[count]._aData[0]);
+                    quantity.push(parseFloat(settings.aoData[count]._aData[1]));
                 }
                 // console.log(dateAdded)
                 var chart_data = {
-                    labels:dateAdded,
+                    labels:reductionType,
                     datasets:[
                         {
-                            label : 'Total Quantity',
+                            label : 'Reduction Type',
                             backgroundColor : 'rgb(65,105,225)',
                             color : '#fff',
-                            data:startingQuantity
+                            data:quantity
                         },
-                        {
-                            label : 'Total In Stock',
-                            backgroundColor : 'rgb(34, 139, 134)',
-                            color : '#fff',
-                            data:instock
-                        },
-                        {
-                            label : 'Quantity Reduced',
-                            backgroundColor : 'rgb(205,92,92)',
-                            color : '#fff',
-                            data:reductions
-                        }
+                        // {
+                        //     label : 'Total In Stock',
+                        //     backgroundColor : 'rgb(34, 139, 134)',
+                        //     color : '#fff',
+                        //     data:instock
+                        // },
+                        // {
+                        //     label : 'Quantity Reduced',
+                        //     backgroundColor : 'rgb(205,92,92)',
+                        //     color : '#fff',
+                        //     data:reductions
+                        // }
                     ]   
                 };
 
@@ -329,7 +597,7 @@
                                     // console.log(data)
                                 ctx.save();
                                 
-                                if (startingQuantity.length === 0 && instock.length === 0 && reductions.length === 0) {
+                                if (quantity.length === 0) {
                                     // console.log('ahah')
                                     ctx.fillStyle = 'rgba(255, 255, 255, 1)';
                                     ctx.fillRect(left, top, width, height);
@@ -352,7 +620,7 @@
             pagingType: 'numbers',
             "columnDefs": [
                 {
-                    "targets": [0,2],
+                    "targets": [1],
                     "render": function (data, type, row) {
                         var date = new Date(data);
                         var options = {year: 'numeric', month: 'short', day: 'numeric' };
@@ -379,7 +647,7 @@
             pagingType: 'numbers',
             "columnDefs": [
                 {
-                    "targets": [0,2],
+                    "targets": [1],
                     "render": function (data, type, row) {
                         var date = new Date(data);
                         var options = {year: 'numeric', month: 'short', day: 'numeric' };
@@ -402,18 +670,19 @@
             
         });
 
-        var dataTable = $('#feed_table').DataTable({
+        //low stock of medicines
+        var dataTable = $('#feeds_low_stock').DataTable({
             pagingType: 'numbers',
             "columnDefs": [
-                {
-                    "targets": [0],
-                    "render": function (data, type, row) {
-                        var date = new Date(data);
-                        var options = {year: 'numeric', month: 'short', day: 'numeric' };
-                        return date.toLocaleDateString('en-US', options);
-                    },
+                // {
+                //     "targets": [1],
+                //     "render": function (data, type, row) {
+                //         var date = new Date(data);
+                //         var options = {year: 'numeric', month: 'short', day: 'numeric' };
+                //         return date.toLocaleDateString('en-US', options);
+                //     },
                    
-                },
+                // },
                 {
                     "className": "dt-center", "targets": "_all"
                 }
@@ -424,117 +693,144 @@
             "ajax" : {
                 url:"../action/reports_action.php",
                 type:"POST",
-                data:{action:'feeds', start_date:start_date, end_date:end_date}
+                data:{action:'feeds_lowstock', start_date:start_date, end_date:end_date}
             },
-            "drawCallback" : function(settings)
-            {
-                var datePurchased = [];
-                var brand = [];
-                var instock = [];
-                var reductions = [];
-                var startingQuantity = [];
-                var feedName = [];
-
-                for(var count = 0; count < settings.aoData.length; count++)
-                {
-                    //$order_column = array('datePurchased','feedName','brand','startingQuantity','inStock','reductions');
-                    var dA = new Date(settings.aoData[count]._aData[0]);
-                    var options = {year: 'numeric', month: 'short', day: 'numeric' };
-                    datePurchased.push(dA.toLocaleDateString('en-US', options));
-                    // eggSize.push(settings.aoData[count]._aData[1]);
-                    feedName.push(settings.aoData[count]._aData[1]);
-                    startingQuantity.push(parseFloat(settings.aoData[count]._aData[2]));
-                    instock.push(parseFloat(settings.aoData[count]._aData[3]));
-                    reductions.push(parseFloat(settings.aoData[count]._aData[4]));
-                }
-                // console.log(datePurchased)
-                var chart_data = {
-                    labels:datePurchased,
-                    datasets:[
-                        {
-                            label : 'Total Quantity',
-                            backgroundColor : 'rgb(65,105,225)',
-                            color : '#fff',
-                            data:startingQuantity
-                        },
-                        {
-                            label : 'Total In Stock',
-                            backgroundColor : 'rgb(34, 139, 134)',
-                            color : '#fff',
-                            data:instock
-                        },
-                        {
-                            label : 'Quantity Reduced',
-                            backgroundColor : 'rgb(205,92,92)',
-                            color : '#fff',
-                            data:reductions
-                        }
-                    ]   
-                };
-
-                var group_chart3 = $('#feed_chart');
-
-                if(feed_chart)
-                {
-                    feed_chart.destroy();
-                }
-
-                const bgColor = {
-                    id: 'bgColor',
-                    beforeDraw: (chart, options) => {
-                        const { ctx, width, height} = chart;
-                        ctx.fillStyle = 'white';
-                        ctx.fillRect(0,0, width, height);
-                        ctx.restore();
-                    }
-                }
-                feed_chart = new Chart(group_chart3, {
-                    type:'bar',
-                    data:chart_data,
-                        options: {
-                            maintainAspectRatio: true,
-                            responsive: true,
-                            plugins: {
-                                datalabels: { // This code is used to display data values
-                                    color: 'black',
-                                    anchor: 'auto',
-                                    align: 'top',
-                                    formatter: Math.round,
-                                    //                                     formatter: function(value, context) {
-                                    //   return context.dataset.label + ': ' + value + '%';
-                                    // },
-                                    font: {
-                                        weight: 'normal',
-                                        size: 12
-                                    },
-                                    minRotation: 0,
-                                    maxRotation: 90,
-                                }
-                            }
-                        },
-                    plugins: [{
-                        bgColor,
-                        afterDatasetsDraw: ((chart, args, plugins) => {
-                            const {ctx, data, chartArea: {top, bottom, left, right, width, height}} = chart;
-                                // console.log(data)
-                            ctx.save();
-                            
-                            if (startingQuantity.length === 0 && instock.length === 0 && reductions.length === 0) {
-                                // console.log('ahah')
-                                ctx.fillStyle = 'rgba(255, 255, 255, 1)';
-                                ctx.fillRect(left, top, width, height);
-
-                                ctx.font = '20px sans-serif';
-                                ctx.fillStyle = 'black';
-                                ctx.textAlign = 'center';
-                                ctx.fillText('No Data Available', left + width / 2, top + height / 2);
-                            }
-
-                        })
-                    }]
-                });
-            }
+            
         });
+
+        // var dataTable = $('#feed_table').DataTable({
+        //     pagingType: 'numbers',
+        //     "columnDefs": [
+        //         {
+        //             "targets": [0],
+        //             "render": function (data, type, row) {
+        //                 var date = new Date(data);
+        //                 var options = {year: 'numeric', month: 'short', day: 'numeric' };
+        //                 return date.toLocaleDateString('en-US', options);
+        //             },
+                   
+        //         },
+        //         {
+        //             "className": "dt-center", "targets": "_all"
+        //         }
+        //     ],
+        //     "processing" : true,
+        //     "serverSide" : true, //serverside
+        //     "order" : [], //enables table ordering
+        //     "ajax" : {
+        //         url:"../action/reports_action.php",
+        //         type:"POST",
+        //         data:{action:'feeds', start_date:start_date, end_date:end_date}
+        //     },
+        //     "drawCallback" : function(settings)
+        //     {
+        //         var datePurchased = [];
+        //         var brand = [];
+        //         var instock = [];
+        //         var reductions = [];
+        //         var startingQuantity = [];
+        //         var feedName = [];
+
+        //         for(var count = 0; count < settings.aoData.length; count++)
+        //         {
+        //             //$order_column = array('datePurchased','feedName','brand','startingQuantity','inStock','reductions');
+        //             var dA = new Date(settings.aoData[count]._aData[0]);
+        //             var options = {year: 'numeric', month: 'short', day: 'numeric' };
+        //             datePurchased.push(dA.toLocaleDateString('en-US', options));
+        //             // eggSize.push(settings.aoData[count]._aData[1]);
+        //             feedName.push(settings.aoData[count]._aData[1]);
+        //             startingQuantity.push(parseFloat(settings.aoData[count]._aData[2]));
+        //             instock.push(parseFloat(settings.aoData[count]._aData[3]));
+        //             reductions.push(parseFloat(settings.aoData[count]._aData[4]));
+        //         }
+        //         // console.log(datePurchased)
+        //         var chart_data = {
+        //             labels:datePurchased,
+        //             datasets:[
+        //                 {
+        //                     label : 'Total Quantity',
+        //                     backgroundColor : 'rgb(65,105,225)',
+        //                     color : '#fff',
+        //                     data:startingQuantity
+        //                 },
+        //                 {
+        //                     label : 'Total In Stock',
+        //                     backgroundColor : 'rgb(34, 139, 134)',
+        //                     color : '#fff',
+        //                     data:instock
+        //                 },
+        //                 {
+        //                     label : 'Quantity Reduced',
+        //                     backgroundColor : 'rgb(205,92,92)',
+        //                     color : '#fff',
+        //                     data:reductions
+        //                 }
+        //             ]   
+        //         };
+
+        //         var group_chart3 = $('#feed_chart');
+
+        //         if(feed_chart)
+        //         {
+        //             feed_chart.destroy();
+        //         }
+
+        //         const bgColor = {
+        //             id: 'bgColor',
+        //             beforeDraw: (chart, options) => {
+        //                 const { ctx, width, height} = chart;
+        //                 ctx.fillStyle = 'white';
+        //                 ctx.fillRect(0,0, width, height);
+        //                 ctx.restore();
+        //             }
+        //         }
+        //         feed_chart = new Chart(group_chart3, {
+        //             type:'bar',
+        //             data:chart_data,
+        //                 options: {
+        //                     maintainAspectRatio: true,
+        //                     responsive: true,
+        //                     plugins: {
+        //                         datalabels: { // This code is used to display data values
+        //                             color: 'black',
+        //                             anchor: 'auto',
+        //                             align: 'top',
+        //                             formatter: Math.round,
+        //                             //                                     formatter: function(value, context) {
+        //                             //   return context.dataset.label + ': ' + value + '%';
+        //                             // },
+        //                             font: {
+        //                                 weight: 'normal',
+        //                                 size: 12
+        //                             },
+        //                             minRotation: 0,
+        //                             maxRotation: 90,
+        //                         }
+        //                     }
+        //                 },
+        //             plugins: [{
+        //                 bgColor,
+        //                 afterDatasetsDraw: ((chart, args, plugins) => {
+        //                     const {ctx, data, chartArea: {top, bottom, left, right, width, height}} = chart;
+        //                         // console.log(data)
+        //                     ctx.save();
+                            
+        //                     if (startingQuantity.length === 0 && instock.length === 0 && reductions.length === 0) {
+        //                         // console.log('ahah')
+        //                         ctx.fillStyle = 'rgba(255, 255, 255, 1)';
+        //                         ctx.fillRect(left, top, width, height);
+
+        //                         ctx.font = '20px sans-serif';
+        //                         ctx.fillStyle = 'black';
+        //                         ctx.textAlign = 'center';
+        //                         ctx.fillText('No Data Available', left + width / 2, top + height / 2);
+        //                     }
+
+        //                 })
+        //             }]
+        //         });
+        //     }
+        // });
     }
     
     $('#daterange_textbox').daterangepicker({
@@ -557,6 +853,8 @@
             $('#list_medicines').DataTable().destroy();
             $('#low_stock').DataTable().destroy();
             $('#feed_table').DataTable().destroy();
+            $('#second_table').DataTable().destroy();
+            $('#feeds_low_stock').DataTable().destroy();
             fetch_data(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD'));
 
         });

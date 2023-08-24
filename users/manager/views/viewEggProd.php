@@ -9,21 +9,21 @@
     $id = $_REQUEST['id'];
 
     //this will hold the quantity before update
-    $eggBatch_ID = $eggSize = $quantity = $collectionType = $collectionDate = $note = "";
+    $collection_ID = $eggSize = $quantity = $dispositionType = $transactionDate = $note = "";
 
     //statement to get the old quantity
-    $sql = "SELECT * FROM eggproduction WHERE eggBatch_ID = '$id'";
+    $sql = "SELECT * FROM eggtransaction WHERE transactionType = 'Collection' AND collection_ID = '$id'";
     $stmt = $conn->query($sql);
 
     if($stmt){
         if($stmt->rowCount() > 0){
             while($row = $stmt->fetch()){
-                $eggBatch_ID = $row['eggBatch_ID'];
+                $collection_ID = $row['collection_ID'];
                 $eggSize = $row['eggSize'];
                 $quantity = $row['quantity'];
-                $collectionType = $row['collectionType'];
-                $dateString = strtotime($row['collectionDate']);
-                $collectionDate = date("F d, Y",$dateString);
+                $dispositionType = $row['dispositionType'];
+                $dateString = strtotime($row['transactionDate']);
+                $transactionDate = date("F d, Y",$dateString);
                 $note = $row['note']; 
             }
             // Free result set
@@ -42,13 +42,13 @@
         <li class="breadcrumb-item">
             <a href="./egg_production.php" style="text-decoration: none">Egg Production</a>
         </li>
-        <li class="breadcrumb-item active">Egg Details</li>
+        <li class="breadcrumb-item active">Egg Collection Details</li>
     </ol>
 
     <div class="row justify-content-center mt-2">
         <div class="col-sm-4">
             <div class="card bg-light shadow-lg mb-4 ">
-                <div class="card-header text-center fw-bold d-flex justify-content-between p-3" style="background-color: #FFAF1A; color: #91452c"><div>EGG DETAILS</div> <div>
+                <div class="card-header text-center fw-bold d-flex justify-content-between p-3" style="background-color: #FFAF1A; color: #91452c"><div>EGG COLLECTION DETAILS</div> <div>
                             <a class="small text-white" href="./egg_production.php">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black" class="bi bi-box-arrow-left" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0v2z"/>
@@ -59,7 +59,7 @@
                         <div class="card-body p-4">
                             <!-- egg batch id -->
                             <div class="mb-3">
-                                <p class="fw-bold">Egg Batch ID: <span class="fw-normal ps-2"><?php echo $eggBatch_ID; ?></span></p>
+                                <p class="fw-bold">Collection ID: <span class="fw-normal ps-2"><?php echo $collection_ID; ?></span></p>
                             </div>
 
                             <!-- egg Size -->
@@ -74,13 +74,13 @@
 
                             <!-- Collection Type -->
                             <div class="mb-3">
-                                <p class="fw-bold">Collection Type: <span class="fw-normal ps-2"><?php echo $collectionType; ?></span></p>
+                                <p class="fw-bold">Collection Type: <span class="fw-normal ps-2"><?php echo $dispositionType; ?></span></p>
                             </div>
 
                             
                             <!-- Collection Date -->
                             <div class="mb-3">
-                                <p class="fw-bold">Collection Date: <span class="fw-normal ps-2"><?php echo $collectionDate; ?></span></p>
+                                <p class="fw-bold">Collection Date: <span class="fw-normal ps-2"><?php echo $transactionDate; ?></span></p>
                             </div>
                                
                             <!-- Note -->

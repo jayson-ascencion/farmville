@@ -5,25 +5,35 @@ include('../../../config/database_connection.php');
 try{
 
     //define variables
-    $eggSize = $quantity = $collectionDate =  $collectionType = $note = "";
+    $eggSize_ID = $eggSize_ID = $quantity =  $collectionType = $collectionDate = $note = "";
 
     //variables to store error message
-    $eggSize_err = $quantity_err = $collectionDate_err = $collectionType_err = $note_err = "";
+    $eggSize_ID_err = $quantity_err = $collectionDate_err = $collectionType_err = $note_err = "";
     
     //processing the data from the form submitted
     if(isset($_POST['submit'])){
 
         //collect data from the form
-        $eggSize = $_POST['eggSize'];
+        $eggSize_ID = $_POST['eggSize_ID'];
         $quantity = $_POST['quantity'];
         $collectionDate = $_POST['collectionDate']; //date("Y-m-d");
         $collectionType = $_POST['collectionType'];
         $note = $_POST['note'];
-    
+        $user_ID = $_SESSION["user_ID"];
 
         //validate medicine name if empty and allows only alphabets and white spaces
-        if (empty(trim($eggSize))) {  
+        if (empty(trim($eggSize_ID))) {  
             $eggSize_err = "Please select egg size.";
+        }else{
+            $sql = "SELECT eggSize FROM eggproduction WHERE eggSize_ID = $eggSize_ID";
+            $stmt = $conn->query($sql);
+            if($stmt){
+                if($stmt->rowCount() > 0){
+                    while($row = $stmt->fetch()){
+                        $eggSize = $row['eggSize'];
+                    }
+                }
+            }
         }
 
         //validate starting quantity if empty
@@ -48,29 +58,49 @@ try{
         }
 
 
-        if(empty($eggSize_err) && empty($quantity_err) && empty($collectionDate_err) && empty($collectionType_err) && empty($note_err)){
+        if(empty($eggSize_ID_err) && empty($quantity_err) && empty($collectionDate_err) && empty($collectionType_err) && empty($note_err)){
 
            // Prepare an insert statement
-           $sql = "INSERT INTO eggproduction (eggSize, quantity, collectionDate, collectionType, note) VALUES (:eggSize, :quantity, :collectionDate, :collectionType, :note)";
+           $sql = "INSERT INTO eggtransaction (eggSize_ID, user_ID, eggSize, quantity, dispositionType, transactionDate, note) VALUES (:eggSize_ID, :user_ID, :eggSize, :quantity, :collectionType, :collectionDate, :note)";
          
            if($stmt = $conn->prepare($sql))
            {
                // Bind variables to the prepared statement as parameters
+               $stmt->bindParam(":eggSize_ID", $param_eggSize_ID, PDO::PARAM_STR);
+               $stmt->bindParam(":user_ID", $param_user_ID, PDO::PARAM_STR);
                $stmt->bindParam(":eggSize", $param_eggSize, PDO::PARAM_STR);
                $stmt->bindParam(":quantity", $param_quantity, PDO::PARAM_STR);
-               $stmt->bindParam(":collectionDate", $param_collectionDate, PDO::PARAM_STR);
                $stmt->bindParam(":collectionType", $param_collectionType, PDO::PARAM_STR);
+               $stmt->bindParam(":collectionDate", $param_collectionDate, PDO::PARAM_STR);
                $stmt->bindParam(":note", $param_note, PDO::PARAM_STR);
 
                // Set parameters
+               $param_eggSize_ID = $eggSize_ID;
+               $param_user_ID = $user_ID;
                $param_eggSize = $eggSize;
                $param_quantity = $quantity;
-               $param_collectionDate = $collectionDate;
                $param_collectionType = $collectionType;
+               $param_collectionDate = $collectionDate;
                $param_note = $note;
                // Attempt to execute the prepared statement
                if($stmt->execute())
                {
+                    // Prepare an update statement to update inStock
+                    $sql = "UPDATE eggproduction SET inStock = inStock + :quantity WHERE eggSize_ID = '$eggSize_ID'";
+                
+                    if($stmt = $conn->prepare($sql))
+                    {
+                        // Bind variables to the prepared statement as parameters
+                        $stmt->bindParam(":quantity", $param_quantity, PDO::PARAM_STR);
+
+                        // Set parameters
+                        $param_quantity = $quantity;
+                        // Attempt to execute the prepared statement
+                        $stmt->execute();
+
+                        // Close statement
+                        unset($stmt);
+                    }
                 $_SESSION['status'] = "Egg Batch Added Successfully.";
                 header("Location: egg_production.php");
                } 

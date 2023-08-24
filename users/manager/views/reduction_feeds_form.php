@@ -6,7 +6,7 @@
     include('../../includes/header.php');
 
     include('../action/feeds_reduction.php'); 
-    
+     
  
 ?>
 
@@ -28,14 +28,14 @@
                         <div class="card-body p-4">
                             <!-- ID  -->
                             <div class="form-group mb-3">
-                                <label for="feed_ID" class="mb-2 text-dark">Feed ID</label>
+                                <label for="feed_ID" class="mb-2 text-dark">Feed</label>
                                 <select class="form-select" name="feed_ID" required>
                                     <option value="<?php echo $feed_ID; ?>">
                                         <?php
                                         if(!empty($feed_ID)){
                                             echo $feed_ID;
                                         }else{
-                                            echo "- select a batch id -";
+                                            echo "- select a feed -";
                                         }
                                         ?>
                                     </option>
@@ -45,12 +45,12 @@
                                         include('../../../config/database_connection.php');
                                         $selectedID = "";
                                         //statement to select the all the medicine names
-                                        $sql = "SELECT feedName, feed_ID FROM feeds WHERE archive='not archived'";
+                                        $sql = "SELECT feedName, feed_ID FROM feeds WHERE inStock <> 0";
                                         $stmt = $conn->query($sql);
                                         if($stmt){
                                             if($stmt->rowCount() > 0){
                                                 while($row = $stmt->fetch()){?>
-                                                <option value="<?php echo $row['feed_ID']; ?>"> <?php echo $row['feed_ID']  . " - " . $row["feedName"];?> </option>
+                                                <option value="<?php echo $row['feed_ID']; ?>"> <?php echo $row["feedName"];?> </option>
                                             <?php }
                                                 // Free result set
                                                 unset($result);
@@ -107,8 +107,8 @@
                                             }
                                         ?>
                                     </option>
-                                    <option value="Chicken Consumption">Chicken Consumption</option>
-                                    <option value="Spoiled">Spoiled</option>
+                                    <option value="Used">Used</option>
+                                    <option value="Damaged">Damaged</option>
                                 </select>
                                 <span class="text-danger" style="font-size: 13px;"> <?php echo $reductionType_err; ?> </span>
                             </div>
@@ -152,15 +152,16 @@
 <script>
 
     $(document).ready(function() {
-        $('select[name="coopNumber"]').on('change', function() {
-            var coopNumber = $(this).val();
+        $('select[name="feed_ID"]').on('change', function() {
+            var feed_ID = $(this).val();
             // Make an AJAX request to fetch the quantity for the selected coopNumber
             $.ajax({
                 url: '../action/get_quantity.php', // Replace with the URL of your PHP script
                 type: 'POST',
-                data: { coopNumber: coopNumber },
+                data: { feed_ID: feed_ID },
                 dataType: 'json',
                 success: function(response) {
+                        console.log(response)
                     if (response.status == 'success') {
                         // Update the "Available Quantity" input element with the fetched quantity
                         $('#availableQuantityWrapper').val(response.inStock);
@@ -174,7 +175,7 @@
             });
         });
         // Trigger the event handler when the page is loaded or refreshed
-        $('select[name="coopNumber"]').trigger('change');
+        $('select[name="feed_ID"]').trigger('change');
     });
 
 </script>

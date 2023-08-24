@@ -46,9 +46,47 @@
                                 <label for="batchName" class="mb-2 text-dark">Batch Name</label>
                                 <input type="text" name="batchName" class="form-control"value="<?php echo $batchName; ?>" required>
                                 <span class="text-danger" style="font-size: 13px;">  <?php echo $batchName_err; ?> </span>
-                            </div>                            
+                            </div>       
+                            
+                            <!-- <div class="form-group mb-3">
+                                <label for="breedType" class="mb-2 text-dark">BREED PLEASE</label>
+                                    
+                                <input type="text" list="cars" name="breedType" class="form-control" />
+                                <datalist id="cars">
+                                <option>Volvo</option>
+                                <option>Saab</option>
+                                <option>Mercedes</option>
+                                <option>Audi</option>
+                                </datalist>
+                            </div> -->
 
-                            <!-- Breed Type -->
+                            <!-- BREED TYPE -->
+                            <div class="form-group mb-3">
+                                <label for="batchName" class="mb-2 text-dark">Breed Type</label>
+                                <select name="breedType" class="form-control"
+                                    onchange="if(this.options[this.selectedIndex].value=='customOption'){
+                                        toggleField(this,this.nextSibling);
+                                        this.selectedIndex='0';
+                                    }">
+                                        <option value="">- select breed type -</option>
+                                        <option>Sussex</option>
+                                        <option>Rhode Island Reds</option>
+                                        <option>Plymouth</option>
+                                        <option>Leghorns</option>
+                                        <option value="customOption">Other</option>
+                                </select><input name="breedType" class="form-control" style="display:none;" disabled="disabled" 
+                                    onblur="if(this.value==''){toggleField(this,this.previousSibling);}">
+                            </div>  
+                            <!-- <div id="billdesc" class="form-group mb-3">
+                                <select id="test" class="form-select">
+                                <option class="non" value="option1">Option1</option>
+                                <option class="non" value="option2">Option2</option>
+                                <option class="editable" value="other">Other</option>
+                                </select>
+                                <input class="editOption" style="display:none;" placeholder="Text juaj"></input>
+                            </div> -->
+
+                            <!-- Breed Type
                             <div class="form-group mb-3">
                                 <label for="breedType" class="mb-2 text-dark">Breed Type</label>
                                 <select class="form-select" name="breedType">
@@ -65,10 +103,15 @@
                                     <option value="Rhode Island Reds">Rhode Island Reds</option>
                                     <option value="Sussex">Sussex</option>
                                     <option value="Plymouth">Plymouth</option>
-                                </select>
-                                <span class="text-danger" style="font-size: 13px;"> <?php echo $breedType_err; ?> </span>
-                            </div>
-                    
+                                <option value="Other">Other</option>
+                                                        </select>
+                                                        <span class="text-danger" style="font-size: 13px;"> <?php echo $breedType_err; ?> </span>
+                                                    </div> -->
+                                            <!-- Other Breed Type -->
+                            <!-- <div class="form-group mb-3" id="otherBreedType" style="display: none;">
+                                <label for="otherBreedType" class="mb-2 text-dark">Other Breed Type</label>
+                                <input type="text" class="form-control" name="otherBreedType">
+                            </div> -->
                             <!-- Batch Purpose -->
                             <div class="form-group mb-3">
                                 <label for="batchPurpose" class="mb-2 text-dark">Batch Purpose</label>
@@ -89,11 +132,23 @@
                                 <span class="text-danger" style="font-size: 13px;"> <?php echo $batchPurpose_err; ?> </span>
                             </div>
  
-                            <!-- Starting Quantity -->
-                            <div class="form-group mb-3">
-                                <label for="startingQuantity" class="mb-2 text-dark">Quantity</label>
-                                <input type="number" name="startingQuantity" class="form-control" value="<?php echo $startingQuantity; ?>" required>
-                                <span class="text-danger" style="font-size: 13px;">  <?php echo $startingQuantity_err; ?> </span>
+                            <!-- quantity -->
+
+                            <div class="d-flex flex-column flex-sm-column flex-lg-row gap-2">
+                                <!-- Available Quantity -->
+                                <div class="form-group w-100 mb-3">
+                                    <label for="male" class="mb-2 text-dark">Number of males:</label>
+                                    <input type="number" name="male" class="form-control" value="<?php echo $male; ?>" required>
+                                    <span class="text-danger" style="font-size: 13px;"> <?php echo $male_err; ?> </span>
+                                </div>
+                                
+                                <!-- Reduction Quantity -->
+                                <div class="form-group w-100 mb-3">
+                                    <label for="female" class="mb-2 text-dark">Number of females: </label>
+                                    <!-- <input type="date" min="2022-01-01" name="expirationDate" class="form-control" value=" echo $expirationDate; ?>" required> -->
+                                    <input type="number" name="female" class="form-control" value="<?php echo $female; ?>" required>
+                                    <span class="text-danger" style="font-size: 13px;"> <?php echo $female_err; ?> </span>
+                                </div>
                             </div>
                             
                             <!-- Date Acquired -->
@@ -156,3 +211,46 @@
     //scripts
     include('../../includes/scripts.php');
 ?>
+
+<script>
+    // Show/hide the Other Breed Type field based on the selected value
+    var breedTypeSelect = document.getElementById("breedType");
+    var otherBreedTypeDiv = document.getElementById("otherBreedType");
+    breedTypeSelect.addEventListener("change", function() {
+        if (breedTypeSelect.value == "Other") {
+            otherBreedTypeDiv.style.display = "block";
+        } else {
+            otherBreedTypeDiv.style.display = "none";
+        }
+    });
+
+    var initialText = $('.editable').val();
+$('.editOption').val(initialText);
+
+$('#test').change(function(){
+var selected = $('option:selected', this).attr('class');
+var optionText = $('.editable').text();
+
+if(selected == "editable"){
+  $('.editOption').show();
+
+  
+  $('.editOption').keyup(function(){
+      var editText = $('.editOption').val();
+      $('.editable').val(editText);
+      $('.editable').html(editText);
+  });
+
+}else{
+  $('.editOption').hide();
+}
+});
+
+function toggleField(hideObj,showObj){
+ hideObj.disabled=true;		
+ hideObj.style.display='none';
+ showObj.disabled=false;	
+ showObj.style.display='inline';
+ showObj.focus();
+}
+</script>

@@ -27,15 +27,16 @@
                     <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST" novalidate>
                         <div class="card-body p-4">
                             <!-- ID  -->
+                            
                             <div class="form-group mb-3">
-                                <label for="eggBatch_ID" class="mb-2 text-dark">Egg Batch ID</label>
-                                <select class="form-select" name="eggBatch_ID" required>
-                                    <option value="<?php echo $eggBatch_ID; ?>">
+                                <label for="eggSize_ID" class="mb-2 text-dark">Egg Size</label>
+                                <select class="form-select" name="eggSize_ID" required>
+                                    <option value="<?php echo $eggSize_ID; ?>">
                                         <?php
-                                        if(!empty($eggBatch_ID)){
-                                            echo $eggBatch_ID;
+                                        if(!empty($eggSize_ID)){
+                                            echo $eggSize_ID;
                                         }else{
-                                            echo "- select a batch id -";
+                                            echo "- select an egg size -";
                                         }
                                         ?>
                                     </option>
@@ -45,16 +46,17 @@
                                         include('../../../config/database_connection.php');
                                         $selectedID = "";
                                         //statement to select the all the medicine names
-                                        $sql = "SELECT eggSize, eggBatch_ID FROM eggproduction WHERE archive='not archived' AND quantity > 0";
+                                        $sql = "SELECT eggSize, eggSize_ID FROM eggproduction WHERE inStock <> 0 ";
                                         $stmt = $conn->query($sql);
                                         if($stmt){
                                             if($stmt->rowCount() > 0){
                                                 while($row = $stmt->fetch()){?>
-                                                <option value="<?php echo $row['eggBatch_ID']; ?>"> <?php echo $row['eggBatch_ID']  . " - " . $row["eggSize"];?> </option>
+                                                <option value="<?php echo $row['eggSize_ID']; ?>"> <?php echo $row["eggSize"];?> </option>
                                             <?php }
                                                 // Free result set
                                                 unset($result);
                                             } else{
+
                                                 echo '<div class="alert alert-danger"><em>No records were found.</em></div>';
                                             }
                                         } else{
@@ -64,15 +66,8 @@
 
                                     ?>
                                 </select>
-                                <span class="text-danger" style="font-size: small;"> <?php echo $eggBatch_ID_err; ?> </span>
+                                <span class="text-danger" style="font-size: small;"> <?php echo $eggSize_ID_err; ?> </span>
                             </div>
-
-                            <!-- Quantity -->
-                            <!-- <div class="form-group mb-3">
-                                <label for="quantity" class="mb-2 text-dark">Quantity</label>
-                                <input type="number" name="quantity" class="form-control" value="<?php echo $quantity; ?>" required>
-                                <span class="text-danger" style="font-size: 13px;">  <?php echo $quantity_err; ?> </span>
-                            </div> -->
 
                             <div class="d-flex flex-column flex-sm-column flex-lg-row gap-2">
                                 <!-- Available Quantity -->
@@ -161,13 +156,13 @@
 <script>
 
     $(document).ready(function() {
-        $('select[name="coopNumber"]').on('change', function() {
-            var coopNumber = $(this).val();
-            // Make an AJAX request to fetch the quantity for the selected coopNumber
+        $('select[name="eggSize_ID"]').on('change', function() {
+            var eggSize_ID = $(this).val();
+            // Make an AJAX request to fetch the quantity for the selected eggSize_ID
             $.ajax({
                 url: '../action/get_quantity.php', // Replace with the URL of your PHP script
                 type: 'POST',
-                data: { coopNumber: coopNumber },
+                data: { eggSize_ID: eggSize_ID },
                 dataType: 'json',
                 success: function(response) {
                     if (response.status == 'success') {
@@ -183,7 +178,7 @@
             });
         });
         // Trigger the event handler when the page is loaded or refreshed
-        $('select[name="coopNumber"]').trigger('change');
+        $('select[name="eggSize_ID"]').trigger('change');
     });
 
 </script>

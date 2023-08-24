@@ -34,16 +34,16 @@
                             $id = $_REQUEST['id'];
                             
                             //statement to select the specific schedule to update
-                            $sql = "SELECT * FROM eggreduction WHERE eggReduction_ID = '$id'";
+                            $sql = "SELECT * FROM eggtransaction WHERE collection_ID = '$id'";
                             $stmt = $conn->query($sql);
                             if($stmt){
                                 if($stmt->rowCount() > 0){
                                     while($row = $stmt->fetch()){
-                                        $eggBatch_ID = $row['eggBatch_ID'];
+                                        $eggSize_ID = $row['eggSize_ID'];
                                         $eggSize = $row['eggSize'];
                                         $quantity = $row['quantity'];
-                                        $reductionType = $row['reductionType'];
-                                        $dateReduced = $row['dateReduced'];
+                                        $reductionType = $row['dispositionType'];
+                                        $dateReduced = $row['transactionDate'];
                                      }
                                     // Free result set
                                     unset($result);
@@ -58,21 +58,21 @@
                         <div class="card-body p-4">
                             <!-- Egg Batch ID -->
                             <div class="form-group mb-3">
-                                <label for="eggBatch_ID" class="mb-2 text-dark">Egg Batch ID</label>
-                                <select class="form-select" name="eggBatch_ID" disabled>
+                                <label for="eggSize_ID" class="mb-2 text-dark">Egg Batch ID</label>
+                                <select class="form-select" name="eggSize_ID" disabled>
                                     <?php
 
                                         //connect to the database
                                         include('../../../config/database_connection.php');
 
                                         //statement to select the all the medicine names
-                                        $sql = "SELECT eggBatch_ID, eggSize FROM eggproduction";
+                                        $sql = "SELECT eggSize_ID, eggSize FROM eggproduction";
                                         $stmt = $conn->query($sql);
                                         if($stmt){
                                             if($stmt->rowCount() > 0){
-                                                echo '<option value="' . $eggBatch_ID . '">' . $eggBatch_ID .'</option>';
+                                                echo '<option value="' . $eggSize_ID . '">' . $eggSize .'</option>';
                                                 while($row = $stmt->fetch()){?>
-                                                <option value="<?php echo $row['eggBatch_ID']; ?>"> <?php echo $row['eggBatch_ID'] . " - " . $row['eggSize']; ?> </option>
+                                                <option value="<?php echo $row['eggSize_ID']; ?>"> <?php echo $row['eggSize']; ?> </option>
                                             <?php }
                                                 // Free result set
                                                 unset($result);
@@ -90,7 +90,7 @@
                             </div>
 
                             <!-- egg Size -->
-                            <div class="form-group mb-3">
+                            <!-- <div class="form-group mb-3">
                                 <label for="eggSize" class="mb-2 text-dark">Egg Size</label>
                                 <select class="form-select" name="eggSize" disabled>
                                     <option value="<?php echo $eggSize; ?>"><?php echo $eggSize; ?></option>
@@ -100,7 +100,7 @@
                                     <option value="L">L</option>
                                     <option value="XL">XL</option>
                                 </select>
-                            </div>                          
+                            </div>                           -->
 
                             <!-- Quantity -->
                             <div class="form-group mb-3">
@@ -147,7 +147,7 @@
                             </div>
                                 
                         </div>
-                        <input type="hidden" name="eggBatch_ID" value="<?php echo $eggBatch_ID; ?>"/>
+                        <input type="hidden" name="eggSize_ID" value="<?php echo $eggSize_ID; ?>"/>
                         <input type="hidden" name="id" value="<?php echo $id; ?>"/>
                         <div class="card-footer w-100 border d-flex justify-content-between">
                             <div class="w-100 m-1">

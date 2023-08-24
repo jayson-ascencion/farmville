@@ -7,7 +7,7 @@ include('../../../config/database_connection.php');
     $oldQuantity = "";
 
     //statement to get the old quantity
-    $sql = "SELECT quantity FROM eggreduction WHERE eggReduction_ID = '$id'";
+    $sql = "SELECT quantity FROM eggtransaction WHERE collection_ID = '$id'";
     $stmt = $conn->query($sql);
 
     if($stmt){
@@ -27,7 +27,7 @@ include('../../../config/database_connection.php');
 try{
 
     //define variables
-    $eggBatch_ID = $updateQuantity = $reductionType = $dateReduced = $success = "";
+    $eggSize_ID = $updateQuantity = $reductionType = $dateReduced = $success = "";
 
     //this will hold the quantity in stock
     $inStock = "";
@@ -46,7 +46,7 @@ try{
         $id = $_REQUEST['id'];
 
         //collect data from the form
-        $eggBatch_ID = $_POST['eggBatch_ID'];
+        $eggSize_ID = $_POST['eggSize_ID'];
         $updateQuantity = $_POST['updateQuantity'];
         $reductionType = $_POST['reductionType'];
         $dateReduced = $_POST['dateReduced'];
@@ -54,13 +54,13 @@ try{
     
         
         //statement to get the in stock in the egg production using egg batch id
-        $sql = "SELECT quantity FROM eggproduction WHERE eggBatch_ID = '$eggBatch_ID'";
+        $sql = "SELECT inStock FROM eggproduction WHERE eggSize_ID = '$eggSize_ID'";
         $stmt = $conn->query($sql);
 
         if($stmt){
             if($stmt->rowCount() > 0){
                 while($row = $stmt->fetch()){
-                    $inStock = $row['quantity'];
+                    $inStock = $row['inStock'];
                 }
                 // Free result set
                 unset($result);
@@ -120,18 +120,18 @@ try{
         if(empty($eggBatch_ID_err) && empty($updateQuantity_err) && empty($reductionType_err) && empty($dateReduced_err)){
 
            // Prepare an insert statement
-           $sql = "UPDATE eggreduction SET eggBatch_ID=:eggBatch_ID, quantity=:updateQuantity, reductionType=:reductionType, dateReduced=:dateReduced WHERE eggReduction_ID = '$id'";
+           $sql = "UPDATE eggtransaction SET eggSize_ID=:eggSize_ID, quantity=:updateQuantity, dispositionType=:reductionType, transactionDate=:dateReduced WHERE collection_ID = '$id'";
          
            if($stmt = $conn->prepare($sql))
            {
                // Bind variables to the prepared statement as parameters
-               $stmt->bindParam(":eggBatch_ID", $param_eggBatch_ID, PDO::PARAM_STR);
+               $stmt->bindParam(":eggSize_ID", $param_eggBatch_ID, PDO::PARAM_STR);
                $stmt->bindParam(":updateQuantity", $param_updateQuantity, PDO::PARAM_STR);
                $stmt->bindParam(":reductionType", $param_reductionType, PDO::PARAM_STR);
                $stmt->bindParam(":dateReduced", $param_dateReduced, PDO::PARAM_STR);
 
                // Set parameters
-               $param_eggBatch_ID = $eggBatch_ID;
+               $param_eggBatch_ID = $eggSize_ID;
                $param_updateQuantity = $updateQuantity;
                $param_reductionType = $reductionType;
                $param_dateReduced = $dateReduced;
@@ -140,7 +140,7 @@ try{
                if($stmt->execute())
                {
                     // Prepare an update statement to update inStock
-                    $sql = "UPDATE eggproduction SET quantity=:newQuantity WHERE eggBatch_ID = '$eggBatch_ID'";
+                    $sql = "UPDATE eggproduction SET inStock=:newQuantity WHERE eggSize_ID = '$eggSize_ID'";
         
                     if($stmt = $conn->prepare($sql))
                     {

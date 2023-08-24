@@ -11,29 +11,32 @@
     //this will hold the quantity before update
     $chickenBatch_ID = $coopNumber = $batchName = $quantity = $reductionType = $dateReduced = "";
 
-    //statement to get the old quantity
-    $sql = "SELECT * FROM chickenreduction WHERE reduction_ID = '$id'";
-    $stmt = $conn->query($sql);
-
-    if($stmt){
-        if($stmt->rowCount() > 0){
-            while($row = $stmt->fetch()){
-                //collect data from the form
-                $chickenBatch_ID = $row['chickenBatch_ID'];
-                $coopNumber = $row['coopNumber'];
-                $batchName = $row['batchName'];
-                $quantity = $row['quantity'];
-                $reductionType = $row['reductionType'];
-                $dateReduced = $row['dateReduced'];
-            }
-            // Free result set
-            unset($result);
-        } else{
-            echo '<div class="alert alert-danger"><em>No records were found.</em></div>';
-        }
-    } else{
-        echo "Oops! Something went wrong. Please try again later.";
-    }
+     //statement to get the old quantity
+     $sql = "SELECT * FROM chickentransaction WHERE transaction_ID = '$id'";
+     $stmt = $conn->query($sql);
+ 
+     if($stmt){
+         if($stmt->rowCount() > 0){
+             while($row = $stmt->fetch()){
+                 //collect data from the form
+                 $chickenBatch_ID = $row['chickenBatch_ID'];
+                 $coopNumber = $row['coopNumber'];
+                 $batchName = $row['batchName'];
+                 $quantity = $row['quantity'];
+                 $reductionType = $row['dispositionType'];
+                 $note = $row['note'];
+                 $sex = $row['sex'];
+                 $dateString = strtotime($row['transactionDate']);
+                 $dateReduced = date('F d, Y',$dateString); //$row['dateReduced'];
+             }
+             // Free result set
+             unset($result);
+         } else{
+             echo '<div class="alert alert-danger"><em>No records were found.</em></div>';
+         }
+     } else{
+         echo "Oops! Something went wrong. Please try again later.";
+     }
 
     try{
         
@@ -42,11 +45,20 @@
             $id = $_POST['id'];
             // $archived = 'archived';
 
-            // Prepare an insert statement
-            $sql = "BEGIN;
-            UPDATE chickenproduction SET inStock = inStock + $quantity WHERE chickenBatch_ID = '$chickenBatch_ID';
-            DELETE FROM chickenreduction WHERE reduction_ID = '$id';
-            COMMIT;";
+            if($sex =='Male'){
+                // Prepare an insert statement
+                $sql = "BEGIN;
+                UPDATE chickenproduction SET inStock = inStock + $quantity, male = male + $quantity WHERE chickenBatch_ID = '$chickenBatch_ID';
+                DELETE FROM chickentransaction WHERE transaction_ID = '$id';
+                COMMIT;";
+            }else{
+                // Prepare an insert statement
+                $sql = "BEGIN;
+                UPDATE chickenproduction SET inStock = inStock + $quantity, female = female + $quantity WHERE chickenBatch_ID = '$chickenBatch_ID';
+                DELETE FROM chickentransaction WHERE transaction_ID = '$id';
+                COMMIT;";
+            }
+            
             
             if($stmt = $conn->prepare($sql))
             {
@@ -95,19 +107,24 @@
                 <div class="card-header text-center fw-bold p-3" style="background-color: #FFAF1A; color: #91452c"><div class=" text-center ">Are you sure you want to delete this record?</div> </div>
                         <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST">
                         <div class="card-body p-4">
-                            <!-- egg batch id -->
-                            <div class="mb-3">
-                                <p class="fw-bold">Chicken Batch ID: <span class="fw-normal ps-2"><?php echo $chickenBatch_ID; ?></span></p>
-                            </div>
-
-                            <!-- egg Size -->
-                            <div class="mb-3">
+                               <!-- egg Size -->
+                               <div class="mb-3">
                                 <p class="fw-bold">Coop Number: <span class="fw-normal ps-2"><?php echo $coopNumber; ?></span></p>
+                            </div>
+                    
+                            <!-- Batch Name -->
+                            <div class="mb-3">
+                                <p class="fw-bold">Batch Name: <span class="fw-normal ps-2"><?php echo $batchName; ?></span></p>
                             </div>
                     
                             <!-- Quantity -->
                             <div class="mb-3">
-                                <p class="fw-bold">Batch Name: <span class="fw-normal ps-2"><?php echo $batchName; ?></span></p>
+                                <p class="fw-bold">Sex: <span class="fw-normal ps-2"><?php echo $sex; ?></span></p>
+                            </div>
+                    
+                            <!-- Quantity -->
+                            <div class="mb-3">
+                                <p class="fw-bold">Quantity: <span class="fw-normal ps-2"><?php echo $quantity; ?></span></p>
                             </div>
 
                             <!-- Collection Type -->
@@ -119,6 +136,11 @@
                             <!-- Collection Date -->
                             <div class="mb-3">
                                 <p class="fw-bold">Date Reduced: <span class="fw-normal ps-2"><?php echo $dateReduced; ?></span></p>
+                            </div>
+
+                            <!-- Collection Date -->
+                            <div class="mb-3">
+                                <p class="fw-bold">Note: <span class="fw-normal ps-2"><?php echo $note; ?></span></p>
                             </div>
 
 

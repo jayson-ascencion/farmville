@@ -5,10 +5,10 @@ include('../../../config/database_connection.php');
 try{
 
     //define variables
-    $medicineType = $medicineName = $medicineBrand = $medicineFor = $startingQuantity = $dateAdded =  $expirationDate = $success = $futureDate = "";
+    $medicineType = $medicineName = $medicineBrand = $medicineFor = $inStock = $dateAdded =  $expirationDate = $success = $futureDate = "";
 
     //variables to store error message
-    $medicineType_err = $medicineName_err = $medicineBrand_err = $medicineFor_err = $startingQuantity_err = $dateAdded_err = $expirationDate_err = "";
+    $medicineType_err = $medicineName_err = $medicineBrand_err = $medicineFor_err = $inStock_err = $dateAdded_err = $expirationDate_err = "";
     
     //processing the data from the form submitted
     if(isset($_POST['submit'])){
@@ -18,9 +18,9 @@ try{
         $medicineName = $_POST['medicineName'];
         $medicineBrand = $_POST['medicineBrand'];
         $medicineFor = $_POST['medicineFor'];
-        $startingQuantity = $_POST['startingQuantity'];
+        $inStock = $_POST['inStock'];
         // $inStock = $_POST['inStock'];
-        $dateAdded = $_POST['dateAdded'];
+        // $dateAdded = $_POST['dateAdded'];
         $expirationDate = $_POST['expirationDate'];
     
     
@@ -53,8 +53,8 @@ try{
         }
 
         //validate starting quantity if empty and only allows number with a length of 11, validate if number exist then display error
-        if (!preg_match ("/^[0-9]+$/", $startingQuantity) ){  
-            $startingQuantity_err = "Please enter a valid quantity."; 
+        if (!preg_match ("/^[0-9]+$/", $inStock) ){  
+            $inStock_err = "Please enter a valid quantity."; 
         }
 
         //validate in stock quantity if empty and only allows number with a length of 11, validate if number exist then display error
@@ -63,9 +63,9 @@ try{
         // }
 
         //validate date added if empty
-        if (empty($dateAdded)){
-            $dateAdded_err = "Please enter a date";
-        }
+        // if (empty($dateAdded)){
+        //     $dateAdded_err = "Please enter a date";
+        // } && empty($dateAdded_err) 
 
         //validate expiration date if empty
         if (empty($expirationDate)){
@@ -73,10 +73,10 @@ try{
         }
         
 
-        if(empty($medicineType_err) && empty($medicineName_err) && empty($medicineBrand_err) && empty($medicineFor_err) && empty($startingQuantity_err) && empty($dateAdded_err) && empty($expirationDate_err)){
+        if(empty($medicineType_err) && empty($medicineName_err) && empty($medicineBrand_err) && empty($medicineFor_err) && empty($inStock_err) && empty($expirationDate_err)){
 
            // Prepare an insert statement
-           $sql = "INSERT INTO medicines (medicineType, medicineName, medicineBrand, medicineFor, startingQuantity, dateAdded, expirationDate) VALUES (:medicineType, :medicineName, :medicineBrand, :medicineFor, :startingQuantity, :dateAdded, :expirationDate)";
+           $sql = "INSERT INTO medicines (medicineType, medicineName, medicineBrand, medicineFor, inStock, expirationDate) VALUES (:medicineType, :medicineName, :medicineBrand, :medicineFor, :inStock, :expirationDate)";
          
            if($stmt = $conn->prepare($sql))
            {
@@ -85,9 +85,9 @@ try{
                $stmt->bindParam(":medicineName", $param_medicineName, PDO::PARAM_STR);
                $stmt->bindParam(":medicineBrand", $param_medicineBrand, PDO::PARAM_STR);
                $stmt->bindParam(":medicineFor", $param_medicineFor, PDO::PARAM_STR);
-               $stmt->bindParam(":startingQuantity", $param_startingQuantity, PDO::PARAM_STR);
+               $stmt->bindParam(":inStock", $param_inStock, PDO::PARAM_STR);
             //    $stmt->bindParam(":inStock", $param_inStock, PDO::PARAM_STR);
-               $stmt->bindParam(":dateAdded", $param_dateAdded, PDO::PARAM_STR);
+            //    $stmt->bindParam(":dateAdded", $param_dateAdded, PDO::PARAM_STR);
                $stmt->bindParam(":expirationDate", $param_expirationDate, PDO::PARAM_STR);
 
                // Set parameters
@@ -95,9 +95,9 @@ try{
                $param_medicineName = $medicineName;
                $param_medicineBrand = $medicineBrand;
                $param_medicineFor = $medicineFor;
-               $param_startingQuantity = $startingQuantity;
+               $param_inStock = $inStock;
             //    $param_inStock = $inStock;
-               $param_dateAdded = $dateAdded;
+            //    $param_dateAdded = $dateAdded;
                $param_expirationDate = $expirationDate;
                // Attempt to execute the prepared statement
                if($stmt->execute())

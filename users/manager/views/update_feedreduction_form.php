@@ -34,7 +34,7 @@
                             $id = $_REQUEST['id'];
                             
                             //statement to select the specific schedule to update
-                            $sql = "SELECT * FROM feedreduction WHERE feedReduction_ID = '$id'";
+                            $sql = "SELECT * FROM feedtransaction WHERE transaction_ID = '$id'";
                             $stmt = $conn->query($sql);
                             if($stmt){
                                 if($stmt->rowCount() > 0){
@@ -43,7 +43,7 @@
                                         $feedName = $row['feedName'];
                                         $quantity = $row['quantity'];
                                         $reductionType = $row['reductionType'];
-                                        $dateReduced = $row['dateReduced'];
+                                        $dateReduced = $row['transactionDate'];
                                      }
                                     // Free result set
                                     unset($result);
@@ -101,7 +101,7 @@
                                 <input type="number" name="updateQuantity" class="form-control" value="<?php echo $quantity; ?>" required>
                                 <span class="text-danger" style="font-size: 13px;">  <?php echo $updateQuantity_err; ?> </span>
                             </div>
-
+ 
                             <!-- Reduction Type -->
                             <div class="form-group mb-3">
                                 <label for="reductionType" class="mb-2 text-dark">Reduction Type</label>
@@ -115,14 +115,15 @@
                                             }
                                         ?>
                                     </option>
-                                    <option value="Spoiled">Spoiled</option>
+                                    <option value="Damaged">Damaged</option>
+                                    <option value="Used">Used</option>
                                 </select>
                                 <span class="text-danger" style="font-size: 13px;"> <?php echo $reductionType_err; ?> </span>
                             </div>
 
                             <!-- reduction Date -->
                             <div class="form-group mb-3">
-                                <label for="dateReduced" class="mb-2 text-dark">reduction Date</label>
+                                <label for="dateReduced" class="mb-2 text-dark">Reduction Date</label>
                                 <input type="date" min="2022-01-01" max="<?php echo date('Y-m-d'); ?>" name="dateReduced" class="form-control" value="<?php echo $dateReduced; ?>" required>
                                 <span class="text-danger" style="font-size: 13px;">  <?php echo $dateReduced_err; ?> </span>
                             </div>

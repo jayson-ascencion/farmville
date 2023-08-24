@@ -94,26 +94,25 @@ if(isset($_POST["action"]))
 
 	if($_POST["action"] == 'reduction')
 	{
-		$order_column = array('reductionType','reductions');
+		$order_column = array('dispositionType','quantity');
 
 		$reductions_query = "
-		SELECT reductionType, SUM(COALESCE(quantity, 0)) as reductions
-		FROM chickenreduction
+		SELECT dispositionType, quantity FROM chickentransaction
 		";
 
-		$search_query = ' WHERE archive = "not archived" AND ';
+		$search_query = ' WHERE archive = "not archived" AND  dispositionType IN ("Culled", "Sold", "Death") AND ';
 
 		if(isset($_POST["start_date"], $_POST["end_date"]) && $_POST["start_date"] != '' && $_POST["end_date"] != '')
 		{
-			$search_query .= ' dateReduced >= "'.$_POST["start_date"].'" AND dateReduced <= "'.$_POST["end_date"].'" AND ';
+			$search_query .= ' transactionDate >= "'.$_POST["start_date"].'" AND transactionDate <= "'.$_POST["end_date"].'" AND ';
 		}
 
 		if(isset($_POST["search"]["value"]))
 		{
-			$search_query .= ' (dateReduced LIKE "%'.$_POST["search"]["value"].'%")';
+			$search_query .= ' (transactionDate LIKE "%'.$_POST["search"]["value"].'%")';
 		}
 
-		$group_by_query = " GROUP BY reductionType ";
+		$group_by_query = " GROUP BY dispositionType ";
 
 		
 		$order_by_query = "";
@@ -124,7 +123,7 @@ if(isset($_POST["action"]))
 		}
 		else
 		{
-			$order_by_query = 'ORDER BY reductions DESC ';
+			$order_by_query = 'ORDER BY transaction_ID DESC ';
 		}
 
 		$statement = $conn->prepare($reductions_query . $search_query . $group_by_query . $order_by_query);
@@ -147,9 +146,9 @@ if(isset($_POST["action"]))
 		{
 			$sub_array = array();
 
-			$sub_array[] = $row['reductionType'];
+			$sub_array[] = $row['dispositionType'];
 
-			$sub_array[] = $row['reductions'];
+			$sub_array[] = $row['quantity'];
 
 			$data[] = $sub_array;
 		}
@@ -237,112 +236,112 @@ if(isset($_POST["action"]))
 	}
 
 
-	//---------------------------------EGG REPORT----------------------------------//
-	if($_POST["action"] == 'egg')
-	{
-		$order_column = array('collectionDate','eggSize', 'totalQuantity','totalReductions');
+	// //---------------------------------EGG REPORT----------------------------------//
+	// if($_POST["action"] == 'egg')
+	// {
+	// 	$order_column = array('collectionDate','eggSize', 'totalQuantity','totalReductions');
 
-		$main_query = "
-		SELECT ep.collectionDate, ep.eggSize, SUM(COALESCE(ep.quantity,0)) as totalQuantity, SUM(COALESCE(er.quantity,0)) as totalReductions 
-		FROM eggproduction ep 
-		LEFT JOIN eggreduction er ON ep.eggBatch_ID = er.eggBatch_ID 
-		";
+	// 	$main_query = "
+	// 	SELECT ep.collectionDate, ep.eggSize, SUM(COALESCE(ep.quantity,0)) as totalQuantity, SUM(COALESCE(er.quantity,0)) as totalReductions 
+	// 	FROM eggproduction ep 
+	// 	LEFT JOIN eggreduction er ON ep.eggBatch_ID = er.eggBatch_ID 
+	// 	";
 
-		$search_query = ' WHERE ep.archive = "not archived" AND ';
+	// 	$search_query = ' WHERE ep.archive = "not archived" AND ';
 
-		if(isset($_POST["start_date"], $_POST["end_date"]) && $_POST["start_date"] != '' && $_POST["end_date"] != '')
-		{
-			$search_query .= 'ep.collectionDate >= "'.$_POST["start_date"].'" AND ep.collectionDate <= "'.$_POST["end_date"].'" AND ';
-		}
+	// 	if(isset($_POST["start_date"], $_POST["end_date"]) && $_POST["start_date"] != '' && $_POST["end_date"] != '')
+	// 	{
+	// 		$search_query .= 'ep.collectionDate >= "'.$_POST["start_date"].'" AND ep.collectionDate <= "'.$_POST["end_date"].'" AND ';
+	// 	}
 
-		if(isset($_POST["search"]["value"]))
-		{
-			$search_query .= '(ep.eggBatch_ID LIKE "%'.$_POST["search"]["value"].'%" OR ep.eggSize LIKE "%'.$_POST["search"]["value"].'%" OR ep.collectionDate LIKE "%'.$_POST["search"]["value"].'%")';
-		}
+	// 	if(isset($_POST["search"]["value"]))
+	// 	{
+	// 		$search_query .= '(ep.eggBatch_ID LIKE "%'.$_POST["search"]["value"].'%" OR ep.eggSize LIKE "%'.$_POST["search"]["value"].'%" OR ep.collectionDate LIKE "%'.$_POST["search"]["value"].'%")';
+	// 	}
 
-		$group_by_query = " GROUP BY ep.collectionDate, ep.eggSize ";
+	// 	$group_by_query = " GROUP BY ep.collectionDate, ep.eggSize ";
 
-		$order_by_query = "";
+	// 	$order_by_query = "";
 
-		if(isset($_POST["order"]))
-		{
-			$order_by_query = 'ORDER BY '.$order_column[$_POST['order']['0']['column']].' '.$_POST['order']['0']['dir'].' ';
-		}
-		else
-		{
-			$order_by_query = 'ORDER BY ep.collectionDate DESC ';
-		}
+	// 	if(isset($_POST["order"]))
+	// 	{
+	// 		$order_by_query = 'ORDER BY '.$order_column[$_POST['order']['0']['column']].' '.$_POST['order']['0']['dir'].' ';
+	// 	}
+	// 	else
+	// 	{
+	// 		$order_by_query = 'ORDER BY ep.collectionDate DESC ';
+	// 	}
 
-		$limit_query = '';
+	// 	$limit_query = '';
 
-		if($_POST["length"] != -1)
-		{
-			$limit_query = 'LIMIT ' . $_POST['start'] . ', ' . $_POST['length'];
-		}
+	// 	if($_POST["length"] != -1)
+	// 	{
+	// 		$limit_query = 'LIMIT ' . $_POST['start'] . ', ' . $_POST['length'];
+	// 	}
 
-		$statement = $conn->prepare($main_query . $search_query . $group_by_query . $order_by_query);
+	// 	$statement = $conn->prepare($main_query . $search_query . $group_by_query . $order_by_query);
 
-		$statement->execute();
+	// 	$statement->execute();
 
-		$filtered_rows = $statement->rowCount();
+	// 	$filtered_rows = $statement->rowCount();
 
-		$statement = $conn->prepare($main_query . $group_by_query);
+	// 	$statement = $conn->prepare($main_query . $group_by_query);
 
-		$statement->execute();
+	// 	$statement->execute();
 
-		$total_rows = $statement->rowCount();
+	// 	$total_rows = $statement->rowCount();
 
-		$result = $conn->query($main_query . $search_query . $group_by_query . $order_by_query . $limit_query, PDO::FETCH_ASSOC);
+	// 	$result = $conn->query($main_query . $search_query . $group_by_query . $order_by_query . $limit_query, PDO::FETCH_ASSOC);
 
-		$data = array();
+	// 	$data = array();
 
-		foreach($result as $row)
-		{
-			$sub_array = array();
+	// 	foreach($result as $row)
+	// 	{
+	// 		$sub_array = array();
 
-			$sub_array[] = $row['collectionDate'];
+	// 		$sub_array[] = $row['collectionDate'];
 
-			$sub_array[] = $row['eggSize'];
+	// 		$sub_array[] = $row['eggSize'];
 
-			$sub_array[] = $row['totalQuantity'];
+	// 		$sub_array[] = $row['totalQuantity'];
 
-			$sub_array[] = $row['totalReductions'];
+	// 		$sub_array[] = $row['totalReductions'];
 
-			$data[] = $sub_array;
-		}
+	// 		$data[] = $sub_array;
+	// 	}
 
-		$output = array(
-			"draw"			=>	intval($_POST["draw"]),
-			"recordsTotal"	=>	$total_rows,
-			"recordsFiltered" => $filtered_rows,
-			"data"			=>	$data
-		);
+	// 	$output = array(
+	// 		"draw"			=>	intval($_POST["draw"]),
+	// 		"recordsTotal"	=>	$total_rows,
+	// 		"recordsFiltered" => $filtered_rows,
+	// 		"data"			=>	$data
+	// 	);
 
-		echo json_encode($output);
-	}
+	// 	echo json_encode($output);
+	// }
 
 	if($_POST["action"] == 'egg_reduction')
 	{
-		$order_column = array('reductionType','reductions');
+		$order_column = array('dispositionType','quantity');
 
 		$reductions_query = "
-		SELECT reductionType, SUM(COALESCE(quantity, 0)) as reductions
-		FROM eggreduction
+		SELECT dispositionType, SUM(COALESCE(quantity, 0)) as quantity
+		FROM eggtransaction
 		";
 
-		$search_query = ' WHERE archive = "not archived" AND ';
+		$search_query = ' WHERE archive = "not archived" AND dispositionType IN ("Distributed to Customer", "Personal Consumption", "Spoiled") AND ';
 
 		if(isset($_POST["start_date"], $_POST["end_date"]) && $_POST["start_date"] != '' && $_POST["end_date"] != '')
 		{
-			$search_query .= ' dateReduced >= "'.$_POST["start_date"].'" AND dateReduced <= "'.$_POST["end_date"].'" AND ';
+			$search_query .= ' transactionDate >= "'.$_POST["start_date"].'" AND transactionDate <= "'.$_POST["end_date"].'" AND ';
 		}
 
 		if(isset($_POST["search"]["value"]))
 		{
-			$search_query .= ' (dateReduced LIKE "%'.$_POST["search"]["value"].'%")';
+			$search_query .= ' (transactionDate LIKE "%'.$_POST["search"]["value"].'%")';
 		}
 
-		$group_by_query = " GROUP BY reductionType ";
+		$group_by_query = " GROUP BY dispositionType ";
 
 		
 		$order_by_query = "";
@@ -353,7 +352,7 @@ if(isset($_POST["action"]))
 		}
 		else
 		{
-			$order_by_query = 'ORDER BY reductions DESC ';
+			$order_by_query = 'ORDER BY dispositionType DESC ';
 		}
 
 		$statement = $conn->prepare($reductions_query . $search_query . $group_by_query . $order_by_query);
@@ -376,9 +375,9 @@ if(isset($_POST["action"]))
 		{
 			$sub_array = array();
 
-			$sub_array[] = $row['reductionType'];
+			$sub_array[] = $row['dispositionType'];
 
-			$sub_array[] = $row['reductions'];
+			$sub_array[] = $row['quantity'];
 
 			$data[] = $sub_array;
 		}
@@ -465,30 +464,30 @@ if(isset($_POST["action"]))
 	}
 
 	//----------------------MEDICINE REPORTS--------------------//
-	if($_POST["action"] == 'medicine')
+	if($_POST["action"] == 'medicinereduction')
 	{
-		$order_column = array('dateAdded','medicineName','expirationDate','startingQuantity','inStock','reductions');
+		
+		$order_column = array('reductionType','quantity');
 
-		$main_query = "
-		SELECT m.dateAdded, m.medicineName, m.expirationDate, m.startingQuantity, m.inStock, SUM(COALESCE(mr.quantity,0)) AS reductions
-		FROM medicines m
-		LEFT JOIN medicinereduction mr ON m.medicine_ID = mr.medicine_ID
+		$reductions_query = "
+		SELECT reductionType, SUM(COALESCE(quantity,0)) as quantity FROM medicinetransaction
 		";
 
-		$search_query = ' WHERE m.archive = "not archived" AND ';
+		$search_query = ' WHERE archive = "not archived" AND  reductionType IN ("Used", "Expired") AND ';
 
 		if(isset($_POST["start_date"], $_POST["end_date"]) && $_POST["start_date"] != '' && $_POST["end_date"] != '')
 		{
-			$search_query .= 'm.dateAdded >= "'.$_POST["start_date"].'" AND m.dateAdded <= "'.$_POST["end_date"].'" AND ';
+			$search_query .= ' transactionDate >= "'.$_POST["start_date"].'" AND transactionDate <= "'.$_POST["end_date"].'" AND ';
 		}
 
 		if(isset($_POST["search"]["value"]))
 		{
-			$search_query .= '(m.dateAdded LIKE "%'.$_POST["search"]["value"].'%")';
+			$search_query .= ' (transactionDate LIKE "%'.$_POST["search"]["value"].'%")';
 		}
 
-		$group_by_query = " GROUP BY m.medicine_ID "; // AND m.dateAdded
+		$group_by_query = " GROUP BY reductionType ";
 
+		
 		$order_by_query = "";
 
 		if(isset($_POST["order"]))
@@ -497,29 +496,22 @@ if(isset($_POST["action"]))
 		}
 		else
 		{
-			$order_by_query = 'ORDER BY m.dateAdded DESC ';
+			$order_by_query = 'ORDER BY transaction_ID DESC ';
 		}
 
-		$limit_query = '';
-
-		if($_POST["length"] != -1)
-		{
-			$limit_query = 'LIMIT ' . $_POST['start'] . ', ' . $_POST['length'];
-		}
-
-		$statement = $conn->prepare($main_query . $search_query . $group_by_query . $order_by_query);
+		$statement = $conn->prepare($reductions_query . $search_query . $group_by_query . $order_by_query);
 
 		$statement->execute();
 
 		$filtered_rows = $statement->rowCount();
 
-		$statement = $conn->prepare($main_query . $group_by_query);
+		$statement = $conn->prepare($reductions_query . $group_by_query);
 
 		$statement->execute();
 
 		$total_rows = $statement->rowCount();
 
-		$result = $conn->query($main_query . $search_query . $group_by_query . $order_by_query . $limit_query, PDO::FETCH_ASSOC);
+		$result = $conn->query($reductions_query . $search_query . $group_by_query . $order_by_query, PDO::FETCH_ASSOC);
 
 		$data = array();
 
@@ -527,17 +519,9 @@ if(isset($_POST["action"]))
 		{
 			$sub_array = array();
 
-			$sub_array[] = $row['dateAdded'];
+			$sub_array[] = $row['reductionType'];
 
-			$sub_array[] = $row['medicineName'];
-
-			$sub_array[] = $row['expirationDate'];
-
-			$sub_array[] = $row['startingQuantity'];
-
-			$sub_array[] = $row['inStock'];
-
-			$sub_array[] = $row['reductions'];
+			$sub_array[] = $row['quantity'];
 
 			$data[] = $sub_array;
 		}
@@ -548,20 +532,101 @@ if(isset($_POST["action"]))
 			"recordsFiltered" => $filtered_rows,
 			"data"			=>	$data
 		);
-
+		
 		echo json_encode($output);
+		// $order_column = array('reductionType','quantity');
+
+		// $main_query = "
+		// SELECT reductionType, quantity FROM medicinetransaction
+		// ";
+
+		// $search_query = ' WHERE archive = "not archived" AND reductionType IN ("Used", "Expired") ';
+
+		// if(isset($_POST["start_date"], $_POST["end_date"]) && $_POST["start_date"] != '' && $_POST["end_date"] != '')
+		// {
+		// 	$search_query .= 'transactionDate >= "'.$_POST["start_date"].'" AND transactionDate <= "'.$_POST["end_date"].'" AND ';
+		// }
+
+		// if(isset($_POST["search"]["value"]))
+		// {
+		// 	$search_query .= '(transactionDate LIKE "%'.$_POST["search"]["value"].'%")';
+		// }
+
+		// $group_by_query = " GROUP BY reductionType "; // AND transactionDate
+
+		// $order_by_query = "";
+
+		// if(isset($_POST["order"]))
+		// {
+		// 	$order_by_query = 'ORDER BY '.$order_column[$_POST['order']['0']['column']].' '.$_POST['order']['0']['dir'].' ';
+		// }
+		// else
+		// {
+		// 	$order_by_query = 'ORDER BY transactionDate DESC ';
+		// }
+
+		// $limit_query = '';
+
+		// if($_POST["length"] != -1)
+		// {
+		// 	$limit_query = 'LIMIT ' . $_POST['start'] . ', ' . $_POST['length'];
+		// }
+
+		// $statement = $conn->prepare($main_query . $search_query . $group_by_query . $order_by_query);
+
+		// $statement->execute();
+
+		// $filtered_rows = $statement->rowCount();
+
+		// $statement = $conn->prepare($main_query . $group_by_query);
+
+		// $statement->execute();
+
+		// $total_rows = $statement->rowCount();
+
+		// $result = $conn->query($main_query . $search_query . $group_by_query . $order_by_query . $limit_query, PDO::FETCH_ASSOC);
+
+		// $data = array();
+
+		// foreach($result as $row)
+		// {
+		// 	$sub_array = array();
+
+		// 	// $sub_array[] = $row['dateAdded'];
+
+		// 	$sub_array[] = $row['reductionType'];
+
+		// 	// $sub_array[] = $row['expirationDate'];
+
+		// 	// $sub_array[] = $row['startingQuantity'];
+
+		// 	// $sub_array[] = $row['inStock'];
+
+		// 	$sub_array[] = $row['quantity'];
+
+		// 	$data[] = $sub_array;
+		// }
+
+		// $output = array(
+		// 	"draw"			=>	intval($_POST["draw"]),
+		// 	"recordsTotal"	=>	$total_rows,
+		// 	"recordsFiltered" => $filtered_rows,
+		// 	"data"			=>	$data
+		// );
+
+		// echo json_encode($output);
 	}
 
 	if($_POST["action"] == 'toexpire')
 	{
-		$order_column = array('dateAdded','medicineName','expirationDate','startingQuantity','inStock');
+		$order_column = array('medicineName','expirationDate','inStock');
 
 		$main_query = "
-		SELECT dateAdded, medicineName, expirationDate, startingQuantity, inStock
+		SELECT medicineName, expirationDate, inStock
 		FROM medicines
 		";
 
-		$search_query = ' WHERE archive = "not archived" AND DATEDIFF(expirationDate, NOW()) <=60 ';
+		$search_query = ' WHERE DATEDIFF(expirationDate, NOW()) <=60 ';
 
 		$statement = $conn->prepare($main_query . $search_query ); 
 
@@ -579,13 +644,13 @@ if(isset($_POST["action"]))
 		{
 			$sub_array = array();
 
-			$sub_array[] = $row['dateAdded'];
+			// $sub_array[] = $row['dateAdded'];
 
 			$sub_array[] = $row['medicineName'];
 
 			$sub_array[] = $row['expirationDate'];
 
-			$sub_array[] = $row['startingQuantity'];
+			// $sub_array[] = $row['startingQuantity'];
 
 			$sub_array[] = $row['inStock'];
 
@@ -604,14 +669,14 @@ if(isset($_POST["action"]))
 
 	if($_POST["action"] == 'lowstock')
 	{
-		$order_column = array('dateAdded','medicineName','expirationDate','startingQuantity','inStock');
+		$order_column = array('medicineName','expirationDate','inStock');
 
 		$main_query = "
-		SELECT dateAdded, medicineName, expirationDate, startingQuantity, inStock
+		SELECT medicineName, expirationDate, inStock
 		FROM medicines
 		";
 
-		$search_query = ' WHERE archive = "not archived" AND inStock <=10 ';
+		$search_query = ' WHERE inStock <=10 ';
 
 		$statement = $conn->prepare($main_query . $search_query ); 
 
@@ -629,13 +694,63 @@ if(isset($_POST["action"]))
 		{
 			$sub_array = array();
 
-			$sub_array[] = $row['dateAdded'];
+			// $sub_array[] = $row['dateAdded'];
 
 			$sub_array[] = $row['medicineName'];
 
 			$sub_array[] = $row['expirationDate'];
 
-			$sub_array[] = $row['startingQuantity'];
+			// $sub_array[] = $row['startingQuantity'];
+
+			$sub_array[] = $row['inStock'];
+
+			$data[] = $sub_array;
+		}
+
+		$output = array(
+			"draw"			=>	intval($_POST["draw"]),
+			"recordsTotal"	=>	$total_rows,
+			"recordsFiltered" => $filtered_rows,
+			"data"			=>	$data
+		);
+
+		echo json_encode($output);
+	}
+
+	if($_POST["action"] == 'feeds_lowstock')
+	{
+		$order_column = array('feedName','inStock');
+
+		$main_query = "
+		SELECT feedName, inStock
+		FROM feeds
+		";
+
+		$search_query = ' WHERE inStock <=10 ';
+
+		$statement = $conn->prepare($main_query . $search_query ); 
+
+		$statement->execute();
+
+		$filtered_rows = $statement->rowCount();
+
+		$total_rows = $statement->rowCount();
+
+		$result = $conn->query($main_query . $search_query , PDO::FETCH_ASSOC); 
+
+		$data = array();
+
+		foreach($result as $row)
+		{
+			$sub_array = array();
+
+			// $sub_array[] = $row['dateAdded'];
+
+			$sub_array[] = $row['feedName'];
+
+			// $sub_array[] = $row['expirationDate'];
+
+			// $sub_array[] = $row['startingQuantity'];
 
 			$sub_array[] = $row['inStock'];
 
@@ -738,4 +853,75 @@ if(isset($_POST["action"]))
 		echo json_encode($output);
 	}
 
+	if($_POST["action"] == 'feedreduction')
+	{
+		
+		$order_column = array('reductionType','quantity');
+
+		$reductions_query = "
+		SELECT reductionType, SUM(COALESCE(quantity,0)) as quantity FROM feedtransaction
+		";
+
+		$search_query = ' WHERE archive = "not archived" AND  reductionType IN ("Used", "Damaged") AND ';
+
+		if(isset($_POST["start_date"], $_POST["end_date"]) && $_POST["start_date"] != '' && $_POST["end_date"] != '')
+		{
+			$search_query .= ' transactionDate >= "'.$_POST["start_date"].'" AND transactionDate <= "'.$_POST["end_date"].'" AND ';
+		}
+
+		if(isset($_POST["search"]["value"]))
+		{
+			$search_query .= ' (transactionDate LIKE "%'.$_POST["search"]["value"].'%")';
+		}
+
+		$group_by_query = " GROUP BY reductionType ";
+
+		
+		$order_by_query = "";
+
+		if(isset($_POST["order"]))
+		{
+			$order_by_query = 'ORDER BY '.$order_column[$_POST['order']['0']['column']].' '.$_POST['order']['0']['dir'].' ';
+		}
+		else
+		{
+			$order_by_query = 'ORDER BY transaction_ID DESC ';
+		}
+
+		$statement = $conn->prepare($reductions_query . $search_query . $group_by_query . $order_by_query);
+
+		$statement->execute();
+
+		$filtered_rows = $statement->rowCount();
+
+		$statement = $conn->prepare($reductions_query . $group_by_query);
+
+		$statement->execute();
+
+		$total_rows = $statement->rowCount();
+
+		$result = $conn->query($reductions_query . $search_query . $group_by_query . $order_by_query, PDO::FETCH_ASSOC);
+
+		$data = array();
+
+		foreach($result as $row)
+		{
+			$sub_array = array();
+
+			$sub_array[] = $row['reductionType'];
+
+			$sub_array[] = $row['quantity'];
+
+			$data[] = $sub_array;
+		}
+
+		$output = array(
+			"draw"			=>	intval($_POST["draw"]),
+			"recordsTotal"	=>	$total_rows,
+			"recordsFiltered" => $filtered_rows,
+			"data"			=>	$data
+		);
+		
+		echo json_encode($output);
+	}
 }

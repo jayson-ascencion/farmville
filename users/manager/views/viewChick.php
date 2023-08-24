@@ -12,24 +12,25 @@
     $eggBatch_ID = $eggSize = $quantity = $collectionType = $collectionDate = $note = "";
 
     //statement to get the old quantity
-    $sql = "SELECT * FROM chickenproduction WHERE chickenBatch_ID = '$id'";
+    $sql = "SELECT * FROM chickentransaction WHERE transaction_ID = '$id'";
     $stmt = $conn->query($sql);
 
     if($stmt){
         if($stmt->rowCount() > 0){
             while($row = $stmt->fetch()){
                 //collect data from the form
-                $age = $row['age'];
+                // $age = $row['age'];
                 $coopNumber = $row['coopNumber'];
+                $sex = $row['sex'];
                 $batchName = $row['batchName'];
-                $breedType = $row['breedType'];
-                $batchPurpose = $row['batchPurpose'];
-                $startingQuantity = $row['startingQuantity'];
-                $inStock = $row['inStock'];
+                // $breedType = $row['breedType'];
+                // $batchPurpose = $row['batchPurpose'];
+                // $startingQuantity = $row['startingQuantity'];
+                $quantity = $row['quantity'];
 
-                $dateString = strtotime($row['dateAcquired']);
+                $dateString = strtotime($row['transactionDate']);
                 $dateAcquired = date('F d, Y',$dateString);
-                $acquisitionType = $row['acquisitionType'];
+                // $acquisitionType = $row['acquisitionType'];
                 $note = $row['note'];
             }
             // Free result set
@@ -68,11 +69,6 @@
                                 <p class="fw-bold">Coop Number: <span class="fw-normal ps-2"><?php echo $coopNumber; ?></span></p>
                             </div>
 
-                            <!-- egg batch id -->
-                            <div class="mb-3">
-                                <p class="fw-bold">Age: <span class="fw-normal ps-2"><?php echo $age; ?></span></p>
-                            </div>
-
                             <!-- egg Size -->
                             <div class="mb-3">
                                 <p class="fw-bold">Batch Name: <span class="fw-normal ps-2"><?php echo $batchName; ?></span></p>
@@ -80,17 +76,12 @@
                     
                             <!-- Quantity -->
                             <div class="mb-3">
-                                <p class="fw-bold">Breed Type: <span class="fw-normal ps-2"><?php echo $breedType; ?></span></p>
-                            </div>
-
-                            <!-- Collection Type -->
-                            <div class="mb-3">
-                                <p class="fw-bold">Starting Quantity: <span class="fw-normal ps-2"><?php echo $startingQuantity; ?></span></p>
+                                <p class="fw-bold">Sex: <span class="fw-normal ps-2"><?php echo $sex; ?></span></p>
                             </div>
      
                             <!-- Collection Date -->
                             <div class="mb-3">
-                                <p class="fw-bold">In Stock: <span class="fw-normal ps-2"><?php echo $inStock; ?></span></p>
+                                <p class="fw-bold">Quantity: <span class="fw-normal ps-2"><?php echo $quantity; ?></span></p>
                             </div>
 
                             <!-- Collection Date -->
@@ -99,9 +90,9 @@
                             </div>
 
                             <!-- Collection Date -->
-                            <div class="mb-3">
+                            <!-- <div class="mb-3">
                                 <p class="fw-bold">Acquisition Type: <span class="fw-normal ps-2"><?php echo $acquisitionType; ?></span></p>
-                            </div>
+                            </div> -->
                                
                             <!-- Note -->
                             <div class="mb-3">

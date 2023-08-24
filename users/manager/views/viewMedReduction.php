@@ -9,23 +9,23 @@
     $id = $_REQUEST['id'];
 
     //this will hold the quantity before update
-    $reduction_ID = $medicine_ID = $medicineName = $quantity = $reductionType =  $dateReduced = "";
+    $transaction_ID = $medicine_ID = $medicineName = $quantity = $reductionType =  $transactionDate = "";
 
     //statement to get the old quantity
-    $sql = "SELECT * FROM medicinereduction WHERE reduction_ID = '$id'";
+    $sql = "SELECT * FROM medicinetransaction WHERE transaction_ID = '$id'";
     $stmt = $conn->query($sql);
 
     if($stmt){
         if($stmt->rowCount() > 0){
             while($row = $stmt->fetch()){
-                $reduction_ID = $row['reduction_ID'];
+                $transaction_ID = $row['transaction_ID'];
                 $medicine_ID = $row['medicine_ID'];
                 $medicineName = $row['medicineName'];
                 $quantity = $row['quantity'];
                 $reductionType =  $row['reductionType'];
 
-                $dateString = strtotime($row['dateReduced']);
-                $dateReduced = date("F d, Y",$dateString);
+                $dateString = strtotime($row['transactionDate']);
+                $transactionDate = date("F d, Y",$dateString);
             }
             // Free result set
             unset($result);
@@ -60,7 +60,7 @@
                         <div class="card-body p-4">
                             <!-- egg batch id -->
                             <div class="mb-3">
-                                <p class="fw-bold">Reduction ID: <span class="fw-normal ps-2"><?php echo $reduction_ID; ?></span></p>
+                                <p class="fw-bold">Reduction ID: <span class="fw-normal ps-2"><?php echo $transaction_ID; ?></span></p>
                             </div>
 
                             <!-- egg Size -->
@@ -86,7 +86,7 @@
                                
                             <!-- Note -->
                             <div class="mb-3">
-                                <p class="fw-bold">Date Reduced: <span class="fw-normal ps-2"><?php echo $dateReduced; ?></span></p>
+                                <p class="fw-bold">Date Reduced: <span class="fw-normal ps-2"><?php echo $transactionDate; ?></span></p>
                             </div>
 
                         </div>

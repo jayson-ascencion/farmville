@@ -3,7 +3,7 @@
 include('../../../config/database_connection.php');
 
 try{
-
+ 
     //define variables
     $feed_ID = $feedName = $quantity = $reductionType = $dateReduced = $success = $newQuantity =  $productionQuantity = "";
 
@@ -18,7 +18,7 @@ try{
         $quantity = $_POST['quantity'];
         $reductionType = $_POST['reductionType'];
         $dateReduced = $_POST['dateReduced'];
-        
+        $user_ID = $_SESSION['user_ID'];
         //validate egg batch ID
         if(empty($feed_ID)){
             $feed_ID_err = "Please select a feed";
@@ -60,7 +60,7 @@ try{
 
 
         //validate reduction type if empty and allows only alphabets and white spaces
-        if (empty(trim($reductionType))) {  
+        if (empty($reductionType)) {  
             $reductionType_err = "Please select reduction type.";
         }
 
@@ -73,12 +73,13 @@ try{
         if(empty($feed_ID_err) && empty($quantity_err) && empty($reductionType_err) && empty($dateReduced_err)){
 
            // Prepare an insert statement
-           $sql = "INSERT INTO feedreduction (feed_ID, feedName, quantity, reductionType, dateReduced) VALUES (:feed_ID, :feedName, :quantity, :reductionType, :dateReduced)";
+           $sql = "INSERT INTO feedtransaction (feed_ID, user_ID, feedName, quantity, reductionType, transactionDate) VALUES (:feed_ID, :user_ID, :feedName, :quantity, :reductionType, :dateReduced)";
          
            if($stmt = $conn->prepare($sql))
            {
                // Bind variables to the prepared statement as parameters
                $stmt->bindParam(":feed_ID", $param_feed_ID, PDO::PARAM_STR);
+               $stmt->bindParam(":user_ID", $param_user_ID, PDO::PARAM_STR);
                $stmt->bindParam(":feedName", $param_feedName, PDO::PARAM_STR);
                $stmt->bindParam(":quantity", $param_quantity, PDO::PARAM_STR);
                $stmt->bindParam(":reductionType", $param_reductionType, PDO::PARAM_STR);
@@ -86,6 +87,7 @@ try{
 
                // Set parameters
                $param_feed_ID = $feed_ID;
+               $param_user_ID = $user_ID;
                $param_feedName = $feedName;
                $param_quantity = $quantity;
                $param_reductionType = $reductionType;

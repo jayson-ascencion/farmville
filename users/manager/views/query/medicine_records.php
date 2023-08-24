@@ -4,7 +4,7 @@
                       
     // Attempt select query execution
     // Select all medicine administration schedules where status is pending and order by ascending
-    $sql = "SELECT * FROM medicines WHERE archive='not archived' ORDER BY medicine_ID ASC";
+    $sql = "SELECT * FROM medicines ORDER BY medicine_ID ASC";
     $stmt = $conn->query($sql);
     if($stmt){
         if($stmt->rowCount() > 0){
@@ -15,14 +15,14 @@
             <table id="medicineRecords" class="table table-sm responsive border table-hover text-center rounded rounded-3 overflow-hidden" style="width: 100%">';
                 echo "<thead class='text-white' style='background-color: #DC143C'>";
                     echo "<tr>";
-                        echo "<th>Medicine ID</th>";
-                        echo "<th>Type</th>";
+                        // echo "<th>Medicine ID</th>";
                         echo "<th>Name</th>";
                         echo "<th>Brand</th>";
+                        echo "<th>Type</th>";
                         echo "<th>Medicine For</th>";
-                        echo "<th>Starting Quantity</th>";
+                        // echo "<th>Starting Quantity</th>";
                         echo "<th>In Stock</th>";
-                        echo "<th>Date Added</th>";
+                        // echo "<th>Date Added</th>";
                         echo "<th>Expiration Date</th>";
                         echo "<th>Action</th>";
                     echo "</tr>";
@@ -30,7 +30,7 @@
                 echo "<tbody>";
                 while($row = $stmt->fetch()){
                     //get dates from the row
-                    $dateAdded = $row['dateAdded'];
+                    // $dateAdded = $row['dateAdded'];
                     $expirationDate = $row['expirationDate'];
                     
                     // $reorderPoint = $row['startingQuantity']*.25;
@@ -38,10 +38,10 @@
 
                     //store the expiration date inside another variable and user strotime
                     $expDateSort = strtotime($row['expirationDate']);
-                    $dateAddedSort = strtotime($row['dateAdded']);
+                    // $dateAddedSort = strtotime($row['dateAdded']);
                     //format the date
                     $expDateFormatted = date("M. d, Y", $expDateSort);
-                    $dateAddedFormatted = date("M. d, Y", $dateAddedSort);
+                    // $dateAddedFormatted = date("M. d, Y", $dateAddedSort);
 
                     //date_create is used to create DateTime object  https://blog.devgenius.io/how-to-find-the-number-of-days-between-two-dates-in-php-1404748b1e84?gi=f10f685035f3 / https://stackoverflow.com/questions/2040560/finding-the-number-of-days-between-two-dates
                     $today = date_create(date('Y-m-d')); //generates current date
@@ -55,13 +55,13 @@
                     $days = $diff->format('%r%a');
 
                     echo "<tr>";
-                        echo "<td>" . $row['medicine_ID'] . "</td>";
-                        echo "<td>" . $row['medicineType'] . "</td>";
+                        // echo "<td>" . $row['medicine_ID'] . "</td>";
                         echo "<td>" . $row['medicineName'] . "</td>";
                         echo "<td>" . $row['medicineBrand'] . "</td>";
+                        echo "<td>" . $row['medicineType'] . "</td>";
                         echo "<td>" . $row['medicineFor'] . "</td>";
-                        echo "<td>" . $row['startingQuantity'] . "</td>";
-                        if($row['inStock'] < $row['startingQuantity']*.25){
+                        // echo "<td>" . $row['startingQuantity'] . "</td>";
+                        if($row['inStock'] < 5){
                             echo "<td>" . $row['inStock'] . '<span data-bs-toggle="tooltip" data-bs-placement="left" data-bs-custom-class="tooltip-expired" data-bs-title="Low In Stock"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-arrow-down-short" viewBox="0 0 16 16">
                             <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4z"/>
                           </svg></span>' . "</td>";
@@ -71,7 +71,7 @@
                           </svg></span>' . "</td>";
                             //echo "<td>" . $row['inStock'] . "</td>";
                         }
-                        echo "<td data-sort='". $dateAddedSort ."'>" . $dateAddedFormatted . "</td>"; //display format of date, doesnt affect the database
+                        // echo "<td data-sort='". $dateAddedSort ."'>" . $dateAddedFormatted . "</td>"; //display format of date, doesnt affect the database
                         //if days is lesser than or equals to zero, then the medicine is expired
                         if($days < 1){
                             echo "<td data-sort='". $expDateSort ."'>" . $expDateFormatted .
@@ -105,17 +105,17 @@
                                     <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
                                 </svg>
                              </a>';
-                        echo '<a href="viewMedicine.php?id='. $row['medicine_ID'] .'" class="m-1 text-decoration-none" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-custom-class="tooltip-expired" data-bs-title="View Record">
-                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="gray" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                 <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
-                                 <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
-                             </svg>
-                           </a>'; 
-                        echo '<a href="archive_medicine.php?id='. $row['medicine_ID'] .'" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-custom-class="tooltip-expired" data-bs-title="Archive">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="gray" class="bi bi-archive-fill" viewBox="0 0 16 16">
-                        <path d="M12.643 15C13.979 15 15 13.845 15 12.5V5H1v7.5C1 13.845 2.021 15 3.357 15h9.286zM5.5 7h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1zM.8 1a.8.8 0 0 0-.8.8V3a.8.8 0 0 0 .8.8h14.4A.8.8 0 0 0 16 3V1.8a.8.8 0 0 0-.8-.8H.8z"/>
-                    </svg>
-                             </a>';
+                    //     echo '<a href="viewMedicine.php?id='. $row['medicine_ID'] .'" class="m-1 text-decoration-none" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-custom-class="tooltip-expired" data-bs-title="View Record">
+                    //          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="gray" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                    //              <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                    //              <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                    //          </svg>
+                    //        </a>'; 
+                    //     echo '<a href="archive_medicine.php?id='. $row['medicine_ID'] .'" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-custom-class="tooltip-expired" data-bs-title="Archive">
+                    //     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="gray" class="bi bi-archive-fill" viewBox="0 0 16 16">
+                    //     <path d="M12.643 15C13.979 15 15 13.845 15 12.5V5H1v7.5C1 13.845 2.021 15 3.357 15h9.286zM5.5 7h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1zM.8 1a.8.8 0 0 0-.8.8V3a.8.8 0 0 0 .8.8h14.4A.8.8 0 0 0 16 3V1.8a.8.8 0 0 0-.8-.8H.8z"/>
+                    // </svg>
+                    //          </a>';
                         echo "</td>";
                     echo "</tr>";
                 }
@@ -133,14 +133,14 @@
             <table id="medicineRecords" class="table table-sm responsive border table-hover text-center rounded rounded-3 overflow-hidden" style="width: 100%">';
                 echo "<thead class='text-white' style='background-color: #DC143C'>";
                     echo "<tr>";
-                        echo "<th>Medicine ID</th>";
-                        echo "<th>Type</th>";
+                       // echo "<th>Medicine ID</th>";
                         echo "<th>Name</th>";
                         echo "<th>Brand</th>";
+                        echo "<th>Type</th>";
                         echo "<th>Medicine For</th>";
-                        echo "<th>Starting Quantity</th>";
+                        // echo "<th>Starting Quantity</th>";
                         echo "<th>In Stock</th>";
-                        echo "<th>Date Added</th>";
+                        // echo "<th>Date Added</th>";
                         echo "<th>Expiration Date</th>";
                         echo "<th>Action</th>";
                     echo "</tr>";

@@ -43,25 +43,12 @@ $pdf->Ln(5);
 
 // -----------------------------------CHICKEN TABLE AND SQL QUERY-------------------------------------//
 $main_query = "
-SELECT cp.chickenBatch_ID, SUM(COALESCE(cp.inStock,0)) AS inStock, DATE_FORMAT(cp.dateAcquired,'%M %d, %Y') AS dateAcquired, SUM(COALESCE(cp.startingQuantity,0)) as totalQuantity, SUM(COALESCE(cr.quantity,0)) as reductions
-FROM chickenproduction cp
-LEFT JOIN chickenreduction cr ON cp.chickenBatch_ID = cr.chickenBatch_ID
-WHERE cp.archive = 'not archived' 
+SELECT coopNumber, male, female FROM chickenproduction
 ";
 
-if(isset($_POST["start_date"], $_POST["end_date"]) && $_POST["start_date"] != '' && $_POST["end_date"] != '')
-{
-    $main_query .= ' AND cp.dateAcquired >= "'.$_POST["start_date"].'" AND cp.dateAcquired <= "'.$_POST["end_date"].'" ';
-}
+$main_query .= " GROUP BY coopNumber ";
 
-if(isset($_POST["search"]["value"]))
-{
-    $main_query .= ' AND (cp.chickenBatch_ID LIKE "%'.$_POST["search"]["value"].'%" OR inStock LIKE "%'.$_POST["search"]["value"].'%" OR cp.dateAcquired LIKE "%'.$_POST["search"]["value"].'%")';
-}
-
-$main_query .= " GROUP BY cp.dateAcquired ";
-
-$main_query .= ' ORDER BY cp.dateAcquired ASC ';
+$main_query .= ' ORDER BY coopNumber ASC ';
 
 $statement = $conn->prepare($main_query);
 $statement->execute();
@@ -74,13 +61,13 @@ foreach($result as $row)
 {
     $sub_array = array();
 
-    $sub_array[] = $row['dateAcquired'];
+    $sub_array[] = $row['coopNumber'];
 
-    $sub_array[] = $row['totalQuantity'];
+    $sub_array[] = $row['male'];
 
-    $sub_array[] = $row['inStock'];
+    $sub_array[] = $row['female'];
 
-    $sub_array[] = $row['reductions'];
+    // $sub_array[] = $row['reductions'];
 
     $data[] = $sub_array;
 }
@@ -94,10 +81,9 @@ $html = "
 <h3> Chicken Inventory </h3>
 	<table>
 		<tr>
-			<th>Date Acquired</th>
-			<th>Starting Quantity</th>
-			<th>In Stock Quantity</th>
-			<th>Reductions</th>
+			<th>Coop Number</th>
+			<th>Male</th>
+			<th>Female</th>
 		</tr>
 		";
 //load the json data
@@ -114,7 +100,6 @@ foreach($output['data'] as $chicken){
 				<td>". $chicken[0] ."</td>
 				<td>". $chicken[1] ."</td>
 				<td>". $chicken[2] ."</td>
-				<td>". $chicken[3] ."</td>
 			</tr>
 			";
 }		
@@ -142,23 +127,22 @@ $pdf->Ln();
 $pdf->Ln(10);
 
 //--------------------------------------SUMMARY BY REDUCTION TYPE------------------------------//
-$main_query = "SELECT reductionType, SUM(COALESCE(quantity, 0)) as reductions
-FROM chickenreduction
-WHERE archive = 'not archived'";
+$main_query = "SELECT dispositionType, SUM(COALESCE(quantity,0)) as quantity FROM chickentransaction
+WHERE archive = 'not archived' AND  dispositionType IN ('Culled', 'Sold', 'Death')";
 
 if(isset($_POST["start_date"], $_POST["end_date"]) && $_POST["start_date"] != '' && $_POST["end_date"] != '')
 {
-    $main_query .= ' AND dateReduced >= "'.$_POST["start_date"].'" AND dateReduced <= "'.$_POST["end_date"].'"';
+    $main_query .= ' AND transactionDate >= "'.$_POST["start_date"].'" AND transactionDate <= "'.$_POST["end_date"].'"';
 }
 
 if(isset($_POST["search"]["value"]))
 {
-    $main_query .= ' AND (dateReduced LIKE "%'.$_POST["search"]["value"].'%")';
+    $main_query .= ' AND (transactionDate LIKE "%'.$_POST["search"]["value"].'%")';
 }
 
-$main_query .= " GROUP BY reductionType ";
+$main_query .= " GROUP BY dispositionType ";
 
-$main_query .= ' ORDER BY dateReduced DESC ';
+$main_query .= ' ORDER BY transactionDate DESC ';
 
 $statement = $conn->prepare($main_query);
 $statement->execute();
@@ -172,9 +156,9 @@ foreach($result as $row)
 {
     $sub_array = array();
 
-    $sub_array[] = $row['reductionType'];
+    $sub_array[] = $row['dispositionType'];
 
-    $sub_array[] = $row['reductions'];
+    $sub_array[] = $row['quantity'];
 
     $data[] = $sub_array;
 }
@@ -233,23 +217,11 @@ $pdf->Ln(10);
 
 
 //--------------------------------------IN STOCK SUMMARY BY EGG SIZE----------------------------------//
-$main_query = "SELECT breedType, SUM(COALESCE(inStock, 0)) as instock
-FROM chickenproduction
-WHERE archive = 'not archived'";
-
-if(isset($_POST["start_date"], $_POST["end_date"]) && $_POST["start_date"] != '' && $_POST["end_date"] != '')
-{
-    $main_query .= ' AND dateAcquired >= "'.$_POST["start_date"].'" AND dateAcquired <= "'.$_POST["end_date"].'"';
-}
-
-if(isset($_POST["search"]["value"]))
-{
-    $main_query .= ' AND (dateAcquired LIKE "%'.$_POST["search"]["value"].'%")';
-}
+$main_query = "SELECT SUM(COALESCE(inStock,0)) as inStock, breedType FROM chickenproduction";
 
 $main_query .= " GROUP BY breedType ";
 
-$main_query .= ' ORDER BY dateAcquired DESC ';
+$main_query .= ' ORDER BY breedType ASC ';
 
 $statement = $conn->prepare($main_query);
 $statement->execute();
@@ -265,7 +237,7 @@ foreach($result as $row)
 
     $sub_array[] = $row['breedType'];
 
-    $sub_array[] = $row['instock'];
+    $sub_array[] = $row['inStock'];
 
     $data[] = $sub_array;
 }

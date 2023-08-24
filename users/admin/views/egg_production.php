@@ -36,30 +36,11 @@
                     <div class="card shadow-sm"> 
                         <div class="card-header" style="background-color: #FFAF1A;">
 
-                            <!-- <div class="w-100 d-flex justify-content-between p-2">
-                                <div>
-                                    <h4 class="pt-2 fw-bold fs-5">Egg Production</h4>
-                                </div>
-
-                                <div>
-                                    <a href="add_egg_form.php" class="btn btn-primary pt-2">Add Egg</a>
-                                </div>
-                            </div> -->
                             <div class="row justify-content-between">
                                 <div class="col-xl-3 col-md-6">
                                     <h4 class="pt-2 fs-5 fw-bold" style="background-color: #FFAF1A; color: #91452c">Archived Egg Records</h4>
                                 </div>
 
-                                <!-- <div class="col-xl-2 col-md-2 align-content-end">
-                                    <div class="w-100 d-flex justify-content-end">
-                                        <div class="m-1 w-100 float-end">
-                                            <a href="add_egg_form.php" class="btn btn-success shadow-sm w-100 fw-bold">Add Egg</a>
-                                        </div>
-                                        <div class="m-1 w-100">
-                                            <a href="#" class="btn btn-outline-danger shadow-sm w-100 fw-bold">Archives</a>                                 
-                                        </div>
-                                    </div>
-                                </div> -->
                             </div>
                         </div>
                         <div>

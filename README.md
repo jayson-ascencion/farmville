@@ -1,19 +1,21 @@
 
 ```
+Capstone Thesis Project
+
 login credentials:
+  manager
+    username: jascen
+    password: 123123123
 
-manager
-username: jascen
-password: 123123123
+  administrator
+    username: ajrams
+    password: 123123123
 
-administrator
-username: ajrams
-password: 123123123
+  employee
+    username: kristb
+    password: 123123123
 
-employee
-username: kristb
-password: 123123123
-
+Project Folder Structure
 farmville
 ├─ .htaccess
 ├─ .vscode

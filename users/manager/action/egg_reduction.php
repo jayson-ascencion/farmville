@@ -14,7 +14,7 @@ try{
     if(isset($_POST['submit'])){
 
         //collect data from the form
-        $eggSize_ID = $_POST['eggSize_ID'];
+        $eggBatch_ID = $_POST['eggSize_ID'];
         $quantity = $_POST['quantity'];
         $reductionType = $_POST['reductionType'];
         $dateReduced = $_POST['dateReduced'];
